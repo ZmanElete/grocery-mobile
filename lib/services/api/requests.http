@@ -1,0 +1,38 @@
+@authToken = {{login.response.body.access}}
+@refreshToken = {{login.response.body.refresh}}
+@authToken = {{refreshLogin.response.body.access}}
+@refreshToken = {{refreshLogin.response.body.refresh}}
+
+# @name login
+POST {{API_URL}}/login/
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "test"
+}
+
+###
+
+# @name refreshLogin
+POST {{API_URL}}/login/refresh/
+Content-Type: application/json
+
+{
+  "refresh": "{{refreshToken}}"
+}
+
+###
+
+# @name listList
+POST {{API_URL}}/list/filtered_list/
+Authorization: JWT {{authToken}}
+Content-Type: application/json
+
+{
+  "active": true
+}
+
+###
+
+
