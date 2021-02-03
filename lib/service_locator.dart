@@ -14,6 +14,6 @@ Future<void> registerServices(Config config) async {
   dio.options.receiveTimeout = 3000;
   getit.registerSingleton(dio);
 
-  getit.registerSingleton(AuthApiService());
   getit.registerSingleton(await HiveBoxes().init());
+  getit.registerSingleton(AuthApiService());
 }

@@ -20,6 +20,7 @@ abstract class RestService<T extends ApiModel> {
   String resource;
   List<RestMethods> authenticatedActions = RestMethods.values;
   ApiModel modelInstance;
+  Function checkForRefresh = GetIt.instance.get<AuthApiService>().checkForRefresh;
 
   /// [resource] The name of the resource, used in URLS (ex `users`)
   /// [modelInstance] An instance of T, needed to create new instances with clone
@@ -34,10 +35,10 @@ abstract class RestService<T extends ApiModel> {
         data: model.toMap(),
         options: options(RestMethods.create),
       );
-      model.loadMap(Map<String,dynamic>.from(response.data));
+      model.loadMap(Map<String, dynamic>.from(response.data));
       return response;
     } on DioError catch (e) {
-      if(await GetIt.instance.get<AuthApiService>().checkForRefresh(e)) return await create(model);
+      if (await checkForRefresh(e)) return await create(model);
       return e.response;
     }
   }
@@ -51,27 +52,27 @@ abstract class RestService<T extends ApiModel> {
         data: model.toMap(),
         options: options(RestMethods.update),
       );
-      model.loadMap(Map<String,dynamic>.from(response.data));
+      model.loadMap(Map<String, dynamic>.from(response.data));
       return response;
     } on DioError catch (e) {
-      if(await GetIt.instance.get<AuthApiService>().checkForRefresh(e)) return await update(model);
+      if (await checkForRefresh(e)) return await update(model);
       return e.response;
     }
   }
 
   /// PATCH /resource/
   /// If successful [respones.data] is T
-  Future<Response> patch(T m, Map<String,dynamic> fields) async {
+  Future<Response> patch(T m, Map<String, dynamic> fields) async {
     try {
       Response response = await dio.patch(
         '/$resource/${m.pk}/',
         data: fields,
         options: options(RestMethods.patch),
       );
-      m.loadMap(Map<String,dynamic>.from(response.data));
+      m.loadMap(Map<String, dynamic>.from(response.data));
       return response;
     } on DioError catch (e) {
-      if(await GetIt.instance.get<AuthApiService>().checkForRefresh(e)) return await patch(m, fields);
+      if (await checkForRefresh(e)) return await patch(m, fields);
       return e.response;
     }
   }
@@ -85,7 +86,7 @@ abstract class RestService<T extends ApiModel> {
       );
       return response;
     } on DioError catch (e) {
-      if(await GetIt.instance.get<AuthApiService>().checkForRefresh(e)) return await delete(model);
+      if (await checkForRefresh(e)) return await delete(model);
       return e.response;
     }
   }
@@ -101,7 +102,7 @@ abstract class RestService<T extends ApiModel> {
       response.data = newModel(data: response.data);
       return response;
     } on DioError catch (e) {
-      if(await GetIt.instance.get<AuthApiService>().checkForRefresh(e)) return await get(id);
+      if (await checkForRefresh(e)) return await get(id);
       return e.response;
     }
   }
@@ -110,22 +111,19 @@ abstract class RestService<T extends ApiModel> {
   /// If successful [response.data] is List<T>
   Future<Response> list({Map<String, dynamic> queryParameters}) async {
     try {
-      Response response = await dio.get(
-        '/$resource/',
-        options: options(RestMethods.list),
-        queryParameters: queryParameters
-      );
+      Response response =
+          await dio.get('/$resource/', options: options(RestMethods.list), queryParameters: queryParameters);
       response.data = response.data.map((m) => newModel(data: m)).toList();
       return response;
     } on DioError catch (e) {
-      if(await GetIt.instance.get<AuthApiService>().checkForRefresh(e)) return await list();
+      if (await checkForRefresh(e)) return await list();
       return e.response;
     }
   }
 
   Options options(RestMethods method) {
     var options = Options();
-    if(this.authenticatedActions.contains(method)) {
+    if (this.authenticatedActions.contains(method)) {
       options.headers = {
         "Authorization": "Bearer " + GetIt.instance.get<HiveBoxes>().settings.get("access"),
       };
@@ -136,7 +134,7 @@ abstract class RestService<T extends ApiModel> {
   /// Uses modelInstance.clone hack to get around dart's lack of reflection
   T newModel({data: dynamic}) {
     var clone = modelInstance.clone();
-    if (data != null) clone.loadMap(Map<String,dynamic>.from(data));
+    if (data != null) clone.loadMap(Map<String, dynamic>.from(data));
     return clone;
   }
 }

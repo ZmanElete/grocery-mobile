@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_list/widget/scaffold.dart';
 
 class GroceryListPage extends StatefulWidget {
+  static const route = 'grocery_list';
   GroceryListPage({Key key}) : super(key: key);
 
   @override
@@ -14,8 +15,21 @@ class _GroceryListPageState extends State<GroceryListPage> {
     return AppScaffold(
       showBackButton: false,
       showBottomNav: true,
-      body: Container(
-        child: Column(),
+      body: Builder(
+        builder: (context) => Container(
+          child: Column(
+            children: [
+              RaisedButton(
+                child: Text('Heyyo'),
+                onPressed: () => Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Yo'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

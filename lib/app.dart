@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery_list/pages/grocery_list.dart';
 import 'package:grocery_list/pages/receipe_list.dart';
 
+import 'pages/grocery_list.dart';
+import 'pages/receipe_list.dart';
 import 'theme/theme.dart';
 
 import 'pages/landing.dart';
@@ -17,16 +19,16 @@ class App extends StatelessWidget {
       title: 'Grocery App',
       theme: AppTheme.theme,
       initialRoute: 'landing',
-      onGenerateRoute:  (RouteSettings routeSettings){
+      onGenerateRoute: (RouteSettings routeSettings) {
         Map<String, dynamic> args = routeSettings.arguments;
-        switch (routeSettings.name){
-          case 'receipe_list':
-            return MaterialPageRoute(builder: (context) => ReceipeList());
-          case 'grocery_list':
+        switch (routeSettings.name) {
+          case ReceipeListPage.route:
+            return MaterialPageRoute(builder: (context) => ReceipeListPage());
+          case GroceryListPage.route:
             return MaterialPageRoute(builder: (context) => GroceryListPage());
-          case 'login':
+          case LoginPage.route:
             return MaterialPageRoute(builder: (context) => LoginPage());
-          case 'landing':
+          case LandingPage.route:
           default:
             return MaterialPageRoute(builder: (context) => LandingPage());
         }
