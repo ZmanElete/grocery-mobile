@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:grocery_list/models/api_model.dart';
 
+import '../dio_service.dart';
 import '../hive_boxes.dart';
 import 'auth_api_service.dart';
 
@@ -15,12 +15,12 @@ enum RestMethods {
 }
 
 abstract class RestService<T extends ApiModel> {
-  final Dio dio = GetIt.instance.get<Dio>();
+  final Dio dio = DioService.instance;
 
   String resource;
   List<RestMethods> authenticatedActions = RestMethods.values;
   ApiModel modelInstance;
-  Function checkForRefresh = GetIt.instance.get<AuthApiService>().checkForRefresh;
+  Function checkForRefresh = AuthApiService.instance.checkForRefresh;
 
   /// [resource] The name of the resource, used in URLS (ex `users`)
   /// [modelInstance] An instance of T, needed to create new instances with clone
@@ -125,7 +125,7 @@ abstract class RestService<T extends ApiModel> {
     var options = Options();
     if (this.authenticatedActions.contains(method)) {
       options.headers = {
-        "Authorization": "Bearer " + GetIt.instance.get<HiveBoxes>().settings.get("access"),
+        "Authorization": "Bearer " + HiveBoxes.instance.settings.get("access"),
       };
     }
     return options;

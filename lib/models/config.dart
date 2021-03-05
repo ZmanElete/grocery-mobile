@@ -1,4 +1,6 @@
 class Config {
+  static Config instance;
+
   final String apiUrl;
   final bool debug;
   final String debugLoginEmail;
@@ -8,6 +10,6 @@ class Config {
     this.apiUrl,
     this.debug,
     this.debugLoginEmail,
-    this.debugLoginPassword
+    this.debugLoginPassword,
   });
 }

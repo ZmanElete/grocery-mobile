@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^3.0.9
-  get_it: ^4.0.4
   hive: ^1.4.2
   hive_flutter: ^0.3.1
   path_provider: ^1.6.11

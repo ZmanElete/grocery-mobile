@@ -1,12 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:grocery_list/pages/landing.dart';
+
+import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
+import '../../pages/landing.dart';
+import '../dio_service.dart';
 import '../hive_boxes.dart';
 
 class AuthApiService {
+  static AuthApiService get instance => _instance != null ? _instance : _instance = AuthApiService();
+  static AuthApiService _instance;
+
   // final String userUrl = "/auth/users/";
   final String loginUrl = "/login/";
   final String verifyUrl = "/login/verify/";
@@ -15,8 +19,8 @@ class AuthApiService {
   static const ACCESS_TOKEN_KEY = 'auth_token';
   static const REFRESH_TOKEN_KEY = 'refresh_token';
 
-  final Dio dio = GetIt.instance.get<Dio>();
-  final Box settings = GetIt.instance.get<HiveBoxes>().settings;
+  final Dio dio = DioService.instance;
+  final Box settings = HiveBoxes.instance.settings;
 
   // Future<Response> createUser({String username, String email, String password}) async {
   //   try {
@@ -35,7 +39,7 @@ class AuthApiService {
       var resp = await dio.post(loginUrl, data: login);
       if (resp.statusCode != 200) return false;
       var data = Map<String, String>.from(resp.data);
-      var settings = GetIt.instance<HiveBoxes>().settings;
+      var settings = HiveBoxes.instance.settings;
       settings.put(ACCESS_TOKEN_KEY, data['access']);
       settings.put(REFRESH_TOKEN_KEY, data['refresh']);
       return true;

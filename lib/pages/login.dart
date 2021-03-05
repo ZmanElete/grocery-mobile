@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
@@ -13,7 +12,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  final sl = GetIt.instance;
   Config config;
   AuthApiService auth;
   TextEditingController emailController = TextEditingController();
@@ -22,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    config = sl<Config>();
-    auth = sl<AuthApiService>();
+    config = Config.instance;
+    auth = AuthApiService.instance;
     emailController = TextEditingController(
       text: config.debug ? config.debugLoginEmail ?? '' : '',
     );

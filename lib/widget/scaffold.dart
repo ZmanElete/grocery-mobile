@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
 import '../pages/grocery_list.dart';
@@ -54,7 +53,7 @@ class _AppScaffoldState extends State<AppScaffold> {
         IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
-              GetIt.instance<AuthApiService>().logout(context);
+              AuthApiService.instance.logout(context);
             })
       ],
     );

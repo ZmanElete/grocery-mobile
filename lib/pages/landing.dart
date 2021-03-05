@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:grocery_list/pages/grocery_list.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 import 'package:grocery_list/services/hive_boxes.dart';
@@ -32,7 +31,7 @@ class LandingPage extends StatelessWidget {
   }
 
   void autoLogin(context) async {
-    var authService = GetIt.instance<AuthApiService>();
+    var authService = AuthApiService.instance;
     bool valid = await authService.verifyAccessToken();
     if (valid) {
       Navigator.pushReplacementNamed(context, GroceryListPage.route);
