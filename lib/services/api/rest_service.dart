@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:grocery_list/models/api_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../dio_service.dart';
-import '../hive_boxes.dart';
 import 'auth_api_service.dart';
 
 enum RestMethods {
@@ -16,6 +16,7 @@ enum RestMethods {
 
 abstract class RestService<T extends ApiModel> {
   final Dio dio = DioService.instance;
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   String resource;
   List<RestMethods> authenticatedActions = RestMethods.values;
@@ -33,7 +34,7 @@ abstract class RestService<T extends ApiModel> {
       Response response = await dio.post(
         '/$resource/',
         data: model.toMap(),
-        options: options(RestMethods.create),
+        options: await options(RestMethods.create),
       );
       model.loadMap(Map<String, dynamic>.from(response.data));
       return response;
@@ -50,7 +51,7 @@ abstract class RestService<T extends ApiModel> {
       Response response = await dio.put(
         '$resource/${model.pk}/',
         data: model.toMap(),
-        options: options(RestMethods.update),
+        options: await options(RestMethods.update),
       );
       model.loadMap(Map<String, dynamic>.from(response.data));
       return response;
@@ -67,7 +68,7 @@ abstract class RestService<T extends ApiModel> {
       Response response = await dio.patch(
         '/$resource/${m.pk}/',
         data: fields,
-        options: options(RestMethods.patch),
+        options: await options(RestMethods.patch),
       );
       m.loadMap(Map<String, dynamic>.from(response.data));
       return response;
@@ -82,7 +83,7 @@ abstract class RestService<T extends ApiModel> {
     try {
       Response response = await dio.delete(
         '/$resource/${model.pk}/',
-        options: options(RestMethods.delete),
+        options: await options(RestMethods.delete),
       );
       return response;
     } on DioError catch (e) {
@@ -97,7 +98,7 @@ abstract class RestService<T extends ApiModel> {
     try {
       Response response = await dio.get(
         '/$resource/$id/',
-        options: options(RestMethods.get),
+        options: await options(RestMethods.get),
       );
       response.data = newModel(data: response.data);
       return response;
@@ -112,7 +113,7 @@ abstract class RestService<T extends ApiModel> {
   Future<Response> list({Map<String, dynamic> queryParameters}) async {
     try {
       Response response =
-          await dio.get('/$resource/', options: options(RestMethods.list), queryParameters: queryParameters);
+          await dio.get('/$resource/', options: await options(RestMethods.list), queryParameters: queryParameters);
       response.data = response.data.map((m) => newModel(data: m)).toList();
       return response;
     } on DioError catch (e) {
@@ -121,11 +122,11 @@ abstract class RestService<T extends ApiModel> {
     }
   }
 
-  Options options(RestMethods method) {
+  Future<Options> options(RestMethods method) async {
     var options = Options();
     if (this.authenticatedActions.contains(method)) {
       options.headers = {
-        "Authorization": "Bearer " + HiveBoxes.instance.settings.get("access"),
+        "Authorization": "Bearer " + (await prefs).getString("access"),
       };
     }
     return options;

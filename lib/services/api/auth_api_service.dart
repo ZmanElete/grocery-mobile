@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../pages/landing.dart';
 import '../dio_service.dart';
-import '../hive_boxes.dart';
 
 class AuthApiService {
-  static AuthApiService get instance => _instance != null ? _instance : _instance = AuthApiService();
+  static AuthApiService get instance => _instance != null ? _instance : AuthApiService();
   static AuthApiService _instance;
+
+  static const ACCESS_TOKEN_KEY = 'auth_token';
+  static const REFRESH_TOKEN_KEY = 'refresh_token';
+
+  AuthApiService() {
+    AuthApiService._instance = this;
+    init();
+  }
+
+  void init() async {
+    prefs = SharedPreferences.getInstance();
+  }
 
   // final String userUrl = "/auth/users/";
   final String loginUrl = "/login/";
   final String verifyUrl = "/login/verify/";
   final String refreshUrl = "/login/refresh/";
 
-  static const ACCESS_TOKEN_KEY = 'auth_token';
-  static const REFRESH_TOKEN_KEY = 'refresh_token';
-
   final Dio dio = DioService.instance;
-  final Box settings = HiveBoxes.instance.settings;
+  Future<SharedPreferences> prefs;
 
   // Future<Response> createUser({String username, String email, String password}) async {
   //   try {
@@ -39,9 +47,8 @@ class AuthApiService {
       var resp = await dio.post(loginUrl, data: login);
       if (resp.statusCode != 200) return false;
       var data = Map<String, String>.from(resp.data);
-      var settings = HiveBoxes.instance.settings;
-      settings.put(ACCESS_TOKEN_KEY, data['access']);
-      settings.put(REFRESH_TOKEN_KEY, data['refresh']);
+      (await prefs).setString(ACCESS_TOKEN_KEY, data['access']);
+      (await prefs).setString(REFRESH_TOKEN_KEY, data['refresh']);
       return true;
     } on DioError {
       return false;
@@ -51,7 +58,7 @@ class AuthApiService {
   /// Returns whether the access token is valid or not
   Future<bool> verifyAccessToken() async {
     try {
-      String token = await settings.get(ACCESS_TOKEN_KEY);
+      String token = (await prefs).getString(ACCESS_TOKEN_KEY);
       if (token == null) return false;
       Response resp = await dio.post(verifyUrl, data: {
         'token': token,
@@ -69,14 +76,14 @@ class AuthApiService {
   /// Returns whether the token was successfully refreshed or not
   Future<bool> refreshAccessToken() async {
     try {
-      String token = await settings.get(REFRESH_TOKEN_KEY);
+      String token = (await prefs).getString(REFRESH_TOKEN_KEY);
       if (token == null) return false;
       Response resp = await dio.post(refreshUrl, data: {
         'refresh': token,
       });
       if (resp.statusCode != 200) return false;
-      settings.put(ACCESS_TOKEN_KEY, resp.data['access']);
-      settings.put(REFRESH_TOKEN_KEY, resp.data['refresh']);
+      (await prefs).setString(ACCESS_TOKEN_KEY, resp.data['access']);
+      (await prefs).setString(REFRESH_TOKEN_KEY, resp.data['refresh']);
       return true;
     } on DioError {
       return false;
@@ -91,9 +98,9 @@ class AuthApiService {
     return false;
   }
 
-  void logout(context) {
-    settings.delete(ACCESS_TOKEN_KEY);
-    settings.delete(REFRESH_TOKEN_KEY);
+  void logout(context) async {
+    (await prefs).remove(ACCESS_TOKEN_KEY);
+    (await prefs).remove(REFRESH_TOKEN_KEY);
     Navigator.pushReplacementNamed(context, LandingPage.route);
   }
 }
