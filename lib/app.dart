@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:grocery_list/pages/grocery_list.dart';
-import 'package:grocery_list/pages/receipe_list.dart';
-import 'package:grocery_list/services/api/auth_api_service.dart';
-import 'package:grocery_list/services/dio_service.dart';
 
-import 'pages/grocery_list.dart';
-import 'pages/receipe_list.dart';
 import 'theme/theme.dart';
-
+import 'pages/home_page.dart';
 import 'pages/landing.dart';
 import 'pages/login.dart';
 
@@ -24,17 +18,21 @@ class App extends StatelessWidget {
       onGenerateRoute: (RouteSettings routeSettings) {
         Map<String, dynamic> args = routeSettings.arguments;
         switch (routeSettings.name) {
-          case ReceipeListPage.route:
-            return MaterialPageRoute(builder: (context) => ReceipeListPage());
-          case GroceryListPage.route:
-            return MaterialPageRoute(builder: (context) => GroceryListPage());
-          case LoginPage.route:
+          case AppRoutes.LOGIN_PAGE:
             return MaterialPageRoute(builder: (context) => LoginPage());
-          case LandingPage.route:
+          case AppRoutes.HOME_PAGE:
+            return MaterialPageRoute(builder: (context) => HomePage());
+          case AppRoutes.LANDING_PAGE:
           default:
             return MaterialPageRoute(builder: (context) => LandingPage());
         }
       },
     );
   }
+}
+
+class AppRoutes {
+  static const LANDING_PAGE = 'landing_page';
+  static const LOGIN_PAGE = 'login_page';
+  static const HOME_PAGE = 'home_page';
 }

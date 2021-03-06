@@ -3,7 +3,6 @@ import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
 class LoginPage extends StatefulWidget {
-  static const route = 'login';
   LoginPage({Key key}) : super(key: key);
 
   @override
@@ -33,6 +32,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: Builder(
         builder: (context) => Container(
           color: Colors.white,
@@ -43,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Card(
                 child: Container(
-                  height: 400,
+                  height: 300,
                   padding: EdgeInsets.all(40),
                   alignment: Alignment.center,
                   child: Form(
@@ -105,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
       var password = passwordController.text;
       var successful = await auth.login(email: email, password: password);
       if (successful) {
-        Navigator.pushReplacementNamed(context, 'grocery_list');
+        Navigator.pushNamedAndRemoveUntil(context, 'grocery_list', (route) => false);
       } else {
         Scaffold.of(context).showSnackBar(
           SnackBar(

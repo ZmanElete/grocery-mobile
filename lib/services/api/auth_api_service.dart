@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
+import 'package:grocery_list/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../pages/landing.dart';
@@ -101,6 +102,6 @@ class AuthApiService {
   void logout(context) async {
     (await prefs).remove(ACCESS_TOKEN_KEY);
     (await prefs).remove(REFRESH_TOKEN_KEY);
-    Navigator.pushReplacementNamed(context, LandingPage.route);
+    Navigator.pushReplacementNamed(context, AppRoutes.LANDING_PAGE);
   }
 }
