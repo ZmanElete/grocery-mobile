@@ -9,10 +9,6 @@ class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text("Grocery App"),
       centerTitle: true,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () => Navigator.pop(context),
-      ),
       actions: [
         IconButton(
           icon: Icon(Icons.exit_to_app),

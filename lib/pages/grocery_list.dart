@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/widget/app_bar.dart';
 
 class GroceryListPage extends StatefulWidget {
   GroceryListPage({Key key}) : super(key: key);
@@ -17,11 +16,13 @@ class _GroceryListPageState extends State<GroceryListPage> {
         children: [
           RaisedButton(
             child: Text('Heyyo'),
-            onPressed: () => Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Yo'),
-              ),
-            ),
+            onPressed: () {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Yo'),
+                ),
+              );
+            },
           ),
         ],
       ),
