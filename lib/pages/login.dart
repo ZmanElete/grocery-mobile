@@ -3,7 +3,7 @@ import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -11,22 +11,17 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  Config config;
-  AuthApiService auth;
+  Config config = Config.instance;
+  AuthApiService auth = AuthApiService.instance;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    config = Config.instance;
-    auth = AuthApiService.instance;
-    emailController = TextEditingController(
-      text: config.debug ? config.debugLoginEmail ?? '' : '',
-    );
-    passwordController = TextEditingController(
-      text: config.debug ? config.debugLoginPassword ?? '' : '',
-    );
+    emailController.text = config.debug ? config.debugLoginEmail ?? '' : '';
+    passwordController.text =
+        config.debug ? config.debugLoginPassword ?? '' : '';
   }
 
   @override
@@ -61,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value == null || value.isEmpty) {
                               return 'Must Enter Email';
                             }
                             return null;
@@ -74,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value == null || value.isEmpty) {
                               return 'Must Enter Username';
                             }
                             return null;
@@ -85,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           controller: passwordController,
                         ),
-                        RaisedButton(
+                        ElevatedButton(
                           child: Text("Submit"),
                           onPressed: () => login(context),
                         ),
@@ -102,14 +97,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> login(context) async {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState != null && formKey.currentState!.validate()) {
       var email = emailController.text;
       var password = passwordController.text;
       var successful = await auth.login(email: email, password: password);
       if (successful) {
-        Navigator.pushNamedAndRemoveUntil(context, 'grocery_list', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'grocery_list', (route) => false);
       } else {
-        Scaffold.of(context).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Invalid Login Credentials '),
           ),

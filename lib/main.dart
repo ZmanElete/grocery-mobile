@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_list/services/service_locator.dart';
 import 'models/config.dart';
 
 import 'app.dart';
@@ -9,5 +10,6 @@ void main() async {
     apiUrl: '',
     debug: false,
   );
+  ServiceLocator();
   runApp(App());
 }

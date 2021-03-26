@@ -4,38 +4,39 @@ import 'package:grocery_list/models/item_list.dart';
 import 'recipe.dart';
 
 class ListSection extends ApiModel {
-  int id;
+  int? id;
   Recipe recipe;
   String title;
   int sortOrder;
   ItemList list;
 
-  ListSection();
-  ListSection.fromMap(Map<String, dynamic> map) {
-    this.loadMap(map);
-  }
+  ListSection({
+    this.id,
+    required this.recipe,
+    required this.title,
+    required this.sortOrder,
+    required this.list,
+  });
+  ListSection.fromMap(Map<String, dynamic> map)
+      : id = map['id'],
+        recipe = Recipe.fromMap(map['recipe']),
+        title = map['title'],
+        sortOrder = map['sortOrder'],
+        list = ItemList.fromMap(map['list']);
 
   @override
   ApiModel clone() {
-    return ListSection()
-      ..id=this.id
-      ..recipe=this.recipe
-      ..title=this.title
-      ..sortOrder=this.sortOrder
-      ..list=this.list;
+    return ListSection(
+      id: this.id,
+      recipe: this.recipe,
+      title: this.title,
+      sortOrder: this.sortOrder,
+      list: this.list,
+    );
   }
 
   @override
-  void loadMap(Map<String, dynamic> map) {
-    this.id = map['id'];
-    this.recipe = Recipe.fromMap(map['recipe']);
-    this.title = map['title'];
-    this.sortOrder = map['sort_order'];
-    this.list = ItemList.fromMap(map['list']);
-  }
-
-  @override
-  get pk => this.id;
+  int? get pk => this.id;
 
   @override
   Map<String, dynamic> toMap() {
@@ -46,5 +47,14 @@ class ListSection extends ApiModel {
       'sort_order': this.sortOrder,
       'list': this.list.toMap(),
     };
+  }
+
+  @override
+  void loadMap(Map<String, dynamic> map) {
+    id = map['id'];
+    recipe = Recipe.fromMap(map['recipe']!);
+    title = map['title']!;
+    sortOrder = map['sortOrder']!;
+    list = ItemList.fromMap(map['list']!);
   }
 }

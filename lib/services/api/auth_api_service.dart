@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
 import 'package:grocery_list/app.dart';
+import 'package:grocery_list/services/api/rest_service.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../pages/landing.dart';
-import '../dio_service.dart';
+import '../service_locator.dart';
 
 class AuthApiService {
-  static AuthApiService get instance => _instance != null ? _instance : AuthApiService();
-  static AuthApiService _instance;
+  static AuthApiService get instance =>
+      _instance != null ? _instance! : AuthApiService();
+  static AuthApiService? _instance;
 
   static const ACCESS_TOKEN_KEY = 'auth_token';
   static const REFRESH_TOKEN_KEY = 'refresh_token';
@@ -28,7 +31,7 @@ class AuthApiService {
   final String verifyUrl = "/login/verify/";
   final String refreshUrl = "/login/refresh/";
 
-  final Dio dio = DioService.instance;
+  final Dio dio = ServiceLocator.instance;
   Future<SharedPreferences> prefs;
 
   // Future<Response> createUser({String username, String email, String password}) async {
@@ -92,8 +95,8 @@ class AuthApiService {
   }
 
   /// Check for refresh if dio error occurs.
-  Future<bool> checkForRefresh(DioError e) async {
-    if (e.response?.statusCode == 401) {
+  Future<bool> checkForRefresh(HttpErrorBase e) async {
+    if (e.response.statusCode == 401) {
       return await refreshAccessToken();
     }
     return false;

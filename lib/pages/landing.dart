@@ -4,7 +4,7 @@ import 'package:grocery_list/services/api/auth_api_service.dart';
 import '../app.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key key}) : super(key: key);
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

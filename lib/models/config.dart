@@ -1,14 +1,15 @@
 class Config {
-  static Config instance;
+  //So that it is never null
+  static Config instance = Config(apiUrl: '');
 
   final String apiUrl;
   final bool debug;
-  final String debugLoginEmail;
-  final String debugLoginPassword;
+  final String? debugLoginEmail;
+  final String? debugLoginPassword;
 
   Config({
-    this.apiUrl,
-    this.debug,
+    required this.apiUrl,
+    this.debug = false,
     this.debugLoginEmail,
     this.debugLoginPassword,
   });

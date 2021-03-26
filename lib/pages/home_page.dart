@@ -4,7 +4,7 @@ import 'package:grocery_list/pages/receipe_list.dart';
 import 'package:grocery_list/widget/app_bar.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -12,19 +12,23 @@ class HomePage extends StatefulWidget {
   _HomePageState of(BuildContext context, {bool nullOk = false}) {
     assert(nullOk != null);
     assert(context != null);
-    final _HomePageState result = context.findAncestorStateOfType<_HomePageState>();
-    if (nullOk || result != null) return result;
+    final _HomePageState? result =
+        context.findAncestorStateOfType<_HomePageState>();
+    if (nullOk || result != null) return result!;
     throw FlutterError.fromParts(<DiagnosticsNode>[
-      ErrorSummary('HomePage.of() called with a context that does not contain a HomePage.'),
+      ErrorSummary(
+          'HomePage.of() called with a context that does not contain a HomePage.'),
       ErrorDescription(
           'No HomePage ancestor could be found starting from the context that was passed to HomePage.of(). '
           'This usually happens when the context provided is from the same StatefulWidget as that '
           'whose build function actually creates the HomePage widget being sought.'),
-      ErrorHint('There are several ways to avoid this problem. The simplest is to use a Builder to get a '
+      ErrorHint(
+          'There are several ways to avoid this problem. The simplest is to use a Builder to get a '
           'context that is "under" the HomePage. For an example of this, please see the '
           'documentation for HomePage.of():\n'
           '  https://api.flutter.dev/flutter/material/HomePage/of.html'),
-      ErrorHint('A more efficient solution is to split your build function into several widgets. This '
+      ErrorHint(
+          'A more efficient solution is to split your build function into several widgets. This '
           'introduces a new context from which you can obtain the HomePage. In this solution, '
           'you would have an outer widget that creates the HomePage populated by instances of '
           'your new inner widgets, and then in these inner widgets you would use HomePage.of().\n'
@@ -78,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant),
-          label: 'Recipes',
+          label: 'receipes',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.healing),
