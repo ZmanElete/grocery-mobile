@@ -23,6 +23,10 @@ class ItemList extends ApiModel {
         active = map['active']!,
         items = map['items']?.map((i) => Item.fromMap(i)).toList() ?? [];
 
+  static ItemList createFromMap(Map<String, dynamic> map) {
+    return ItemList.fromMap(map);
+  }
+
   @override
   ItemList clone() {
     return ItemList(

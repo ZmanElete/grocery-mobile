@@ -100,11 +100,11 @@ class _LoginPageState extends State<LoginPage> {
     if (formKey.currentState != null && formKey.currentState!.validate()) {
       var email = emailController.text;
       var password = passwordController.text;
-      var successful = await auth.login(email: email, password: password);
-      if (successful) {
+      try {
+        auth.login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(
             context, 'grocery_list', (route) => false);
-      } else {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Invalid Login Credentials '),

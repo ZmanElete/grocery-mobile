@@ -8,7 +8,7 @@ import 'pages/landing.dart';
 import 'pages/login.dart';
 
 class App extends StatelessWidget {
-  const App({Key key}) : super(key: key);
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class App extends StatelessWidget {
       theme: AppTheme.theme,
       initialRoute: 'landing',
       onGenerateRoute: (RouteSettings routeSettings) {
-        Map<String, dynamic> args = routeSettings.arguments;
+        // Map<String, dynamic> args = routeSettings.arguments;
         switch (routeSettings.name) {
           case AppRoutes.LOGIN_PAGE:
             return MaterialPageRoute(builder: (context) => LoginPage());
