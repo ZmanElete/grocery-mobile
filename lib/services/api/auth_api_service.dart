@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:grocery_list/app.dart';
 import 'package:grocery_list/helpers/http_helpers.dart';
 import 'package:grocery_list/models/config.dart';
-import 'package:grocery_list/services/api/rest_service.dart';
 import 'package:grocery_list/services/service_locator.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,8 +70,6 @@ class AuthApiService {
     } on HttpNotAuthorized {
       refreshAccessToken();
       return true;
-    } catch (e) {
-      throw (e);
     }
   }
 

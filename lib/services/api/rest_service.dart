@@ -56,8 +56,6 @@ abstract class RestService<T extends ApiModel> {
       } else {
         throw e;
       }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -81,8 +79,6 @@ abstract class RestService<T extends ApiModel> {
       } else {
         throw e;
       }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -110,8 +106,6 @@ abstract class RestService<T extends ApiModel> {
       } else {
         throw e;
       }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -131,8 +125,6 @@ abstract class RestService<T extends ApiModel> {
       } else {
         throw e;
       }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -154,8 +146,6 @@ abstract class RestService<T extends ApiModel> {
       } else {
         throw e;
       }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -177,8 +167,6 @@ abstract class RestService<T extends ApiModel> {
       } else {
         throw e;
       }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -186,7 +174,7 @@ abstract class RestService<T extends ApiModel> {
     Map<String, String> headers = {};
     if (this.authenticatedActions.contains(method)) {
       headers.addAll({
-        "Authorization": "Bearer ${(prefs).getString("access")!}",
+        "Authorization": "Bearer ${prefs.getString("access")!}",
       });
     }
     return headers;

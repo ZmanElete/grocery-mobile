@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
+import 'package:grocery_list/services/service_locator.dart';
 
 import '../app.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  final prefs = ServiceLocator.prefs;
+
+  LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //TODO - check for login creds
-    autoLogin(context);
+    var token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
+    if (token != null) autoLogin(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -48,9 +52,11 @@ class LandingPage extends StatelessWidget {
   void autoLogin(context) async {
     var authService = AuthApiService.instance;
     print(authService);
-    bool valid = await authService.verifyAccessToken();
-    if (valid) {
-      Navigator.pushReplacementNamed(context, AppRoutes.HOME_PAGE);
-    }
+    try {
+      var valid = await authService.verifyAccessToken();
+      if (valid) {
+        Navigator.pushReplacementNamed(context, AppRoutes.HOME_PAGE);
+      }
+    } catch (e) {}
   }
 }
