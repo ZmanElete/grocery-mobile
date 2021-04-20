@@ -11,7 +11,6 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO - check for login creds
     var token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
     if (token != null) autoLogin(context);
     return Scaffold(
@@ -33,7 +32,7 @@ class LandingPage extends StatelessWidget {
             flex: 1,
             child: Align(
               alignment: Alignment.center,
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, AppRoutes.LOGIN_PAGE);
                 },

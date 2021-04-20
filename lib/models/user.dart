@@ -5,9 +5,9 @@ import 'household.dart';
 class User extends ApiModel {
   int? id;
   String email;
-  Household? household; //Might be okay to not be null not sure.
+  Household household;
 
-  User({this.id, required this.email, this.household});
+  User({this.id, required this.email, required this.household});
   User.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         email = map['email']!,
@@ -26,7 +26,7 @@ class User extends ApiModel {
     return {
       'id': this.id,
       'email': this.email,
-      'household': this.household?.toMap(),
+      'household': this.household.toMap(),
     };
   }
 

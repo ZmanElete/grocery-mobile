@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'models/config.dart';
 
 import 'app.dart';
+import 'models/config.dart';
+import 'services/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,5 +13,6 @@ void main() async {
     debugLoginEmail: 'test@test.com',
     debugLoginPassword: 'test',
   );
+  await ServiceLocator.init();
   runApp(App());
 }

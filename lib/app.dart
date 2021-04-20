@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:grocery_list/pages/grocery_list.dart';
 
 import 'theme/theme.dart';
 import 'pages/home_page.dart';

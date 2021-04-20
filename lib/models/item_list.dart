@@ -46,7 +46,7 @@ class ItemList extends ApiModel {
     return {
       'id': this.id,
       'title': this.title,
-      'household': this.household?.toMap(),
+      'household': this.household.toMap(),
       'active': this.active,
       'item_set': this.items.map((item) => item.toMap()),
     };

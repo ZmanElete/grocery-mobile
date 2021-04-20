@@ -103,7 +103,10 @@ class _LoginPageState extends State<LoginPage> {
       try {
         auth.login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(
-            context, 'grocery_list', (route) => false);
+          context,
+          'grocery_list',
+          (_) => false,
+        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

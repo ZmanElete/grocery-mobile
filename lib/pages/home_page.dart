@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/pages/grocery_list.dart';
+import 'package:grocery_list/pages/grocery_list/grocery_list.dart';
 import 'package:grocery_list/pages/receipe_list.dart';
 import 'package:grocery_list/widget/app_bar.dart';
 

@@ -10,6 +10,6 @@ void main() async {
     apiUrl: '',
     debug: false,
   );
-  ServiceLocator();
+  await ServiceLocator.init();
   runApp(App());
 }
