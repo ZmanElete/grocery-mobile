@@ -6,21 +6,21 @@ import 'item_list.dart';
 class Item extends ApiModel {
   int? id;
   String title;
-  ItemList list; // items are appart of lists, lists are not appart of items?
+  // ItemList list; // items are appart of lists, lists are not appart of items?
   Measurement measurement;
   double quantity;
 
   Item({
     this.id,
     required this.title,
-    required this.list,
+    // required this.list,
     required this.measurement,
     required this.quantity,
   });
   Item.fromMap(Map<String, dynamic> map)
       : id = map["id"]!,
         title = map["title"]!,
-        list = ItemList.fromMap(map["list"]),
+        // list = ItemList.fromMap(map["list"]),
         measurement = Measurement.fromMap(map["measurement"]),
         quantity = map["quantity"]!;
 
@@ -29,7 +29,7 @@ class Item extends ApiModel {
     return Item(
       id: this.id,
       title: this.title,
-      list: this.list.clone(),
+      // list: this.list.clone(),
       measurement: this.measurement.clone(),
       quantity: this.quantity,
     );
@@ -43,7 +43,7 @@ class Item extends ApiModel {
     return {
       'id': this.id,
       'title': this.title,
-      'list': this.list.toMap(),
+      // 'list': this.list.toMap(),
       'measurement': this.measurement.toMap(),
       'quantity': this.quantity,
     };
@@ -53,7 +53,7 @@ class Item extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map["id"];
     title = map["title"]!;
-    list = ItemList.fromMap(map["list"]!);
+    // list = ItemList.fromMap(map["list"]!);
     measurement = Measurement.fromMap(map["measurement"]!);
     quantity = map["quantity"]!;
   }

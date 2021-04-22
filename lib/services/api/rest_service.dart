@@ -158,8 +158,11 @@ abstract class RestService<T extends ApiModel> {
         headers: headers(RestMethods.list),
       );
       HttpHelpers.checkError(response);
-      var list = jsonDecode(response.body);
-      return list.map((m) => apiModelCreator(m)).toList();
+      var data = jsonDecode(response.body);
+      if (data is List) {
+        return List<T>.from(data.map((m) => apiModelCreator(m)));
+      }
+      return <T>[];
     } on HttpNotAuthorized catch (e) {
       if (allowRefresh) {
         authApiService.refreshAccessToken();
@@ -174,7 +177,7 @@ abstract class RestService<T extends ApiModel> {
     Map<String, String> headers = {};
     if (this.authenticatedActions.contains(method)) {
       headers.addAll({
-        "Authorization": "Bearer ${prefs.getString("access")!}",
+        "Authorization": "JWT ${prefs.getString(AuthApiService.ACCESS_TOKEN_KEY)}",
       });
     }
     return headers;

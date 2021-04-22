@@ -10,6 +10,8 @@ class ReceipeListPage extends StatefulWidget {
 class _ReceipeListPageState extends State<ReceipeListPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text('Recipes'),
+    );
   }
 }

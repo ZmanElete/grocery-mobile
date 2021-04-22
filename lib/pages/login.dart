@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_list/app.dart';
 import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
@@ -101,10 +102,10 @@ class _LoginPageState extends State<LoginPage> {
       var email = emailController.text;
       var password = passwordController.text;
       try {
-        auth.login(email: email, password: password);
+        await auth.login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(
           context,
-          'grocery_list',
+          AppRoutes.DASHBOARD_PAGE,
           (_) => false,
         );
       } catch (e) {

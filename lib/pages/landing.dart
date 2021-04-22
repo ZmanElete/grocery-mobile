@@ -54,7 +54,7 @@ class LandingPage extends StatelessWidget {
     try {
       var valid = await authService.verifyAccessToken();
       if (valid) {
-        Navigator.pushReplacementNamed(context, AppRoutes.HOME_PAGE);
+        Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_PAGE);
       }
     } catch (e) {}
   }

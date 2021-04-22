@@ -35,14 +35,16 @@ Content-Type: application/json
 ###
 
 # @name listList
-POST {{API_URL}}/list/filtered_list/
+GET {{API_URL}}/list/
 Authorization: JWT {{authToken}}
 Content-Type: application/json
 
-{
-  "active": true
-}
-
 ###
 
+# @name listMeasurements
+GET {{API_URL}}/measurement/
+Authorization: JWT {{authToken}}
+Content-Type: application/json
+
+###
 

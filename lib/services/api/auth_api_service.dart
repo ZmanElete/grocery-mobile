@@ -6,19 +6,18 @@ import 'package:grocery_list/app.dart';
 import 'package:grocery_list/helpers/http_helpers.dart';
 import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/service_locator.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthApiService {
-  static AuthApiService get instance =>
-      _instance != null ? _instance! : AuthApiService();
+  static AuthApiService get instance => _instance != null ? _instance! : AuthApiService();
   static AuthApiService? _instance;
 
   static const ACCESS_TOKEN_KEY = 'auth_token';
   static const REFRESH_TOKEN_KEY = 'refresh_token';
 
   AuthApiService() {
-    AuthApiService._instance = this;
+    _instance = this;
   }
 
   // final String userUrl = "/auth/users/";
@@ -42,7 +41,7 @@ class AuthApiService {
   /// Returns whether it was a successful login or not
   Future<void> login({required String email, required String password}) async {
     var login = {"email": email, "password": password};
-    var response = await post(
+    var response = await http.post(
       Uri.parse('${config.apiUrl}$loginUrl'),
       body: login,
     );
@@ -57,7 +56,7 @@ class AuthApiService {
     try {
       String? token = prefs.getString(ACCESS_TOKEN_KEY);
       if (token != null) {
-        Response response = await post(
+        http.Response response = await http.post(
           Uri.parse('${config.apiUrl}$verifyUrl'),
           body: {
             'token': token,
@@ -78,13 +77,13 @@ class AuthApiService {
     String? token = prefs.getString(ACCESS_TOKEN_KEY);
     if (token == null)
       throw HttpNotAuthorized(
-        Response(
+        http.Response(
           '{"detail": "Token is invalid or expired","code": "token_not_valid"}',
           401,
         ),
       );
-    Response response = await post(
-      Uri.parse('${config.apiUrl}$verifyUrl'),
+    http.Response response = await http.post(
+      Uri.parse('${config.apiUrl}$refreshUrl'),
       body: {
         'token': token,
       },

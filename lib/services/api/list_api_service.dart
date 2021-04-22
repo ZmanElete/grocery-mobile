@@ -3,7 +3,7 @@ import 'rest_service.dart';
 
 class ItemListApiService extends RestService<ItemList> {
   static ItemListApiService get instance =>
-      _instance != null ? _instance! : _instance = ItemListApiService();
+      _instance != null ? _instance! : ItemListApiService();
   static ItemListApiService? _instance;
 
   ItemListApiService()
