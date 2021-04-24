@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_list/app.dart';
+import 'package:grocery_list/helpers/http_helpers.dart';
+import 'package:grocery_list/managers/session_manager.dart';
 import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
@@ -102,16 +104,24 @@ class _LoginPageState extends State<LoginPage> {
       var email = emailController.text;
       var password = passwordController.text;
       try {
-        await auth.login(email: email, password: password);
+        await SessionManager.instance.login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(
           context,
           AppRoutes.DASHBOARD_PAGE,
           (_) => false,
         );
-      } catch (e) {
+      } on HttpNotAuthorized {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Invalid Login Credentials '),
+          ),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Something went wrong with the request. Try again later.',
+            ),
           ),
         );
       }

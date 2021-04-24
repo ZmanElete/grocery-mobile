@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_list/managers/measurement_manager.dart';
 import 'package:grocery_list/models/item.dart';
 import 'package:grocery_list/models/measurement.dart';
 
@@ -49,9 +50,32 @@ class _AddItemDialogState extends State<AddItemDialog> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: titleController,
                     decoration: InputDecoration(
                       labelText: "Title",
                     ),
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: TextFormField(
+                          controller: quantityController,
+                          decoration: InputDecoration(
+                            labelText: "Quantity",
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: DropdownButton(
+                          hint: Text("Measurement"),
+                          items: [
+                            for (var m
+                                in MeasurementManager.instance.measurements)
+                              DropdownMenuItem(child: Text(m.title))
+                          ],
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),

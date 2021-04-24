@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_list/managers/session_manager.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 import 'package:grocery_list/services/service_locator.dart';
 
@@ -52,10 +53,8 @@ class LandingPage extends StatelessWidget {
     var authService = AuthApiService.instance;
     print(authService);
     try {
-      var valid = await authService.verifyAccessToken();
-      if (valid) {
-        Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_PAGE);
-      }
+      SessionManager.instance.autoLogin();
+      Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_PAGE);
     } catch (e) {}
   }
 }

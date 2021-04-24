@@ -34,6 +34,20 @@ Content-Type: application/json
 
 ###
 
+# @name currentUser
+POST {{API_URL}}/user/current/
+Authorization: JWT {{authToken}}
+Content-Type: application/json
+
+###
+
+# @name listUsers
+GET {{API_URL}}/user/
+Authorization: JWT {{authToken}}
+Content-Type: application/json
+
+###
+
 # @name listList
 GET {{API_URL}}/list/
 Authorization: JWT {{authToken}}

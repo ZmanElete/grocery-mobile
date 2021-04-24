@@ -130,7 +130,7 @@ abstract class RestService<T extends ApiModel> {
 
   /// GET /resource/:id
   /// If successful [response.data] is T
-  Future<T?> get(dynamic id, {allowRefresh = true}) async {
+  Future<T> get(dynamic id, {allowRefresh = true}) async {
     try {
       Response response = await http.get(
         Uri.parse('${config.apiUrl}/$resource/$id/'),
@@ -177,7 +177,8 @@ abstract class RestService<T extends ApiModel> {
     Map<String, String> headers = {};
     if (this.authenticatedActions.contains(method)) {
       headers.addAll({
-        "Authorization": "JWT ${prefs.getString(AuthApiService.ACCESS_TOKEN_KEY)}",
+        "Authorization":
+            "JWT ${prefs.getString(AuthApiService.ACCESS_TOKEN_KEY)}",
       });
     }
     return headers;
