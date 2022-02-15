@@ -1,8 +1,6 @@
 import 'package:grocery_list/models/api_model.dart';
 import 'package:grocery_list/models/measurement.dart';
 
-import 'item_list.dart';
-
 class Item extends ApiModel {
   int? id;
   String title;

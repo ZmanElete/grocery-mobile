@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'pages/dashboard_navigator/dashboard_navigator.dart';
 import 'theme/theme.dart';

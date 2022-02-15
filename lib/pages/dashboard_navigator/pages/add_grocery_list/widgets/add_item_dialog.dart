@@ -48,6 +48,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
             child: Form(
               key: formKey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   TextFormField(
                     controller: titleController,
@@ -69,10 +70,10 @@ class _AddItemDialogState extends State<AddItemDialog> {
                         child: DropdownButton(
                           hint: Text("Measurement"),
                           items: [
-                            for (var m
-                                in MeasurementManager.instance.measurements)
-                              DropdownMenuItem(child: Text(m.title))
+                            for (var m in MeasurementManager.instance.measurements)
+                              DropdownMenuItem(child: Text(m.title), value: m,)
                           ],
+                          onChanged: (value) {},
                         ),
                       )
                     ],
