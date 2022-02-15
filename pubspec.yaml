@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   http:
-  shared_preferences: ^2.0.5
+  shared_preferences:
   path_provider:
   cupertino_icons:
 
