@@ -51,10 +51,10 @@ class LandingPage extends StatelessWidget {
 
   void autoLogin(context) async {
     var authService = AuthApiService.instance;
-    print(authService);
-    try {
-      SessionManager.instance.autoLogin();
+    bool success = false;
+    success = await SessionManager.instance.autoLogin();
+    if (success) {
       Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_PAGE);
-    } catch (e) {}
+    }
   }
 }

@@ -58,7 +58,7 @@ class _AddGroceryListPageState extends State<AddGroceryListPage> {
                   color: Colors.red,
                   width: double.infinity,
                   height: double.infinity,
-                  child:Text("heelo")
+                  child: Text("heelo")
                 ),
               );
             });

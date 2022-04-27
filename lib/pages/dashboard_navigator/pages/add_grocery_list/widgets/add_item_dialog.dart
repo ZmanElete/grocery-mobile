@@ -90,7 +90,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   child: null,
                   onPressed: () {
                     var valid = formKey.currentState!.validate();
-                    if (valid) {
+                    if (valid && measurement != null) {
                       var item = Item(
                         title: titleController.text,
                         measurement: measurement!,

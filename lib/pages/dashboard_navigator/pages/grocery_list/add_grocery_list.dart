@@ -50,17 +50,19 @@ class _AddGroceryListPageState extends State<AddGroceryListPage> {
 
   FloatingActionButton floatingActionButton() {
     return FloatingActionButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (_) => AddItemDialog(),
-        );
-      },
+      onPressed: () => showAddItemDialog(),
       child: Icon(
         Icons.add,
         size: 35,
         color: Colors.white,
       ),
+    );
+  }
+
+  void showAddItemDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AddItemDialog(),
     );
   }
 }

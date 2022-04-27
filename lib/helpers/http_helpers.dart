@@ -1,18 +1,19 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 
 class HttpHelpers {
   ///Impliment errors as needed
   static void checkError(Response response) {
-    if (response.statusCode < 200 || response.statusCode > 299) {
-      if (response.statusCode == 401)
+    if (response.statusCode == null) throw HttpUnknownError(response);
+    if (response.statusCode! < 200 || response.statusCode! > 299) {
+      if (response.statusCode! == 401)
         throw HttpNotAuthorized(response);
-      else if (response.statusCode == 404)
+      else if (response.statusCode! == 404)
         throw HttpNotFound(response);
-      else if (response.statusCode == 408)
+      else if (response.statusCode! == 408)
         throw HttpTimeout(response);
-      else if (response.statusCode == 500)
+      else if (response.statusCode! == 500)
         throw HttpServerError(response);
-      else if (response.statusCode == 400)
+      else if (response.statusCode! == 400)
         throw HttpBadRequest(response);
       else
         throw HttpUnknownError(response);

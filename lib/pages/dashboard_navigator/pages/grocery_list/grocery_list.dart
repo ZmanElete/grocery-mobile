@@ -77,7 +77,7 @@ class _GroceryListPageState extends State<GroceryListPage> {
   FloatingActionButton floatingActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        DashboardNavigator.of(context).navigator.pushNamed(DashboardRoutes.ADD_GROCERY_LIST);
+        Navigator.of(context).pushNamed(DashboardRoutes.ADD_GROCERY_LIST);
       },
       child: Icon(
         Icons.add,

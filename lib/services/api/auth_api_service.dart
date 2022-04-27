@@ -1,12 +1,10 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:grocery_list/app.dart';
 import 'package:grocery_list/helpers/http_helpers.dart';
 import 'package:grocery_list/models/config.dart';
 import 'package:grocery_list/services/service_locator.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthApiService {
@@ -41,12 +39,12 @@ class AuthApiService {
   /// Returns whether it was a successful login or not
   Future<void> login({required String email, required String password}) async {
     var login = {"email": email, "password": password};
-    var response = await http.post(
-      Uri.parse('${config.apiUrl}$loginUrl'),
-      body: login,
+    var response = await ServiceLocator.dio.post(
+      loginUrl,
+      data: login,
     );
     HttpHelpers.checkError(response);
-    var data = Map<String, String>.from(jsonDecode(response.body));
+    var data = response.data;
     prefs.setString(ACCESS_TOKEN_KEY, data['access']!);
     prefs.setString(REFRESH_TOKEN_KEY, data['refresh']!);
   }
@@ -56,9 +54,9 @@ class AuthApiService {
     try {
       String? token = prefs.getString(ACCESS_TOKEN_KEY);
       if (token != null) {
-        http.Response response = await http.post(
-          Uri.parse('${config.apiUrl}$verifyUrl'),
-          body: {
+        Response response = await ServiceLocator.dio.post(
+          verifyUrl,
+          data: {
             'token': token,
           },
         );
@@ -77,19 +75,20 @@ class AuthApiService {
     String? token = prefs.getString(ACCESS_TOKEN_KEY);
     if (token == null)
       throw HttpNotAuthorized(
-        http.Response(
-          '{"detail": "Token is invalid or expired","code": "token_not_valid"}',
-          401,
+        Response(
+          data: {"detail": "Token is invalid or expired", "code": "token_not_valid"},
+          statusCode: 401,
+          requestOptions: RequestOptions(path: ''),
         ),
       );
-    http.Response response = await http.post(
-      Uri.parse('${config.apiUrl}$refreshUrl'),
-      body: {
+    Response response = await ServiceLocator.dio.post(
+      refreshUrl,
+      data: {
         'token': token,
       },
     );
     HttpHelpers.checkError(response);
-    var data = Map<String, String>.from(jsonDecode(response.body));
+    var data = response.data;
     prefs.setString(ACCESS_TOKEN_KEY, data['access']!);
     prefs.setString(REFRESH_TOKEN_KEY, data['refresh']!);
   }

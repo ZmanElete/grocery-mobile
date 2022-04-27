@@ -22,13 +22,16 @@ class SessionManager {
     }
   }
 
-  Future<void> autoLogin() async {
+  Future<bool> autoLogin() async {
+    bool success = false;
     try {
-      await authApiService.verifyAccessToken();
+      success = await authApiService.verifyAccessToken();
       await _onSuccessfulLogin();
     } catch (e) {
       //If the login is not successful it will error and leave this function here.
       throw (e);
+    } finally {
+      return success;
     }
   }
 
