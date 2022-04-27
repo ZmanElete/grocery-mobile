@@ -58,8 +58,8 @@ class _DashboardNavigatorState extends State<DashboardNavigator> {
       case DashboardRoutes.ADD_GROCERY_LIST:
         page = AddGroceryListPage();
         break;
-      case DashboardRoutes.RECEIPES:
-        page = ReceipeListPage();
+      case DashboardRoutes.RECIPES:
+        page = RecipeListPage();
         break;
       case DashboardRoutes.GROCERY_LISTS:
       default:
@@ -86,7 +86,7 @@ class _DashboardNavigatorState extends State<DashboardNavigator> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant),
-          label: 'receipes',
+          label: 'recipes',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.healing),
@@ -108,14 +108,14 @@ class _DashboardNavigatorState extends State<DashboardNavigator> {
 class DashboardRoutes {
   static const GROCERY_LISTS = 'grocery_lists';
   static const ADD_GROCERY_LIST = 'add_grocery_list';
-  static const RECEIPES = 'recipes';
+  static const RECIPES = 'recipes';
 
   static int indexOfRoute(String route) {
     switch (route) {
       case ADD_GROCERY_LIST:
       case GROCERY_LISTS:
         return 0;
-      case RECEIPES:
+      case RECIPES:
         return 1;
     }
     return 0;
@@ -126,7 +126,7 @@ class DashboardRoutes {
       case 0:
         return GROCERY_LISTS;
       case 1:
-        return RECEIPES;
+        return RECIPES;
     }
     return GROCERY_LISTS;
   }

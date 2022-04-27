@@ -3,9 +3,9 @@ import 'package:grocery_list/models/api_model.dart';
 class Measurement extends ApiModel {
   int? id;
   String title;
-  String symbol;
+  List<String> symbol;
   double conversion;
-  bool convertable;
+  bool convertible;
   bool isFraction;
 
   Measurement({
@@ -13,16 +13,16 @@ class Measurement extends ApiModel {
     required this.title,
     required this.symbol,
     required this.conversion,
-    required this.convertable,
+    required this.convertible,
     required this.isFraction,
   });
   Measurement.fromMap(Map<String, dynamic> map)
       : id = map["id"],
         title = map['title'],
-        symbol = map['symbol'],
+        symbol = List<String>.from(map['symbol_set']),
         conversion = map['conversion'],
-        convertable = map['convertable'],
-        isFraction = map['isFraction'];
+        convertible = map['convertible'],
+        isFraction = map['is_fraction'];
 
   @override
   Measurement clone() {
@@ -31,7 +31,7 @@ class Measurement extends ApiModel {
       title: this.title,
       symbol: this.symbol,
       conversion: this.conversion,
-      convertable: this.convertable,
+      convertible: this.convertible,
       isFraction: this.isFraction,
     );
   }
@@ -46,7 +46,7 @@ class Measurement extends ApiModel {
       'title': this.title,
       'symbol': this.symbol,
       'conversion': this.conversion,
-      'convertable': this.convertable,
+      'convertible': this.convertible,
       'is_fraction': this.isFraction,
     };
   }
@@ -57,7 +57,7 @@ class Measurement extends ApiModel {
     title = map['title']!;
     symbol = map['symbol']!;
     conversion = map['conversion']!;
-    convertable = map['convertable']!;
+    convertible = map['convertible']!;
     isFraction = map['isFraction']!;
   }
 }

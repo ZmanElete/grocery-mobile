@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:grocery_list/services/service_locator.dart';
 
@@ -141,9 +139,10 @@ mixin ListModelMixin<T extends ApiModel> on GenericRestService<T> {
   Future<List<T>> list({Map<String, dynamic>? queryParameters}) async {
     var dio = ServiceLocator.dio;
     try {
+      var options = this.options(RestMethods.list);
       Response response = await dio.get(
         '/$resource/',
-        options: options(RestMethods.list),
+        options: options,
         queryParameters: queryParameters,
       );
 

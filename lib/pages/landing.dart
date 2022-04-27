@@ -50,7 +50,6 @@ class LandingPage extends StatelessWidget {
   }
 
   void autoLogin(context) async {
-    var authService = AuthApiService.instance;
     bool success = false;
     success = await SessionManager.instance.autoLogin();
     if (success) {

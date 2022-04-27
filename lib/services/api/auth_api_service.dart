@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -65,32 +67,37 @@ class AuthApiService {
       }
       return false;
     } on HttpNotAuthorized {
-      refreshAccessToken();
-      return true;
+      return await refreshAccessToken();
     }
   }
 
   /// Returns whether the token was successfully refreshed or not
-  Future<void> refreshAccessToken() async {
-    String? token = prefs.getString(ACCESS_TOKEN_KEY);
-    if (token == null)
-      throw HttpNotAuthorized(
-        Response(
-          data: {"detail": "Token is invalid or expired", "code": "token_not_valid"},
-          statusCode: 401,
-          requestOptions: RequestOptions(path: ''),
-        ),
+  Future<bool> refreshAccessToken() async {
+    try {
+      String? token = prefs.getString(ACCESS_TOKEN_KEY);
+      if (token == null)
+        throw HttpNotAuthorized(
+          Response(
+            data: {"detail": "Token is invalid or expired", "code": "token_not_valid"},
+            statusCode: 401,
+            requestOptions: RequestOptions(path: ''),
+          ),
+        );
+      Response response = await ServiceLocator.dio.post(
+        refreshUrl,
+        data: {
+          'refresh': token,
+        },
       );
-    Response response = await ServiceLocator.dio.post(
-      refreshUrl,
-      data: {
-        'token': token,
-      },
-    );
-    HttpHelpers.checkError(response);
-    var data = response.data;
-    prefs.setString(ACCESS_TOKEN_KEY, data['access']!);
-    prefs.setString(REFRESH_TOKEN_KEY, data['refresh']!);
+      HttpHelpers.checkError(response);
+      var data = response.data;
+      prefs.setString(ACCESS_TOKEN_KEY, data['access']!);
+      prefs.setString(REFRESH_TOKEN_KEY, data['refresh']!);
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 
   void logout(context) async {

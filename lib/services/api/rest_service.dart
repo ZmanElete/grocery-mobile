@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:grocery_list/services/api/auth_api_service.dart';
 import 'package:grocery_list/services/service_locator.dart';
 
 import 'http_exceptions.dart';
@@ -17,22 +18,12 @@ abstract class RestService {
 
   RestService({this.authenticatedActions = RestMethods.values});
 
-  // Options authorizationOptions() {
-
-  //   var storage = context.read<GetStorage>();
-  //   String token = storage.read('access_token');
-  //   Options _options = options();
-  //   _options.headers = {"Authorization": "Token $token"};
-  //   return _options;
-  // }
-
   Options options(RestMethods method) {
     var prefs = ServiceLocator.prefs;
-    var token = prefs.get('access_token');
-    //TODO: Make sure the headers are actually getting sent correctly.
+    var token = prefs.get(AuthApiService.ACCESS_TOKEN_KEY);
     var options = Options();
     if (this.authenticatedActions.contains(method)) {
-      options.headers = {"Authorization": "Token $token"};
+      options.headers = {"Authorization": "JWT $token"};
     }
     return options;
   }

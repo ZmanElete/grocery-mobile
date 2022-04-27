@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:grocery_list/helpers/http_helpers.dart';
 import 'package:grocery_list/models/user.dart';
