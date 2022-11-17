@@ -31,9 +31,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
+      appBar: AppBar(),
       body: Builder(
         builder: (context) => Form(
           key: formKey,
@@ -49,35 +47,39 @@ class LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 40),
                 TextFormField(
+                  controller: emailController,
+                  autofocus: true,
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                    hintText: "Email",
+                    prefixIcon: Icon(Icons.mail),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Must Enter Email';
                     }
                     return null;
                   },
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                    hintText: "Email",
-                  ),
-                  controller: emailController,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 25),
                 TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  decoration: const InputDecoration(
+                    hintText: "Password",
+                    prefixIcon: Icon(Icons.key),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Must Enter Username';
                     }
                     return null;
                   },
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Password",
-                  ),
-                  controller: passwordController,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 50),
                 ElevatedButton(
                   child: const Text("Submit"),
                   onPressed: () => login(context),
