@@ -11,5 +11,5 @@ void main() async {
     debug: false,
   );
   await ServiceLocator.init();
-  runApp(App());
+  runApp(const App());
 }

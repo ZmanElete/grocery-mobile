@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/managers/session_manager.dart';
-import 'package:grocery_list/services/api/auth_api_service.dart';
-import 'package:grocery_list/services/service_locator.dart';
 
-import '../app.dart';
+import '/managers/session_manager.dart';
+import '/services/api/auth_api_service.dart';
+import '/services/service_locator.dart';
+import 'dashboard_navigator/dashboard_navigator.dart';
+import 'login.dart';
 
 class LandingPage extends StatelessWidget {
+  static const route = 'landing_page';
+
   final prefs = ServiceLocator.prefs;
 
   LandingPage({Key? key}) : super(key: key);
@@ -31,15 +34,15 @@ class LandingPage extends StatelessWidget {
           ),
           Flexible(
             flex: 1,
-            child: Align(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.LOGIN_PAGE);
+                  Navigator.pushNamed(context, LoginPage.route);
                 },
-                child: Text(
+                child: const Text(
                   'Login',
-                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             ),
@@ -53,7 +56,7 @@ class LandingPage extends StatelessWidget {
     bool success = false;
     success = await SessionManager.instance.autoLogin();
     if (success) {
-      Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_PAGE);
+      Navigator.pushReplacementNamed(context, DashboardNavigator.route);
     }
   }
 }

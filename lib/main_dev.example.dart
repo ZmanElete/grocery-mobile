@@ -14,5 +14,5 @@ void main() async {
     debugLoginPassword: 'test',
   );
   await ServiceLocator.init();
-  runApp(App());
+  runApp(const App());
 }

@@ -27,27 +27,27 @@ class Measurement extends ApiModel {
   @override
   Measurement clone() {
     return Measurement(
-      id: this.id,
-      title: this.title,
-      symbol: this.symbol,
-      conversion: this.conversion,
-      convertible: this.convertible,
-      isFraction: this.isFraction,
+      id: id,
+      title: title,
+      symbol: symbol,
+      conversion: conversion,
+      convertible: convertible,
+      isFraction: isFraction,
     );
   }
 
   @override
-  int? get pk => this.id;
+  int? get pk => id;
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'title': this.title,
-      'symbol': this.symbol,
-      'conversion': this.conversion,
-      'convertible': this.convertible,
-      'is_fraction': this.isFraction,
+      'id': id,
+      'title': title,
+      'symbol': symbol,
+      'conversion': conversion,
+      'convertible': convertible,
+      'is_fraction': isFraction,
     };
   }
 
@@ -59,5 +59,10 @@ class Measurement extends ApiModel {
     conversion = map['conversion']!;
     convertible = map['convertible']!;
     isFraction = map['isFraction']!;
+  }
+
+  @override
+  String toString() {
+    return symbol.isNotEmpty ? symbol.first : title;
   }
 }

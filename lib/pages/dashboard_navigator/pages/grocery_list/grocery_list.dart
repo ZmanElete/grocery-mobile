@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/models/item_list.dart';
-import 'package:grocery_list/pages/dashboard_navigator/dashboard_navigator.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/grocery_list/widgets/grocery_list_item.dart';
-import 'package:grocery_list/services/api/list_api_service.dart';
+
+
+
+import '/services/api/list_api_service.dart';
+import '/models/item_list.dart';
+import '/pages/dashboard_navigator/pages/grocery_list/widgets/grocery_list_item.dart';
+import '../../routes.dart';
 
 class GroceryListPage extends StatefulWidget {
-  GroceryListPage({Key? key}) : super(key: key);
+  const GroceryListPage({Key? key}) : super(key: key);
 
   @override
-  _GroceryListPageState createState() => _GroceryListPageState();
+  GroceryListPageState createState() => GroceryListPageState();
 }
 
-class _GroceryListPageState extends State<GroceryListPage> {
+class GroceryListPageState extends State<GroceryListPage> {
   final listService = ItemListApiService.instance;
 
   bool initializing = true;
@@ -38,11 +41,11 @@ class _GroceryListPageState extends State<GroceryListPage> {
     return Scaffold(
       floatingActionButton: floatingActionButton(),
       body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         child: initializing
             ? Container(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               )
             : lists.isEmpty
                 ? Center(
@@ -50,7 +53,7 @@ class _GroceryListPageState extends State<GroceryListPage> {
                       alignment: Alignment.center,
                       width: screenSize.width * .9,
                       height: screenSize.height * .2,
-                      child: Card(
+                      child: const Card(
                         child: Center(
                           child: Text("Looks like you don't have any Lists"),
                         ),
@@ -65,7 +68,6 @@ class _GroceryListPageState extends State<GroceryListPage> {
                         tag: '${list.id}GroceryList',
                         child: GroceryListItem(
                           list: list,
-                          isDetail: false,
                         ),
                       );
                     },
@@ -79,7 +81,7 @@ class _GroceryListPageState extends State<GroceryListPage> {
       onPressed: () {
         Navigator.of(context).pushNamed(DashboardRoutes.ADD_GROCERY_LIST);
       },
-      child: Icon(
+      child: const Icon(
         Icons.add,
         size: 35,
         color: Colors.white,

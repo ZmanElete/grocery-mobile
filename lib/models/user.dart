@@ -15,18 +15,22 @@ class User extends ApiModel {
 
   @override
   User clone() {
-    return User(id: this.id, email: this.email, household: this.household);
+    return User(
+      id: id,
+      email: email,
+      household: household,
+    );
   }
 
   @override
-  int? get pk => this.id;
+  int? get pk => id;
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'email': this.email,
-      'household': this.household.toMap(),
+      'id': id,
+      'email': email,
+      'household': household.toMap(),
     };
   }
 

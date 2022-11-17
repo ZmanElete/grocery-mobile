@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RecipeListPage extends StatefulWidget {
-  RecipeListPage({Key? key}) : super(key: key);
+  const RecipeListPage({Key? key}) : super(key: key);
 
   @override
-  _RecipeListPageState createState() => _RecipeListPageState();
+  RecipeListPageState createState() => RecipeListPageState();
 }
 
-class _RecipeListPageState extends State<RecipeListPage> {
+class RecipeListPageState extends State<RecipeListPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('Recipes'),
-    );
+    return const Text('Recipes');
   }
 }

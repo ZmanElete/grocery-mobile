@@ -26,12 +26,12 @@ class UserApiService extends GenericRestService<User> {
       HttpHelpers.checkError(response);
       var map = response.data;
       return modelFromMap(map);
-    } on HttpNotAuthorized catch (e) {
+    } on HttpNotAuthorized {
       if (allowRefresh) {
         AuthApiService.instance.refreshAccessToken();
         return current(allowRefresh: false);
       } else {
-        throw e;
+        rethrow;
       }
     }
   }

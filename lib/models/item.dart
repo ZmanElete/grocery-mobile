@@ -4,46 +4,48 @@ import 'package:grocery_list/models/measurement.dart';
 class Item extends ApiModel {
   int? id;
   String title;
-  // ItemList list; // items are appart of lists, lists are not appart of items?
   Measurement measurement;
   double quantity;
+  int? list;
+  bool checked = false;
 
   Item({
     this.id,
     required this.title,
-    // required this.list,
     required this.measurement,
     required this.quantity,
+    this.checked = false,
   });
+
   Item.fromMap(Map<String, dynamic> map)
       : id = map["id"]!,
         title = map["title"]!,
-        // list = ItemList.fromMap(map["list"]),
         measurement = Measurement.fromMap(map["measurement"]),
-        quantity = map["quantity"]!;
+        quantity = map["quantity"]!,
+        checked = map["checked"];
 
   @override
   Item clone() {
     return Item(
-      id: this.id,
-      title: this.title,
-      // list: this.list.clone(),
-      measurement: this.measurement.clone(),
-      quantity: this.quantity,
+      id: id,
+      title: title,
+      measurement: measurement.clone(),
+      quantity: quantity,
+      checked: checked,
     );
   }
 
   @override
-  int? get pk => this.id;
+  int? get pk => id;
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'title': this.title,
-      // 'list': this.list.toMap(),
-      'measurement': this.measurement.toMap(),
-      'quantity': this.quantity,
+      'id': id,
+      'title': title,
+      'measurement': measurement.id,
+      'quantity': quantity,
+      'checked': checked,
     };
   }
 
@@ -51,8 +53,13 @@ class Item extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map["id"];
     title = map["title"]!;
-    // list = ItemList.fromMap(map["list"]!);
     measurement = Measurement.fromMap(map["measurement"]!);
     quantity = map["quantity"]!;
+    checked = map["checked"];
+  }
+
+  @override
+  String toString() {
+    return '$quantity $measurement - $title';
   }
 }

@@ -30,27 +30,27 @@ class Recipe extends ApiModel {
   @override
   ApiModel clone() {
     return Recipe(
-      id: this.id,
-      title: this.title,
-      household: this.household,
-      instructions: this.instructions,
-      standardServing: this.standardServing,
-      listSection: this.listSection,
+      id: id,
+      title: title,
+      household: household,
+      instructions: instructions,
+      standardServing: standardServing,
+      listSection: listSection,
     );
   }
 
   @override
-  int? get pk => this.id;
+  int? get pk => id;
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'title': this.title,
-      'household': this.household.toMap(),
-      'instrcutions': this.instructions,
-      'standard_serving': this.standardServing,
-      'list_section_set': this.listSection.map((ls) => ls.toMap()),
+      'id': id,
+      'title': title,
+      'household': household.toMap(),
+      'instructions': instructions,
+      'standard_serving': standardServing,
+      'list_section_set': listSection.map((ls) => ls.toMap()),
     };
   }
 

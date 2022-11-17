@@ -27,25 +27,25 @@ class ListSection extends ApiModel {
   @override
   ApiModel clone() {
     return ListSection(
-      id: this.id,
-      recipe: this.recipe,
-      title: this.title,
-      sortOrder: this.sortOrder,
-      list: this.list,
+      id: id,
+      recipe: recipe,
+      title: title,
+      sortOrder: sortOrder,
+      list: list,
     );
   }
 
   @override
-  int? get pk => this.id;
+  int? get pk => id;
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'recipe': this.recipe.toMap(),
-      'title': this.title,
-      'sort_order': this.sortOrder,
-      'list': this.list.toMap(),
+      'id': id,
+      'recipe': recipe.toMap(),
+      'title': title,
+      'sort_order': sortOrder,
+      'list': list.toMap(),
     };
   }
 

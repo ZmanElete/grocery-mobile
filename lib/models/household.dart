@@ -12,21 +12,24 @@ class Household extends ApiModel {
         title = map['title']!,
         users = map['user_set']?.map((u) => User.fromMap(u)).toList() ?? [];
 
-  String? get pk => this.id;
+  @override
+  String? get pk => id;
 
+  @override
   Map<String, dynamic> toMap() {
     return {
-      "id": this.id,
-      "title": this.title,
-      "user_set": this.users.map((user) => user.toMap()),
+      "id": id,
+      "title": title,
+      "user_set": users.map((user) => user.toMap()),
     };
   }
 
+  @override
   Household clone() {
     return Household(
-      id: this.id,
-      title: this.title,
-      users: this.users.map((user) => user.clone()).toList(),
+      id: id,
+      title: title,
+      users: users.map((user) => user.clone()).toList(),
     );
   }
 

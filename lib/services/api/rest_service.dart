@@ -22,7 +22,7 @@ abstract class RestService {
     var prefs = ServiceLocator.prefs;
     var token = prefs.get(AuthApiService.ACCESS_TOKEN_KEY);
     var options = Options();
-    if (this.authenticatedActions.contains(method)) {
+    if (authenticatedActions.contains(method)) {
       options.headers = {"Authorization": "JWT $token"};
     }
     return options;
@@ -52,7 +52,7 @@ abstract class RestService {
         throw InternalServerErrorException(response, message: response.statusMessage ?? 'internal server error');
       }
       if (response.statusCode! < 200 || response.statusCode! >= 300) {
-        throw RedWolfHttpException(response, message: response.statusMessage ?? 'Unknown Error');
+        throw AppHttpException(response, message: response.statusMessage ?? 'Unknown Error');
       }
     } else {
       throw Exception('HttpService::_checkError was not given a response object');

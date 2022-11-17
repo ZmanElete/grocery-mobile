@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:grocery_list/app.dart';
 import 'package:grocery_list/helpers/http_helpers.dart';
 import 'package:grocery_list/models/config.dart';
+import 'package:grocery_list/pages/landing.dart';
 import 'package:grocery_list/services/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,7 +75,7 @@ class AuthApiService {
   Future<bool> refreshAccessToken() async {
     try {
       String? token = prefs.getString(ACCESS_TOKEN_KEY);
-      if (token == null)
+      if (token == null) {
         throw HttpNotAuthorized(
           Response(
             data: {"detail": "Token is invalid or expired", "code": "token_not_valid"},
@@ -83,6 +83,7 @@ class AuthApiService {
             requestOptions: RequestOptions(path: ''),
           ),
         );
+      }
       Response response = await ServiceLocator.dio.post(
         refreshUrl,
         data: {
@@ -105,7 +106,7 @@ class AuthApiService {
     prefs.remove(REFRESH_TOKEN_KEY);
     Navigator.pushNamedAndRemoveUntil(
       context,
-      AppRoutes.LANDING_PAGE,
+      LandingPage.route,
       (_) => false,
     );
   }
