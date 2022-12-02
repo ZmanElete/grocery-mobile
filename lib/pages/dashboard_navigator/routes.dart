@@ -1,57 +1,69 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
+import '../../models/item_list.dart';
+import 'dashboard_scaffold.dart';
 import 'pages/add_grocery_list/add_grocery_list.dart';
 import 'pages/grocery_list/grocery_list.dart';
 import 'pages/receipe_list.dart';
 
+class DashboardRouteDescriptors {
+  final String routeName;
+  final String label;
+  final Widget icon;
 
-class DashboardRoutes {
-  static const GROCERY_LISTS = 'grocery_lists';
-  static const ADD_GROCERY_LIST = 'add_grocery_list';
-  static const RECIPES = 'recipes';
+  const DashboardRouteDescriptors({
+    required this.routeName,
+    required this.label,
+    required this.icon,
+  });
+}
 
-  static int indexOfRoute(String route) {
-    switch (route) {
-      case ADD_GROCERY_LIST:
-      case GROCERY_LISTS:
-        return 0;
-      case RECIPES:
-        return 1;
-    }
-    return 0;
-  }
+List<String> bottomNavRoutes = [
+  DashboardScaffold.route,
+  GroceryListPage.route,
+  RecipeListPage.route,
+  AddGroceryListPage.route,
+];
 
-  static String routeOfIndex(int index) {
-    switch (index) {
-      case 0:
-        return GROCERY_LISTS;
-      case 1:
-        return RECIPES;
-    }
-    return GROCERY_LISTS;
+class DashboardRoute extends MaterialPageRoute {
+  final String routeName;
+  DashboardRoute({
+    required this.routeName,
+    required super.builder,
+    required super.settings,
+  });
+
+  @override
+  Widget buildContent(BuildContext context) {
+    return DashboardScaffold(
+      activeRoute: routeName,
+      child: super.buildContent(context),
+    );
   }
 }
 
-
-Route onGenerateDashboardNavRoutes(RouteSettings settings) {
-    log("Navigating to '${settings.name}'", name: "Dashboard Navigator");
-    late Widget page;
-    switch (settings.name) {
-      case DashboardRoutes.ADD_GROCERY_LIST:
-        page = const AddGroceryListPage();
-        break;
-      case DashboardRoutes.RECIPES:
-        page = const RecipeListPage();
-        break;
-      case DashboardRoutes.GROCERY_LISTS:
-      default:
-        page = const GroceryListPage();
+DashboardRoute onGenerateDashboardRoutes(RouteSettings settings) {
+  String bottomNavHighlightedRoute;
+  WidgetBuilder builder;
+  dynamic args = settings.arguments;
+  if (settings.name == RecipeListPage.route) {
+    bottomNavHighlightedRoute = RecipeListPage.route;
+    builder = (context) => const RecipeListPage();
+  } else if (settings.name == AddGroceryListPage.route) {
+    ItemList? itemList;
+    if (args is AddGroceryListPageArguments) {
+      itemList = args.itemList;
     }
-
-    return MaterialPageRoute(
-      builder: (_) => page,
-      settings: settings,
-    );
+    bottomNavHighlightedRoute = GroceryListPage.route;
+    builder = (context) => AddGroceryListPage(itemList: itemList);
+  } else {
+    bottomNavHighlightedRoute = GroceryListPage.route;
+    builder = (context) => const GroceryListPage();
   }
+
+  return DashboardRoute(
+    routeName: bottomNavHighlightedRoute,
+    builder: builder,
+    settings: settings,
+  );
+}

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_list/helpers/http_helpers.dart';
 import 'package:grocery_list/managers/session_manager.dart';
 import 'package:grocery_list/models/config.dart';
-import 'package:grocery_list/pages/dashboard_navigator/dashboard_navigator.dart';
+import 'package:grocery_list/pages/dashboard_navigator/dashboard_scaffold.dart';
 import 'package:grocery_list/services/api/auth_api_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -100,7 +100,7 @@ class LoginPageState extends State<LoginPage> {
         await SessionManager.instance.login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(
           context,
-          DashboardNavigator.route,
+          DashboardScaffold.route,
           (_) => false,
         );
       } on HttpNotAuthorized {

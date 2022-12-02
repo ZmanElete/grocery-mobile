@@ -1,0 +1,7 @@
+{
+  "rest-client.environmentVariables": {
+    "local.example":{
+      "API_URL": "http://localhost:4842"
+    }
+  }
+}

@@ -82,7 +82,7 @@ mixin PatchModelMixin<T extends ApiModel> on GenericRestService<T> {
         options: options(RestMethods.patch),
       );
       if (loadOnResponse) {
-        m = modelFromMap(Map<String, dynamic>.from(response.data));
+        m.loadMap(Map<String, dynamic>.from(response.data));
       }
       return m;
     } on DioError catch (e) {

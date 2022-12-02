@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:grocery_list/models/item_list.dart';
+import 'package:grocery_list/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
+import 'package:grocery_list/services/api/item_api_service.dart';
 
 class GroceryListItem extends StatefulWidget {
   final ItemList list;
@@ -20,39 +23,52 @@ class GroceryListItemState extends State<GroceryListItem> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
       child: InkWell(
-        onLongPress: _onLongPress,
+        borderRadius: BorderRadius.circular(25),
+        onLongPress: _showMenu,
         onTap: () => setState(() => expanded = !expanded),
-        child: AnimatedSize(
-          duration: const Duration(milliseconds: 250),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.list.title,
-                      style: theme.textTheme.headline6,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: AnimatedSize(
+            alignment: Alignment.topCenter,
+            duration: const Duration(milliseconds: 250),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.list.title,
+                        style: theme.textTheme.headline6,
+                      ),
                     ),
-                  ),
-                  Icon(expanded ? Icons.expand_less : Icons.expand_more),
-                ],
-              ),
-              if (expanded)
-                for (var item in widget.list.items)
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                      Expanded(
-                        child: Text(item.toString()),
-                      ),
-                    ],
-                  ),
-            ],
+                    Icon(expanded ? Icons.expand_less : Icons.expand_more),
+                  ],
+                ),
+                if (expanded)
+                  for (var item in widget.list.items)
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: item.checked,
+                          onChanged: (value) async {
+                            final fields = FormData.fromMap({"checked": !item.checked});
+                            item.checked = !item.checked;
+                            setState(() {});
+                            ItemApiService.instance.patch(item, fields);
+                          },
+                        ),
+                        Expanded(
+                          child: Text(item.toString()),
+                        ),
+                      ],
+                    ),
+              ],
+            ),
           ),
         ),
       ),
@@ -60,7 +76,7 @@ class GroceryListItemState extends State<GroceryListItem> {
   }
 
   /// Callback when mouse clicked on `Listener` wrapped widget.
-  Future<void> _onLongPress() async {
+  Future<void> _showMenu() async {
     RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
     // Check if right mouse button clicked
     final overlayBox = Overlay.of(context)?.context.findRenderObject() as RenderBox;
@@ -85,17 +101,14 @@ class GroceryListItemState extends State<GroceryListItem> {
     );
 
     // Check if menu item clicked
-    if(mounted) {
+    if (mounted) {
       switch (menuItem) {
         case 1:
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Copy clicked'),
-            behavior: SnackBarBehavior.floating,
-          ));
-          break;
-        case 2:
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Cut clicked'), behavior: SnackBarBehavior.floating));
+          await Navigator.of(context).pushNamed(
+            AddGroceryListPage.route,
+            arguments: AddGroceryListPageArguments(widget.list),
+          );
+          setState(() {});
           break;
         default:
       }

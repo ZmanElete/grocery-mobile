@@ -11,7 +11,7 @@ class AppTheme {
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          contentPadding: const EdgeInsets.only(left: 50),
+          contentPadding: const EdgeInsets.all(0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
           ),

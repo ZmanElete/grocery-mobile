@@ -62,3 +62,21 @@ Content-Type: application/json
 
 ###
 
+# @name itemGet
+GET  {{API_URL}}/item/1/
+Authorization: JWT {{authToken}}
+Content-Type: application/json
+
+###
+
+# @name itemPartialUpdate
+PATCH  {{API_URL}}/item/1/
+Authorization: JWT {{authToken}}
+Content-Type: application/json
+
+{
+  "checked": true
+}
+
+###
+

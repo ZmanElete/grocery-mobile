@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../managers/measurement_manager.dart';
-import '../../../../../models/item.dart';
-import '../../../../../models/measurement.dart';
+import '/managers/measurement_manager.dart';
+import '/models/item.dart';
+import '/models/measurement.dart';
 
 class EditItemDialog extends StatefulWidget {
   final Item? item;
@@ -40,6 +40,7 @@ class EditItemDialogState extends State<EditItemDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
+      insetPadding: EdgeInsets.all(15),
       titlePadding: EdgeInsets.fromLTRB(outsidePadding, outsidePadding, outsidePadding, 0),
       title: Row(
         children: [
@@ -50,7 +51,7 @@ class EditItemDialogState extends State<EditItemDialog> {
           ),
         ],
       ),
-      contentPadding: EdgeInsets.fromLTRB(outsidePadding, 0, outsidePadding, outsidePadding),
+      contentPadding: EdgeInsets.fromLTRB(outsidePadding, 5, outsidePadding, outsidePadding),
       children: [
         _form(context),
       ],
@@ -65,58 +66,60 @@ class EditItemDialogState extends State<EditItemDialog> {
         children: [
           TextFormField(
             controller: titleController,
+            keyboardType: TextInputType.name,
             decoration: const InputDecoration(
-              labelText: "Title",
+              hintText: "Title",
+              prefixIcon: Icon(Icons.title),
             ),
           ),
-          SizedBox(
-            height: 70,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    controller: quantityController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: "Quantity",
-                    ),
-                    validator: (String? input) {
-                      if (input == null) {
-                        return 'Cannot be empty';
-                      } else if (double.tryParse(input) == null) {
-                        return 'Must be a valid number';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Flexible(
-                  child: DropdownButtonFormField(
-                    hint: const Text("Measurement"),
-                    value: measurement,
-                    items: [
-                      for (var m in MeasurementManager.instance.measurements)
-                        DropdownMenuItem(
-                          value: m,
-                          child: Text(m.title),
-                        )
-                    ],
-                    validator: (Measurement? measurement) {
-                      if (measurement == null) {
-                        return 'Cannot be empty';
-                      }
-                      return null;
-                    },
-                    onChanged: (Measurement? value) {
-                      measurement = value;
-                      setState(() {});
-                    },
-                  ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: quantityController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: "Quantity",
+              prefixIcon: Icon(Icons.numbers),
+              isDense: true,
+            ),
+            validator: (String? input) {
+              if (input == null) {
+                return 'Cannot be empty';
+              } else if (double.tryParse(input) == null) {
+                return 'Must be a valid number';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField(
+            hint: const Text("Measurement"),
+            value: measurement,
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.square_foot),
+              contentPadding: EdgeInsets.only(left: 25),
+              suffixIcon: Icon(Icons.expand_more),
+
+            ),
+            icon: const SizedBox.shrink(),
+            validator: (Measurement? measurement) {
+              if (measurement == null) {
+                return 'Cannot be empty';
+              }
+              return null;
+            },
+            onChanged: (Measurement? value) {
+              measurement = value;
+              setState(() {});
+            },
+            items: [
+              for (var m in MeasurementManager.instance.measurements)
+                DropdownMenuItem(
+                  value: m,
+                  child: Text(m.title),
                 )
-              ],
-            ),
+            ],
           ),
+          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(

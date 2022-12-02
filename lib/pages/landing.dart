@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '/managers/session_manager.dart';
 import '/services/api/auth_api_service.dart';
 import '/services/service_locator.dart';
-import 'dashboard_navigator/dashboard_navigator.dart';
+import 'dashboard_navigator/dashboard_scaffold.dart';
 import 'login.dart';
 
 class LandingPage extends StatelessWidget {
@@ -56,7 +56,7 @@ class LandingPage extends StatelessWidget {
     bool success = false;
     success = await SessionManager.instance.autoLogin();
     if (success) {
-      Navigator.pushReplacementNamed(context, DashboardNavigator.route);
+      Navigator.pushReplacementNamed(context, DashboardScaffold.route);
     }
   }
 }

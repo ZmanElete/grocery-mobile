@@ -5,18 +5,21 @@ class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const GroceryAppBar({Key? key}) : super(key: key);
 
   @override
-  AppBar build(BuildContext context) {
-    return AppBar(
-      title: const Text("Grocery App"),
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.exit_to_app),
-          onPressed: () {
-            AuthApiService.instance.logout(context);
-          },
-        )
-      ],
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: 'grocery-app-bar',
+      child: AppBar(
+        title: const Text("Grocery App"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              AuthApiService.instance.logout(context);
+            },
+          )
+        ],
+      ),
     );
   }
 

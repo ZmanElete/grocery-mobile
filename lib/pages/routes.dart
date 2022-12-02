@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'dashboard_navigator/dashboard_navigator.dart';
+import '/pages/dashboard_navigator/routes.dart';
 import 'landing.dart';
 import 'login.dart';
 
-Route<dynamic> onGenerateBaseRoutes(RouteSettings routeSettings) {
+Route<dynamic> onGenerateBaseRoutes(RouteSettings settings) {
   // Map<String, dynamic> args = routeSettings.arguments;
-  switch (routeSettings.name) {
-    case LoginPage.route:
-      return MaterialPageRoute(builder: (context) => const LoginPage());
-    case DashboardNavigator.route:
-      return MaterialPageRoute(builder: (context) => const DashboardNavigator());
-    case LandingPage.route:
-    default:
-      return MaterialPageRoute(builder: (context) => LandingPage());
+  WidgetBuilder builder;
+  if (settings.name == LoginPage.route) {
+    builder = (context) => const LoginPage();
+  } else if (bottomNavRoutes.contains(settings.name)) {
+    return onGenerateDashboardRoutes(settings);
+  } else {
+    builder = (context) => LandingPage();
   }
+
+  return MaterialPageRoute(builder: builder, settings: settings);
 }
