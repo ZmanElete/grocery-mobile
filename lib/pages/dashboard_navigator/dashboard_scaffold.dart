@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/widget/app_bar.dart';
 import 'pages/grocery_list/grocery_list.dart';
-import 'pages/receipe_list.dart';
+import 'pages/recipes_list/receipe_list.dart';
 import 'routes.dart';
 
 const List<DashboardRouteDescriptors> dashboardBottomNavDescriptors = [

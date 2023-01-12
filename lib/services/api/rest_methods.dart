@@ -35,7 +35,7 @@ mixin UpdateModelMixin<T extends ApiModel> on GenericRestService<T> {
     var dio = ServiceLocator.dio;
     try {
       Response response = await dio.put(
-        '$resource/${model.pk}/',
+        '/$resource/${model.pk}/',
         data: model.toMap(),
         options: options(RestMethods.update),
       );

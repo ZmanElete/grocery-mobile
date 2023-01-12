@@ -1,7 +1,7 @@
 import 'package:grocery_list/models/api_model.dart';
 
 class Measurement extends ApiModel {
-  int? id;
+  int id;
   String title;
   List<String> symbol;
   double conversion;
@@ -9,7 +9,7 @@ class Measurement extends ApiModel {
   bool isFraction;
 
   Measurement({
-    this.id,
+    required this.id,
     required this.title,
     required this.symbol,
     required this.conversion,
@@ -64,5 +64,20 @@ class Measurement extends ApiModel {
   @override
   String toString() {
     return symbol.isNotEmpty ? symbol.first : title;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        runtimeType,
+        id,
+        title,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    return other is Measurement &&
+        other.runtimeType == runtimeType &&
+        other.id == id &&
+        other.title == title;
   }
 }

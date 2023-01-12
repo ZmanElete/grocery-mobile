@@ -29,7 +29,9 @@ class EditItemDialogState extends State<EditItemDialog> {
       quantityController.text = widget.item!.quantity.toString();
       measurement = widget.item!.measurement;
     } else {
-      final wholeMeasurement = MeasurementManager.instance.measurements.where((element) => element.title == 'Whole');
+      final wholeMeasurement = MeasurementManager.instance.measurements.where(
+        (element) => element.title == 'Whole',
+      );
       if (wholeMeasurement.isNotEmpty) {
         measurement = wholeMeasurement.first;
       }
@@ -40,7 +42,7 @@ class EditItemDialogState extends State<EditItemDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      insetPadding: EdgeInsets.all(15),
+      insetPadding: const EdgeInsets.all(15),
       titlePadding: EdgeInsets.fromLTRB(outsidePadding, outsidePadding, outsidePadding, 0),
       title: Row(
         children: [
@@ -98,7 +100,6 @@ class EditItemDialogState extends State<EditItemDialog> {
               prefixIcon: Icon(Icons.square_foot),
               contentPadding: EdgeInsets.only(left: 25),
               suffixIcon: Icon(Icons.expand_more),
-
             ),
             icon: const SizedBox.shrink(),
             validator: (Measurement? measurement) {

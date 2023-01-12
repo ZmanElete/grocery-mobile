@@ -15,6 +15,14 @@ class ItemList extends ApiModel {
     this.active = true,
     this.items = const [],
   });
+
+  factory ItemList.empty() => ItemList(
+    title: 'New List',
+    household: '',
+    active: true,
+    items: [],
+  );
+
   ItemList.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         title = map['title']!,

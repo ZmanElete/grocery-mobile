@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import 'package:grocery_list/managers/grocery_list_manager.dart';
 import 'package:grocery_list/models/item_list.dart';
 import 'package:grocery_list/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
 import 'package:grocery_list/services/api/item_api_service.dart';
+import 'package:grocery_list/widget/confirm_delete_dialog.dart';
 
 class GroceryListItem extends StatefulWidget {
   final ItemList list;
@@ -22,34 +24,36 @@ class GroceryListItemState extends State<GroceryListItem> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(25),
-        onLongPress: _showMenu,
-        onTap: () => setState(() => expanded = !expanded),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: AnimatedSize(
-            alignment: Alignment.topCenter,
-            duration: const Duration(milliseconds: 250),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.list.title,
-                        style: theme.textTheme.headline6,
-                      ),
+    return InkWell(
+      onTap: () {
+        expanded = !expanded;
+        setState(() {});
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.topCenter,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.list.title,
+                      style: theme.textTheme.titleLarge,
                     ),
-                    Icon(expanded ? Icons.expand_less : Icons.expand_more),
-                  ],
-                ),
-                if (expanded)
+                  ),
+                  IconButton(
+                    onPressed: () => _showMenu(context),
+                    icon: const Icon(Icons.more_vert_rounded),
+                  )
+                ],
+              ),
+              if (expanded)
+                if (widget.list.items.isNotEmpty)
                   for (var item in widget.list.items)
                     Row(
                       children: [
@@ -66,9 +70,10 @@ class GroceryListItemState extends State<GroceryListItem> {
                           child: Text(item.toString()),
                         ),
                       ],
-                    ),
-              ],
-            ),
+                    )
+                else
+                  const Text('Not Items in this list')
+            ],
           ),
         ),
       ),
@@ -76,7 +81,7 @@ class GroceryListItemState extends State<GroceryListItem> {
   }
 
   /// Callback when mouse clicked on `Listener` wrapped widget.
-  Future<void> _showMenu() async {
+  Future<void> _showMenu(BuildContext context) async {
     RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
     // Check if right mouse button clicked
     final overlayBox = Overlay.of(context)?.context.findRenderObject() as RenderBox;
@@ -91,6 +96,10 @@ class GroceryListItemState extends State<GroceryListItem> {
         const PopupMenuItem(
           value: 1,
           child: Text('Edit'),
+        ),
+        const PopupMenuItem(
+          value: 2,
+          child: Text('Delete'),
         ),
         // const PopupMenuItem(child: Text('Cut'), value: 2),
       ],
@@ -108,6 +117,18 @@ class GroceryListItemState extends State<GroceryListItem> {
             AddGroceryListPage.route,
             arguments: AddGroceryListPageArguments(widget.list),
           );
+          setState(() {});
+          break;
+        case 2:
+          final result = await showDialog(
+            context: context,
+            builder: (context) => ConfirmDeleteDialog(
+              targetTitle: 'the list "${widget.list.title}"',
+            ),
+          );
+          if (result == true) {
+            await GroceryListManager.instance.deleteList(widget.list);
+          }
           setState(() {});
           break;
         default:

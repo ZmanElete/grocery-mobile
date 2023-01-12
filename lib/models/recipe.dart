@@ -1,14 +1,13 @@
 import 'package:grocery_list/models/api_model.dart';
-import 'package:grocery_list/models/household.dart';
-import 'package:grocery_list/models/list_section.dart';
+import 'package:grocery_list/models/item_list.dart';
 
 class Recipe extends ApiModel {
   int? id;
   String title;
-  Household household;
+  String household;
   String instructions;
   int standardServing;
-  List<ListSection> listSection;
+  ItemList list;
 
   Recipe({
     this.id,
@@ -16,16 +15,24 @@ class Recipe extends ApiModel {
     required this.household,
     required this.instructions,
     required this.standardServing,
-    this.listSection = const [],
+    required this.list,
   });
+
+  factory Recipe.empty() => Recipe(
+        title: 'New Recipe',
+        household: '',
+        instructions: '',
+        standardServing: 0,
+        list: ItemList.empty(),
+      );
+
   Recipe.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         title = map['title'],
-        household = Household.fromMap(map['household']),
+        household = map['household'],
         instructions = map['instructions'],
-        standardServing = map['standardServing'],
-        listSection =
-            map['listSection']?.map((ls) => ListSection.fromMap(ls)) ?? [];
+        standardServing = map['standard_serving'],
+        list = ItemList.fromMap(map['list']);
 
   @override
   ApiModel clone() {
@@ -35,7 +42,7 @@ class Recipe extends ApiModel {
       household: household,
       instructions: instructions,
       standardServing: standardServing,
-      listSection: listSection,
+      list: list,
     );
   }
 
@@ -47,10 +54,10 @@ class Recipe extends ApiModel {
     return {
       'id': id,
       'title': title,
-      'household': household.toMap(),
+      'household': household,
       'instructions': instructions,
       'standard_serving': standardServing,
-      'list_section_set': listSection.map((ls) => ls.toMap()),
+      'list': list.toMap(),
     };
   }
 
@@ -58,10 +65,9 @@ class Recipe extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     title = map['title']!;
-    household = Household.fromMap(map['household']!);
+    household = map['household']!;
     instructions = map['instructions']!;
-    standardServing = map['standardServing']!;
-    listSection =
-        map['listSection']?.map((ls) => ListSection.fromMap(ls)) ?? [];
+    standardServing = map['standard_serving']!;
+    list = ItemList.fromMap(map['list']);
   }
 }

@@ -2,11 +2,13 @@ import '/models/item.dart';
 import 'model_rest_service.dart';
 import 'rest_methods.dart';
 
-class ItemApiService //
-    extends GenericRestService<Item> //
+class ItemApiService extends GenericRestService<Item> //
     with
+        DeleteModelMixin,
+        CreateModelMixin,
         UpdateModelMixin,
-        PatchModelMixin {
+        PatchModelMixin,
+        GetModelMixin {
   static ItemApiService get instance => _instance != null ? _instance! : ItemApiService();
   static ItemApiService? _instance;
 
