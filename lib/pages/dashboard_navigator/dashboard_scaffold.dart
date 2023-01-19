@@ -1,27 +1,30 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
-import '/widget/app_bar.dart';
-import 'pages/grocery_list/grocery_list.dart';
-import 'pages/recipes_list/receipe_list.dart';
-import 'routes.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_list/ingredient_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/receipe_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
+import 'package:grocery_genie/widget/app_bar.dart';
 
 const List<DashboardRouteDescriptors> dashboardBottomNavDescriptors = [
   DashboardRouteDescriptors(
     routeName: GroceryListPage.route,
     label: 'Grocery Lists',
-    icon: Icon(Icons.assignment),
+    icon: Icon(Icons.shopping_cart),
   ),
   DashboardRouteDescriptors(
     routeName: RecipeListPage.route,
     label: 'Recipes',
-    icon: Icon(Icons.restaurant),
+    icon: Icon(Icons.book),
   ),
   DashboardRouteDescriptors(
-    routeName: 'un attainable right now.',
-    label: 'Stuff',
-    icon: Icon(Icons.healing),
+    routeName: IngredientListPage.route,
+    label: 'Ingredients',
+    icon: Icon(Icons.egg),
+    // icon: Icon(Icons.cookie),
+    // icon: Icon(Icons.egg_alt),
+    // icon: Icon(Icons.nutrition),
   ),
 ];
 

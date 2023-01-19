@@ -65,8 +65,8 @@ class ExplodingActionButtonState extends State<ExplodingActionButton> {
     super.initState();
   }
 
-  _initializeVariables() {
-    double buttonSpace = floatingActionButtonHeight + spacerSize;
+  void _initializeVariables() {
+    final double buttonSpace = floatingActionButtonHeight + spacerSize;
     final spaceRequired = buttonSpace * widget.children.length;
     choiceAreaWidth = widget.type.getRadius(spaceRequired);
     choiceAreaWidth = max(choiceAreaWidth, 2 * (floatingActionButtonHeight + spacerSize));
@@ -78,7 +78,7 @@ class ExplodingActionButtonState extends State<ExplodingActionButton> {
     _initializeVariables();
 
     final theme = Theme.of(context);
-    Widget mainButton = widget.overrideMainButtonWidget ?? FloatingActionButton(
+    final Widget mainButton = widget.overrideMainButtonWidget ?? FloatingActionButton(
       enableFeedback: false,
       focusElevation: 0,
       hoverElevation: 0,
@@ -108,7 +108,7 @@ class ExplodingActionButtonState extends State<ExplodingActionButton> {
             final angleIncrement = widget.type.arcLength / (widget.children.length - 1);
 
             double angle = (pi / 2) * 0;
-            List<Widget> positions = [];
+            final List<Widget> positions = [];
             for (final button in widget.children) {
               final double x = maxDistance * cos(angle) + additionalHeight;
               final double y = maxDistance * sin(angle);
@@ -157,10 +157,10 @@ class ExplodingActionButtonState extends State<ExplodingActionButton> {
       );
     }
 
-    double maxWidth = floatingChoiceActive //
+    final double maxWidth = floatingChoiceActive //
         ? choiceAreaWidth
         : floatingActionButtonHeight;
-    double maxHeight = maxWidth + additionalHeight;
+    final double maxHeight = maxWidth + additionalHeight;
 
     const Curve curve = Curves.easeIn;
     const Duration duration = Duration(milliseconds: 200);

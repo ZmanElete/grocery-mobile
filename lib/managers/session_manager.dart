@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:grocery_list/managers/measurement_manager.dart';
-import 'package:grocery_list/models/user.dart';
-import 'package:grocery_list/services/api/auth_api_service.dart';
-import 'package:grocery_list/services/api/user_api_service.dart';
+import 'package:grocery_genie/managers/measurement_manager.dart';
+import 'package:grocery_genie/models/user.dart';
+import 'package:grocery_genie/services/api/auth_api_service.dart';
+import 'package:grocery_genie/services/api/user_api_service.dart';
 
 class SessionManager {
   static SessionManager instance = SessionManager();
@@ -41,18 +41,18 @@ class SessionManager {
 
   Future<void> _onSuccessfulLogin() async {
     MeasurementManager.instance.init();
-    var user = await UserApiService.instance.current();
+    final user = await UserApiService.instance.current();
     _userStreamController.add(user);
   }
 
   Stream<User> _userStream() async* {
     if (user != null) yield user!;
-    await for (var user in _userStreamController.stream) {
+    await for (final user in _userStreamController.stream) {
       yield user;
     }
   }
 
-  dispose() {
+  void dispose() {
     _userStreamController.close();
   }
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:grocery_list/managers/grocery_list_manager.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
-import 'package:grocery_list/models/item_list.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/grocery_list/widgets/grocery_list_item.dart';
+import 'package:grocery_genie/managers/grocery_list_manager.dart';
+import 'package:grocery_genie/models/item_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/widgets/grocery_list_item.dart';
 
 class GroceryListPage extends StatefulWidget {
   static const String route = 'grocery-list';

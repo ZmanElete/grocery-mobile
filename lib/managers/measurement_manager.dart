@@ -1,5 +1,5 @@
-import 'package:grocery_list/models/measurement.dart';
-import 'package:grocery_list/services/api/measurement_api_service.dart';
+import 'package:grocery_genie/models/measurement.dart';
+import 'package:grocery_genie/services/api/measurement_api_service.dart';
 
 class MeasurementManager {
   static MeasurementManager instance = MeasurementManager();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/services/api/auth_api_service.dart';
+import 'package:grocery_genie/services/api/auth_api_service.dart';
 
 class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const GroceryAppBar({Key? key}) : super(key: key);

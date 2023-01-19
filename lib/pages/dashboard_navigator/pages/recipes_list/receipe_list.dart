@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/managers/recipe_manager.dart';
-import 'package:grocery_list/models/recipe.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/recipes_list/widgets/recipe_item.dart';
-import 'package:grocery_list/services/api/recipe_api_service.dart';
+import 'package:grocery_genie/managers/recipe_manager.dart';
+import 'package:grocery_genie/models/recipe.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/widgets/recipe_item.dart';
+import 'package:grocery_genie/services/api/recipe_api_service.dart';
 
 class RecipeListPage extends StatefulWidget {
   static const String route = 'recipe-list';
@@ -56,7 +56,7 @@ class RecipeListPageState extends State<RecipeListPage> {
         FloatingActionButton(
           heroTag: 'add-fab',
           onPressed: () async {
-            Recipe recipe = await RecipeApiService.instance.create(Recipe.empty());
+            final Recipe recipe = await RecipeApiService.instance.create(Recipe.empty());
             RecipeManager.instance.getRecipes();
             if (mounted) {
               await Navigator.of(context).pushNamed(

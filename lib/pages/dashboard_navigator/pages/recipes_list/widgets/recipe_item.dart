@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/managers/recipe_manager.dart';
+import 'package:grocery_genie/managers/recipe_manager.dart';
 
-import 'package:grocery_list/models/recipe.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
-import 'package:grocery_list/widget/confirm_delete_dialog.dart';
+import 'package:grocery_genie/models/recipe.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
+import 'package:grocery_genie/widget/confirm_delete_dialog.dart';
 
 class RecipeItem extends StatefulWidget {
   final Recipe recipe;
@@ -66,7 +66,7 @@ class _RecipeItemState extends State<RecipeItem> {
 
   /// Callback when mouse clicked on `Listener` wrapped widget.
   Future<void> _showMenu(BuildContext context) async {
-    RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
+    final RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
     // Check if right mouse button clicked
     final overlayBox = Overlay.of(context)?.context.findRenderObject() as RenderBox;
     final overlayLocalPosition = overlayBox.globalToLocal(

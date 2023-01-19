@@ -1,5 +1,5 @@
-import 'package:grocery_list/models/api_model.dart';
-import 'package:grocery_list/models/measurement.dart';
+import 'package:grocery_genie/models/api_model.dart';
+import 'package:grocery_genie/models/measurement.dart';
 
 class Item extends ApiModel {
   int? id;

@@ -1,5 +1,5 @@
-import 'package:grocery_list/models/api_model.dart';
-import 'package:grocery_list/models/user.dart';
+import 'package:grocery_genie/models/api_model.dart';
+import 'package:grocery_genie/models/user.dart';
 
 class Household extends ApiModel {
   String? id;
@@ -10,7 +10,7 @@ class Household extends ApiModel {
   Household.fromMap(Map<String, dynamic> map)
       : id = map['id']!,
         title = map['title']!,
-        users = map['user_set']?.map((u) => User.fromMap(u)).toList() ?? [];
+        users = map['user_set']?.map(User.fromMap).toList() ?? [];
 
   @override
   String? get pk => id;
@@ -37,6 +37,6 @@ class Household extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map['id']!;
     title = map['title']!;
-    users = map['user_set']?.map((u) => User.fromMap(u)).toList() ?? [];
+    users = map['user_set']?.map(User.fromMap).toList() ?? [];
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:grocery_list/services/service_locator.dart';
+import 'package:grocery_genie/services/service_locator.dart';
 
 import '../../models/api_model.dart';
 import 'model_rest_service.dart';
@@ -11,9 +11,9 @@ mixin CreateModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// POST /resource/
   /// If successful [response.data] is T
   Future<T> create(T model) async {
-    var dio = ServiceLocator.dio;
+    final dio = ServiceLocator.dio;
     try {
-      Response response = await dio.post(
+      final Response response = await dio.post(
         '/$resource/',
         data: model.toMap(),
         options: options(RestMethods.create),
@@ -32,9 +32,9 @@ mixin UpdateModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// PUT /resource/
   /// If successful [response.data] is T
   Future<T> update(T model) async {
-    var dio = ServiceLocator.dio;
+    final dio = ServiceLocator.dio;
     try {
-      Response response = await dio.put(
+      final Response response = await dio.put(
         '/$resource/${model.pk}/',
         data: model.toMap(),
         options: options(RestMethods.update),
@@ -53,9 +53,9 @@ mixin PartialUpdateListModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// PATCH /resource/
   /// If successful [response.data] is T
   Future<T> partialUpdateList(List<Map<String, dynamic>> records) async {
-    var dio = ServiceLocator.dio;
+    final dio = ServiceLocator.dio;
     try {
-      Response response = await dio.patch(
+      final Response response = await dio.patch(
         '/$resource/batch/',
         data: records,
         options: options(RestMethods.patch),
@@ -73,10 +73,10 @@ mixin PartialUpdateListModelMixin<T extends ApiModel> on GenericRestService<T> {
 mixin PatchModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// PATCH /resource/
   /// If successful [response.data] is T
-  Future<T> patch(T m, FormData fields, [bool loadOnResponse = true]) async {
-    var dio = ServiceLocator.dio;
+  Future<T> patch(T m, FormData fields, {bool loadOnResponse = true}) async {
+    final dio = ServiceLocator.dio;
     try {
-      Response response = await dio.patch(
+      final Response response = await dio.patch(
         '/$resource/${m.pk}/',
         data: fields,
         options: options(RestMethods.patch),
@@ -96,7 +96,7 @@ mixin PatchModelMixin<T extends ApiModel> on GenericRestService<T> {
 mixin DeleteModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// DELETE /resource/
   Future<void> delete(T model) async {
-    var dio = ServiceLocator.dio;
+    final dio = ServiceLocator.dio;
     try {
       await dio.delete(
         '/$resource/${model.pk}/',
@@ -115,9 +115,9 @@ mixin GetModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// GET /resource/:id
   /// If successful [response.data] is T
   Future<T> get(dynamic id, {Map<String, dynamic>? params}) async {
-    var dio = ServiceLocator.dio;
+    final dio = ServiceLocator.dio;
     try {
-      Response response = await dio.get(
+      final Response response = await dio.get(
         '/$resource/$id/',
         options: options(RestMethods.get),
         queryParameters: params ?? {},
@@ -137,10 +137,10 @@ mixin ListModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// GET /resource/
   /// If successful [response.data] is List<T>
   Future<List<T>> list({Map<String, dynamic>? queryParameters}) async {
-    var dio = ServiceLocator.dio;
+    final dio = ServiceLocator.dio;
     try {
-      var options = this.options(RestMethods.list);
-      Response response = await dio.get(
+      final options = this.options(RestMethods.list);
+      final Response response = await dio.get(
         '/$resource/',
         options: options,
         queryParameters: queryParameters,

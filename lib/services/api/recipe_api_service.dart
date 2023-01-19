@@ -1,6 +1,6 @@
-import 'package:grocery_list/models/recipe.dart';
-import 'package:grocery_list/services/api/rest_methods.dart';
-import 'package:grocery_list/services/api/model_rest_service.dart';
+import 'package:grocery_genie/models/recipe.dart';
+import 'package:grocery_genie/services/api/model_rest_service.dart';
+import 'package:grocery_genie/services/api/rest_methods.dart';
 
 class RecipeApiService extends GenericRestService<Recipe>
     with

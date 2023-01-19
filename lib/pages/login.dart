@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/helpers/http_helpers.dart';
-import 'package:grocery_list/managers/session_manager.dart';
-import 'package:grocery_list/models/config.dart';
-import 'package:grocery_list/pages/dashboard_navigator/dashboard_scaffold.dart';
-import 'package:grocery_list/services/api/auth_api_service.dart';
+import 'package:grocery_genie/helpers/http_helpers.dart';
+import 'package:grocery_genie/managers/session_manager.dart';
+import 'package:grocery_genie/models/config.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
+import 'package:grocery_genie/services/api/auth_api_service.dart';
 
 class LoginPage extends StatefulWidget {
   static const route = 'login_page';
@@ -94,8 +94,8 @@ class LoginPageState extends State<LoginPage> {
 
   Future<void> login(context) async {
     if (formKey.currentState != null && formKey.currentState!.validate()) {
-      var email = emailController.text;
-      var password = passwordController.text;
+      final email = emailController.text;
+      final password = passwordController.text;
       try {
         await SessionManager.instance.login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(

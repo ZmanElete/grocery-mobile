@@ -1,4 +1,4 @@
-name: grocery_list
+name: grocery_genie
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -30,8 +30,21 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^2.0.1
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: "assets/grocery-genie-logo.png"
+  min_sdk_android: 16
+  ios: true
+  android: true
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/grocery-genie-logo.png"
+    background_color: "#fff"
+    theme_color: "#fff"
 
 flutter:
   uses-material-design: true #material Icons

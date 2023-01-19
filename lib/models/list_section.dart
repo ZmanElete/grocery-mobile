@@ -1,5 +1,5 @@
-import 'package:grocery_list/models/api_model.dart';
-import 'package:grocery_list/models/item_list.dart';
+import 'package:grocery_genie/models/api_model.dart';
+import 'package:grocery_genie/models/item_list.dart';
 
 import 'recipe.dart';
 

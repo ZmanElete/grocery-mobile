@@ -1,4 +1,4 @@
-import 'package:grocery_list/services/api/rest_methods.dart';
+import 'package:grocery_genie/services/api/rest_methods.dart';
 
 import '../../models/item_list.dart';
 import 'model_rest_service.dart';

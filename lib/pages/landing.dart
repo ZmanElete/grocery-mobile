@@ -15,7 +15,7 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
+    final token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
     if (token != null) autoLogin(context);
     return Scaffold(
       body: Column(
@@ -52,7 +52,7 @@ class LandingPage extends StatelessWidget {
     );
   }
 
-  void autoLogin(context) async {
+  Future<void> autoLogin(context) async {
     bool success = false;
     success = await SessionManager.instance.autoLogin();
     if (success) {

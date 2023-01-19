@@ -1,4 +1,4 @@
-import 'package:grocery_list/models/api_model.dart';
+import 'package:grocery_genie/models/api_model.dart';
 
 import 'household.dart';
 

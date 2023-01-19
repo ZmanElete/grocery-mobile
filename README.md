@@ -1,4 +1,4 @@
-# grocery_list
+# grocery_genie
 
 A new Flutter project.
 

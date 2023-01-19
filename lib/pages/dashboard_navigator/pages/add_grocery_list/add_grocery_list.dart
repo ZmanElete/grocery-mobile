@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import '/managers/session_manager.dart';
-import '/models/item_list.dart';
-import '/models/item.dart';
-import '/services/api/item_api_service.dart';
-import '/services/api/list_api_service.dart';
-import 'widgets/add_item_dialog.dart';
+import 'package:grocery_genie/managers/session_manager.dart';
+import 'package:grocery_genie/models/item.dart';
+import 'package:grocery_genie/models/item_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
+import 'package:grocery_genie/services/api/item_api_service.dart';
+import 'package:grocery_genie/services/api/list_api_service.dart';
 
 class AddGroceryListPageArguments {
   final ItemList? itemList;
@@ -36,7 +35,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    final theme = Theme.of(context);
     return Scaffold(
       floatingActionButton: floatingActionButton(),
       appBar: AppBar(
@@ -120,7 +119,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
       children: [
         FloatingActionButton(
           heroTag: 'add-fab',
-          onPressed: () => showEditItemDialog(),
+          onPressed: showEditItemDialog,
           child: const Icon(
             Icons.add,
             size: 35,
@@ -132,7 +131,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
         ),
         FloatingActionButton(
           heroTag: 'confirm-fab',
-          onPressed: () => _submit(),
+          onPressed: _submit,
           child: const Icon(
             Icons.check,
             size: 35,
@@ -143,8 +142,8 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
     );
   }
 
-  void showEditItemDialog([Item? item]) async {
-    var response = await showDialog(
+  Future<void> showEditItemDialog([Item? item]) async {
+    final response = await showDialog(
       context: context,
       builder: (_) => EditItemDialog(
         item: item,
@@ -158,14 +157,14 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
     }
   }
 
-  void _submit() async {
+  Future<void> _submit() async {
     if (_formKey.currentState?.validate() ?? false) {
       ItemList list;
       if (widget.itemList != null) {
-        list = widget.itemList!;
-        list.title = _titleController.text;
-        list.active = true;
-        list.items = items;
+        list = widget.itemList!
+        ..title = _titleController.text
+        ..active = true
+        ..items = items;
         list = await ItemListApiService.instance.update(list);
       } else {
         list = ItemList(

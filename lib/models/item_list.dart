@@ -1,5 +1,5 @@
-import 'package:grocery_list/models/api_model.dart';
-import 'package:grocery_list/models/item.dart';
+import 'package:grocery_genie/models/api_model.dart';
+import 'package:grocery_genie/models/item.dart';
 
 class ItemList extends ApiModel {
   int? id;
@@ -28,7 +28,7 @@ class ItemList extends ApiModel {
         title = map['title']!,
         household = map['household'],
         active = map['active']!,
-        items = List<Item>.from(map['item_set']?.map((i) => Item.fromMap(i)).toList() ?? []);
+        items = List<Item>.from(map['item_set']?.map(Item.fromMap).toList() ?? []);
 
   static ItemList createFromMap(Map<String, dynamic> map) {
     return ItemList.fromMap(map);
@@ -65,6 +65,6 @@ class ItemList extends ApiModel {
     title = map['title']!;
     household = map['household']!;
     active = map['active']!;
-    items = map['item_set']?.map((i) => Item.fromMap(i)).toList() ?? [];
+    items = map['item_set']?.map(Item.fromMap).toList() ?? [];
   }
 }

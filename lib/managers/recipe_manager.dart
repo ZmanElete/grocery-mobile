@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/models/recipe.dart';
-import 'package:grocery_list/services/api/recipe_api_service.dart';
+import 'package:grocery_genie/models/recipe.dart';
+import 'package:grocery_genie/services/api/recipe_api_service.dart';
 
 class RecipeManager {
   static RecipeManager instance = RecipeManager();

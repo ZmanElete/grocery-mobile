@@ -23,7 +23,7 @@ class EditItemDialogState extends State<EditItemDialog> {
   final double outsidePadding = 16;
 
   @override
-  initState() {
+  void initState() {
     if (widget.item != null) {
       titleController.text = widget.item!.title;
       quantityController.text = widget.item!.quantity.toString();
@@ -137,8 +137,8 @@ class EditItemDialogState extends State<EditItemDialog> {
     );
   }
 
-  _submit() {
-    var valid = formKey.currentState!.validate();
+  void _submit() {
+    final valid = formKey.currentState!.validate();
     if (valid) {
       Item item;
       if (widget.item == null) {
@@ -148,10 +148,10 @@ class EditItemDialogState extends State<EditItemDialog> {
           quantity: double.parse(quantityController.text),
         );
       } else {
-        item = widget.item!;
-        item.title = titleController.text;
-        item.measurement = measurement!;
-        item.quantity = double.parse(quantityController.text);
+        item = widget.item!
+        ..title = titleController.text
+        ..measurement = measurement!
+        ..quantity = double.parse(quantityController.text);
       }
       Navigator.pop(context, item);
     }

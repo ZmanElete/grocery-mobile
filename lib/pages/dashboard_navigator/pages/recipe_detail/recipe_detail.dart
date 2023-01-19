@@ -1,13 +1,12 @@
-import 'dart:developer' as dev;
-
 import 'package:flutter/material.dart';
-import 'package:grocery_list/models/item.dart';
-import 'package:grocery_list/models/recipe.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
-import 'package:grocery_list/services/api/recipe_api_service.dart';
-import 'package:grocery_list/widget/editable_text_field.dart';
-import 'package:grocery_list/widget/editable_text_form.dart';
-import 'package:grocery_list/widget/exploading_fab.dart';
+
+import 'package:grocery_genie/models/item.dart';
+import 'package:grocery_genie/models/recipe.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
+import 'package:grocery_genie/services/api/recipe_api_service.dart';
+import 'package:grocery_genie/widget/editable_text_field.dart';
+import 'package:grocery_genie/widget/editable_text_form.dart';
+import 'package:grocery_genie/widget/exploading_fab.dart';
 
 class RecipeDetailPageArgs {
   final Recipe recipe;
@@ -155,21 +154,24 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
             ),
           ),
           const SizedBox(height: 15),
-          // Padding(
-          //   padding: theme.inputDecorationTheme.contentPadding ?? EdgeInsets.zero,
-          //   child: Text(
-          //     'Instructions',
-          //     style: theme.textTheme.labelLarge,
-          //   ),
-          // ),
-          EditableTextField(
-            hint: 'Instructions',
-            initialText: recipe.instructions,
-            keyboardType: TextInputType.multiline,
-            minLines: 15,
-            onValueConfirmed: (String text) {
-              recipe.instructions = text;
-            },
+          Padding(
+            padding: theme.inputDecorationTheme.contentPadding ?? EdgeInsets.zero,
+            child: Text(
+              'Instructions',
+              style: theme.textTheme.labelLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 12),
+            child: EditableTextField(
+              hint: 'Instructions',
+              initialText: recipe.instructions,
+              keyboardType: TextInputType.multiline,
+              minLines: 15,
+              onValueConfirmed: (String text) {
+                recipe.instructions = text;
+              },
+            ),
           ),
         ],
       ),
@@ -218,7 +220,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   Widget _addItemButton(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(15),
-      onTap: () => editItem(),
+      onTap: editItem,
       child: const Padding(
         padding: EdgeInsets.all(4.0),
         child: Icon(Icons.add),
@@ -227,7 +229,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   }
 
   Future<void> editItem({Item? item}) async {
-    bool creating = item == null;
+    final bool creating = item == null;
     item = await showDialog(
       context: context,
       builder: (context) => EditItemDialog(item: item),

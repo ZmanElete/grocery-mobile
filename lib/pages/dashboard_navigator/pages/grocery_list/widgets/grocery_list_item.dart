@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:grocery_list/managers/grocery_list_manager.dart';
-import 'package:grocery_list/models/item_list.dart';
-import 'package:grocery_list/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
-import 'package:grocery_list/services/api/item_api_service.dart';
-import 'package:grocery_list/widget/confirm_delete_dialog.dart';
+import 'package:grocery_genie/managers/grocery_list_manager.dart';
+import 'package:grocery_genie/models/item_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
+import 'package:grocery_genie/services/api/item_api_service.dart';
+import 'package:grocery_genie/widget/confirm_delete_dialog.dart';
 
 class GroceryListItem extends StatefulWidget {
   final ItemList list;
@@ -82,7 +82,7 @@ class GroceryListItemState extends State<GroceryListItem> {
 
   /// Callback when mouse clicked on `Listener` wrapped widget.
   Future<void> _showMenu(BuildContext context) async {
-    RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
+    final RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
     // Check if right mouse button clicked
     final overlayBox = Overlay.of(context)?.context.findRenderObject() as RenderBox;
     final overlayLocalPosition = overlayBox.globalToLocal(

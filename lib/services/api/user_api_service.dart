@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:grocery_list/helpers/http_helpers.dart';
-import 'package:grocery_list/models/user.dart';
-import 'package:grocery_list/services/api/model_rest_service.dart';
-import 'package:grocery_list/services/api/rest_service.dart';
+import 'package:grocery_genie/helpers/http_helpers.dart';
+import 'package:grocery_genie/models/user.dart';
+import 'package:grocery_genie/services/api/model_rest_service.dart';
+import 'package:grocery_genie/services/api/rest_service.dart';
 
 import '../service_locator.dart';
 import 'auth_api_service.dart';
@@ -19,12 +19,12 @@ class UserApiService extends GenericRestService<User> {
 
   Future<User> current({allowRefresh = true}) async {
     try {
-      Response response = await ServiceLocator.dio.get(
+      final Response response = await ServiceLocator.dio.get(
         '/$resource/current/',
         options: options(RestMethods.get),
       );
       HttpHelpers.checkError(response);
-      var map = response.data;
+      final map = response.data;
       return modelFromMap(map);
     } on HttpNotAuthorized {
       if (allowRefresh) {

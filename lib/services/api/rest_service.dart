@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:grocery_list/services/api/auth_api_service.dart';
-import 'package:grocery_list/services/service_locator.dart';
+import 'package:grocery_genie/services/api/auth_api_service.dart';
+import 'package:grocery_genie/services/service_locator.dart';
 
 import 'http_exceptions.dart';
 
@@ -19,16 +19,16 @@ abstract class RestService {
   RestService({this.authenticatedActions = RestMethods.values});
 
   Options options(RestMethods method) {
-    var prefs = ServiceLocator.prefs;
-    var token = prefs.get(AuthApiService.ACCESS_TOKEN_KEY);
-    var options = Options();
+    final prefs = ServiceLocator.prefs;
+    final token = prefs.get(AuthApiService.ACCESS_TOKEN_KEY);
+    final options = Options();
     if (authenticatedActions.contains(method)) {
       options.headers = {"Authorization": "JWT $token"};
     }
     return options;
   }
 
-  checkError(dynamic response) {
+  void checkError(dynamic response) {
     if (response is Response) {
       if (response.isRedirect ?? false || (response.statusCode! >= 300 && response.statusCode! < 400)) {
         throw RedirectionException(response, message: response.statusMessage ?? 'redirect');

@@ -1,12 +1,14 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:grocery_list/helpers/http_helpers.dart';
-import 'package:grocery_list/models/config.dart';
-import 'package:grocery_list/pages/landing.dart';
-import 'package:grocery_list/services/service_locator.dart';
+import 'package:grocery_genie/helpers/http_helpers.dart';
+import 'package:grocery_genie/models/config.dart';
+import 'package:grocery_genie/pages/landing.dart';
+import 'package:grocery_genie/services/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthApiService {
@@ -40,23 +42,24 @@ class AuthApiService {
 
   /// Returns whether it was a successful login or not
   Future<void> login({required String email, required String password}) async {
-    var login = {"email": email, "password": password};
-    var response = await ServiceLocator.dio.post(
+    final login = {"email": email, "password": password};
+    final response = await ServiceLocator.dio.post(
       loginUrl,
       data: login,
     );
     HttpHelpers.checkError(response);
-    var data = response.data;
-    prefs.setString(ACCESS_TOKEN_KEY, data['access']!);
-    prefs.setString(REFRESH_TOKEN_KEY, data['refresh']!);
+    final data = response.data;
+    prefs
+      ..setString(ACCESS_TOKEN_KEY, data['access']!)
+      ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
   }
 
   /// Returns whether the access token is valid or not
   Future<bool> verifyAccessToken() async {
     try {
-      String? token = prefs.getString(ACCESS_TOKEN_KEY);
+      final String? token = prefs.getString(ACCESS_TOKEN_KEY);
       if (token != null) {
-        Response response = await ServiceLocator.dio.post(
+        final Response response = await ServiceLocator.dio.post(
           verifyUrl,
           data: {
             'token': token,
@@ -67,14 +70,14 @@ class AuthApiService {
       }
       return false;
     } on HttpNotAuthorized {
-      return await refreshAccessToken();
+      return refreshAccessToken();
     }
   }
 
   /// Returns whether the token was successfully refreshed or not
   Future<bool> refreshAccessToken() async {
     try {
-      String? token = prefs.getString(ACCESS_TOKEN_KEY);
+      final String? token = prefs.getString(ACCESS_TOKEN_KEY);
       if (token == null) {
         throw HttpNotAuthorized(
           Response(
@@ -84,16 +87,17 @@ class AuthApiService {
           ),
         );
       }
-      Response response = await ServiceLocator.dio.post(
+      final Response response = await ServiceLocator.dio.post(
         refreshUrl,
         data: {
           'refresh': token,
         },
       );
       HttpHelpers.checkError(response);
-      var data = response.data;
-      prefs.setString(ACCESS_TOKEN_KEY, data['access']!);
-      prefs.setString(REFRESH_TOKEN_KEY, data['refresh']!);
+      final data = response.data;
+      prefs
+        ..setString(ACCESS_TOKEN_KEY, data['access']!)
+        ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
       return true;
     } catch (e) {
       log(e.toString());
@@ -101,9 +105,10 @@ class AuthApiService {
     }
   }
 
-  void logout(context) async {
-    prefs.remove(ACCESS_TOKEN_KEY);
-    prefs.remove(REFRESH_TOKEN_KEY);
+  Future<void> logout(context) async {
+    prefs
+      ..remove(ACCESS_TOKEN_KEY)
+      ..remove(REFRESH_TOKEN_KEY);
     Navigator.pushNamedAndRemoveUntil(
       context,
       LandingPage.route,
