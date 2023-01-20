@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_genie/pages/splash_page.dart';
 
 import '/pages/dashboard_navigator/routes.dart';
 import 'landing.dart';
@@ -11,8 +12,10 @@ Route<dynamic> onGenerateBaseRoutes(RouteSettings settings) {
     builder = (context) => const LoginPage();
   } else if (bottomNavRoutes.contains(settings.name)) {
     return onGenerateDashboardRoutes(settings);
+  } else if (settings.name == SplashPage.route) {
+    builder = (context) => const SplashPage();
   } else {
-    builder = (context) => LandingPage();
+    builder = (context) => const LandingPage();
   }
 
   return MaterialPageRoute(builder: builder, settings: settings);

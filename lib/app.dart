@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'pages/routes.dart';
-import 'theme/theme.dart';
+import 'package:grocery_genie/consts.dart';
+import 'package:grocery_genie/pages/routes.dart';
+import 'package:grocery_genie/pages/splash_page.dart';
+import 'package:grocery_genie/theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -9,9 +11,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Grocery App',
+      title: Constants.appName,
       theme: AppTheme.theme,
-      initialRoute: 'landing',
+      initialRoute: SplashPage.route,
       onGenerateRoute: onGenerateBaseRoutes,
     );
   }

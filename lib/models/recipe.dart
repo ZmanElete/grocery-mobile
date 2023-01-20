@@ -1,5 +1,6 @@
 import 'package:grocery_genie/models/api_model.dart';
 import 'package:grocery_genie/models/item_list.dart';
+import 'package:grocery_genie/models/tag.dart';
 
 class Recipe extends ApiModel {
   int? id;
@@ -8,6 +9,7 @@ class Recipe extends ApiModel {
   String instructions;
   int standardServing;
   ItemList list;
+  List<Tag> tags;
 
   Recipe({
     this.id,
@@ -16,6 +18,7 @@ class Recipe extends ApiModel {
     required this.instructions,
     required this.standardServing,
     required this.list,
+    this.tags = const [],
   });
 
   factory Recipe.empty() => Recipe(
@@ -24,6 +27,7 @@ class Recipe extends ApiModel {
         instructions: '',
         standardServing: 0,
         list: ItemList.empty(),
+        tags: [],
       );
 
   Recipe.fromMap(Map<String, dynamic> map)
@@ -32,7 +36,9 @@ class Recipe extends ApiModel {
         household = map['household'],
         instructions = map['instructions'],
         standardServing = map['standard_serving'],
-        list = ItemList.fromMap(map['list']);
+        list = ItemList.fromMap(map['list']),
+        // ignore: unnecessary_lambdas
+        tags = List<Tag>.from(map['tags']?.map((m) => Tag.fromMap(m)).toList() ?? []);
 
   @override
   ApiModel clone() {
@@ -43,6 +49,7 @@ class Recipe extends ApiModel {
       instructions: instructions,
       standardServing: standardServing,
       list: list,
+      tags: tags.map((tag) => tag.clone()).toList(),
     );
   }
 
@@ -58,6 +65,7 @@ class Recipe extends ApiModel {
       'instructions': instructions,
       'standard_serving': standardServing,
       'list': list.toMap(),
+      'tags': tags.map((tag) => tag.toMap()).toList(),
     };
   }
 
@@ -69,5 +77,6 @@ class Recipe extends ApiModel {
     instructions = map['instructions']!;
     standardServing = map['standard_serving']!;
     list = ItemList.fromMap(map['list']);
+    tags = map['tags']?.map(Tag.fromMap).toList() ?? [];
   }
 }

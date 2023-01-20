@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_genie/consts.dart';
 import 'package:grocery_genie/services/api/auth_api_service.dart';
 
 class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,7 +10,7 @@ class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Hero(
       tag: 'grocery-app-bar',
       child: AppBar(
-        title: const Text("Grocery App"),
+        title: const Text(Constants.appName),
         centerTitle: true,
         actions: [
           IconButton(
