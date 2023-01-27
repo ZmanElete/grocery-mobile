@@ -84,7 +84,7 @@ class GroceryListItemState extends State<GroceryListItem> {
   Future<void> _showMenu(BuildContext context) async {
     final RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
     // Check if right mouse button clicked
-    final overlayBox = Overlay.of(context)?.context.findRenderObject() as RenderBox;
+    final overlayBox = Overlay.of(context).context.findRenderObject() as RenderBox;
     final overlayLocalPosition = overlayBox.globalToLocal(
       thisObjectBox.localToGlobal(
         Offset(thisObjectBox.constraints.maxWidth, 0),
@@ -127,7 +127,7 @@ class GroceryListItemState extends State<GroceryListItem> {
             ),
           );
           if (result == true) {
-            await GroceryListManager.instance.deleteList(widget.list);
+            await GroceryListManager.instance.deleteItem(widget.list);
           }
           setState(() {});
           break;

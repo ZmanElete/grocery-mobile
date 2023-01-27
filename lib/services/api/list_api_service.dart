@@ -1,17 +1,7 @@
-import 'package:grocery_genie/services/api/rest_methods.dart';
+import 'package:grocery_genie/models/item_list.dart';
+import 'package:grocery_genie/services/api/model_rest_service.dart';
 
-import '../../models/item_list.dart';
-import 'model_rest_service.dart';
-
-class ItemListApiService extends GenericRestService<ItemList>
-    with
-        ListModelMixin,
-        DeleteModelMixin,
-        CreateModelMixin,
-        UpdateModelMixin,
-        PartialUpdateListModelMixin,
-        GetModelMixin {
-
+class ItemListApiService extends ModelRestService<ItemList> {
   static ItemListApiService get instance => _instance != null ? _instance! : ItemListApiService();
   static ItemListApiService? _instance;
 

@@ -32,11 +32,12 @@ class SessionManager {
     try {
       success = await authApiService.verifyAccessToken();
       await _onSuccessfulLogin();
+      return success;
     } catch (e) {
       //If the login is not successful it will error and leave this function here.
-      rethrow;
+      // rethrow;
+      return false;
     }
-    return success;
   }
 
   Future<void> _onSuccessfulLogin() async {

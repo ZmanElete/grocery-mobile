@@ -1,18 +1,13 @@
-import 'package:flutter/foundation.dart';
+import 'package:grocery_genie/managers/list_manager.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/services/api/list_api_service.dart';
 
-class GroceryListManager {
+class GroceryListManager extends ListManager<ItemList, ItemListApiService> {
   static GroceryListManager instance = GroceryListManager();
 
-  ValueNotifier<List<ItemList>?> lists = ValueNotifier(null);
+  @override
+  String get contentEmpty => "No Grocery Lists";
 
-  Future<void> getLists() async {
-    lists.value = await ItemListApiService.instance.list();
-  }
-
-  Future<void> deleteList(ItemList list) async {
-    await ItemListApiService.instance.delete(list);
-    await getLists();
-  }
+  @override
+  ItemListApiService get apiService => ItemListApiService.instance;
 }

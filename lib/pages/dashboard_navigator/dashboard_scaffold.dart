@@ -26,6 +26,11 @@ const List<DashboardRouteDescriptors> dashboardBottomNavDescriptors = [
     // icon: Icon(Icons.egg_alt),
     // icon: Icon(Icons.nutrition),
   ),
+  // DashboardRouteDescriptors(
+  //   routeName: IngredientListPage.route,
+  //   label: 'Tags',
+  //   icon: Icon(Icons.tag),
+  // ),
 ];
 
 class DashboardScaffold extends StatefulWidget {
@@ -71,6 +76,11 @@ class DashboardScaffoldState extends State<DashboardScaffold> {
     return Hero(
       tag: 'dashboard-scaffold-bottom-nav',
       child: BottomNavigationBar(
+        // With more than 4 items in the bottom nav flutter swaps the default
+        // type from "fixed" to "shifting" automatically.
+        // This causes the background color to no longer work.
+        // Explicitly setting to "fixed" to avoid this issue.
+        type: BottomNavigationBarType.fixed,
         currentIndex: dashboardBottomNavDescriptors.indexWhere(
           (element) => element.routeName == widget.activeRoute,
         ),

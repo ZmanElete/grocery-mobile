@@ -5,8 +5,7 @@ import 'package:grocery_genie/services/api/rest_methods.dart';
 class TagApiService extends GenericRestService<Tag>
     with //
         ListModelMixin,
-        DeleteModelMixin,
-        CreateModelMixin {
+        DeleteModelMixin {
   static TagApiService get instance => _instance != null //
       ? _instance!
       : TagApiService();

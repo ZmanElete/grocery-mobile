@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/widget/editable_text_form.dart';
 
+enum EditableTextBehavior {
+  clearOnConfirm,
+}
+
 class EditableTextField extends StatefulWidget {
   final String? initialText;
   final Function(String) onValueConfirmed;
@@ -11,6 +15,8 @@ class EditableTextField extends StatefulWidget {
   final double? iconSize;
   final VoidCallback? onEditPressedOverride;
   final int? minLines;
+  final List<EditableTextBehavior> behaviors;
+  final Future<List<String>> Function(String)? getPotentialOptions;
 
   const EditableTextField({
     required this.onValueConfirmed,
@@ -22,6 +28,8 @@ class EditableTextField extends StatefulWidget {
     this.iconSize,
     this.onEditPressedOverride,
     this.minLines,
+    this.behaviors = const [],
+    this.getPotentialOptions,
     super.key,
   });
 
@@ -99,6 +107,7 @@ class _EditableTextFieldState extends State<EditableTextField> {
       keyboardType: widget.keyboardType,
       minLines: widget.minLines,
       maxLines: widget.minLines != null ? 10000 : null,
+      onChanged: _showSearchOptions,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(15),
         hintText: widget.hint,
@@ -111,6 +120,9 @@ class _EditableTextFieldState extends State<EditableTextField> {
             IconButton(
               onPressed: () {
                 widget.onValueConfirmed(textEditingController.text);
+                if (widget.behaviors.contains(EditableTextBehavior.clearOnConfirm)) {
+                  textEditingController.text = '';
+                }
                 currentValue = textEditingController.text;
                 _stopEditing();
               },
@@ -121,6 +133,9 @@ class _EditableTextFieldState extends State<EditableTextField> {
             IconButton(
               onPressed: () {
                 textEditingController.text = currentValue;
+                if (widget.behaviors.contains(EditableTextBehavior.clearOnConfirm)) {
+                  textEditingController.text = '';
+                }
                 _stopEditing();
               },
               splashRadius: iconButtonSplashRadius,
@@ -198,6 +213,46 @@ class _EditableTextFieldState extends State<EditableTextField> {
         ],
       ),
     );
+  }
+
+  Future<void> _showSearchOptions(String value) async {
+    if (widget.getPotentialOptions == null || value.trim().isEmpty) {
+      return;
+    }
+    final searchOptions = await widget.getPotentialOptions!.call(value);
+    if (!mounted || searchOptions.isEmpty) return;
+
+    final RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
+    // Check if right mouse button clicked
+    final overlayBox = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final overlayLocalPosition = overlayBox.globalToLocal(
+      thisObjectBox.localToGlobal(
+        Offset(thisObjectBox.constraints.maxWidth, thisObjectBox.constraints.maxHeight),
+      ),
+    );
+
+    final selectedOption = await showMenu<int>(
+      context: context,
+      items: [
+        for (int i = 0; i < searchOptions.length; i++)
+          PopupMenuItem(
+            value: i,
+            child: Text(searchOptions[i]),
+          ),
+      ],
+      // constraints: BoxConstraints(maxHeight: ),
+      position: RelativeRect.fromRect(
+        overlayLocalPosition & Size.zero,
+        Offset.zero & overlayBox.size,
+      ),
+    );
+
+    // Check if menu item clicked
+    if (mounted && selectedOption != null) {
+      textEditingController.text = searchOptions[selectedOption];
+      currentValue = textEditingController.text;
+      setState(() {});
+    }
   }
 
   void _edit() {

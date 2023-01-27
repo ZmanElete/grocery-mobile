@@ -3,21 +3,25 @@ import 'package:grocery_genie/models/api_model.dart';
 class Tag extends ApiModel {
   int? id;
   String title;
+  String onType;
 
   Tag({
     required this.title,
+    this.onType = '',
     this.id,
   });
 
   Tag.fromMap(Map<String, dynamic> map)
       : id = map['id'],
-        title = map['title'];
+        title = map['title'],
+        onType = map['on_type'];
 
   @override
   Tag clone() {
     return Tag(
       id: id,
       title: title,
+      onType: onType,
     );
   }
 
@@ -25,6 +29,7 @@ class Tag extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     title = map['title'];
+    onType = map['on_type'];
   }
 
   @override
@@ -35,6 +40,7 @@ class Tag extends ApiModel {
     return {
       'id': id,
       'title': title,
+      'on_type': onType,
     };
   }
 }

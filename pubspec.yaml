@@ -28,6 +28,7 @@ dependencies:
   cupertino_icons:
   dio: ^4.0.6
   page_transition: ^2.0.9
+  logging: ^1.1.1
 
 dev_dependencies:
   flutter_lints: ^2.0.1

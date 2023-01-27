@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_detail/ingredient_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_list/ingredient_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/receipe_list.dart';
@@ -26,6 +28,7 @@ const List<String> bottomNavRoutes = [
   AddGroceryListPage.route,
   RecipeDetailPage.route,
   IngredientListPage.route,
+  IngredientDetailPage.route,
 ];
 
 class DashboardRoute extends MaterialPageRoute {
@@ -71,9 +74,21 @@ DashboardRoute onGenerateDashboardRoutes(RouteSettings settings) {
           recipe: args.recipe,
           editing: args.editing,
         );
-  } else if (settings.name == IngredientListPage.route){
+  } else if (settings.name == IngredientListPage.route) {
     bottomNavHighlightedRoute = IngredientListPage.route;
     builder = (context) => const IngredientListPage();
+  } else if (settings.name == IngredientDetailPage.route) {
+    bottomNavHighlightedRoute = IngredientListPage.route;
+    Ingredient? ingredient;
+    bool? editing;
+    if (args is IngredientDetailPageArgs) {
+      ingredient = args.ingredient;
+      editing = args.editing;
+    }
+    builder = (context) => IngredientDetailPage(
+      ingredient: ingredient,
+      editing: editing,
+    );
   } else {
     bottomNavHighlightedRoute = GroceryListPage.route;
     builder = (context) => const GroceryListPage();

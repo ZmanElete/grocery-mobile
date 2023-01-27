@@ -1,19 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:grocery_genie/managers/list_manager.dart';
 import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/services/api/ingredient_api_service.dart';
 
-class IngredientManager {
-  static IngredientManager instance = IngredientManager();
+class IngredientListManager extends ListManager<Ingredient, IngredientApiService> {
+  static IngredientListManager instance = IngredientListManager();
 
-  ValueNotifier<List<Ingredient>?> lists = ValueNotifier(null);
+  @override
+  String get contentEmpty => "No Ingredients";
 
-  Future<void> getLists() async {
-    lists.value = await IngredientApiService.instance.list();
-  }
-
-  Future<void> deleteList(Ingredient list) async {
-    await IngredientApiService.instance.delete(list);
-    await getLists();
-  }
-
+  @override
+  IngredientApiService get apiService => IngredientApiService.instance;
 }

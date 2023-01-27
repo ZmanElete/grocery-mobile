@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_genie/managers/recipe_manager.dart';
+import 'package:grocery_genie/managers/ingredient_manager.dart';
+import 'package:grocery_genie/models/ingredient.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_detail/ingredient_detail.dart';
 
-import 'package:grocery_genie/models/recipe.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
 import 'package:grocery_genie/widget/confirm_delete_dialog.dart';
 
-class RecipeItem extends StatefulWidget {
-  final Recipe recipe;
-  RecipeItem({required this.recipe, Key? key}) : super(key: key ?? ValueKey('Recipe-${recipe.id}'));
+class IngredientItem extends StatefulWidget {
+  final Ingredient ingredient;
+  IngredientItem({required this.ingredient, Key? key})
+      : super(key: key ?? ValueKey('Ingredient-${ingredient.id}'));
 
   @override
-  State<RecipeItem> createState() => _RecipeItemState();
+  State<IngredientItem> createState() => _IngredientItemState();
 }
 
-class _RecipeItemState extends State<RecipeItem> {
+class _IngredientItemState extends State<IngredientItem> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return InkWell(
       onTap: () {
         Navigator.of(context).pushNamed(
-          RecipeDetailPage.route,
-          arguments: RecipeDetailPageArgs(recipe: widget.recipe),
+          IngredientDetailPage.route,
+          arguments: IngredientDetailPageArgs(
+            ingredient: widget.ingredient,
+            editing: null,
+          ),
         );
       },
       child: Padding(
@@ -36,22 +40,11 @@ class _RecipeItemState extends State<RecipeItem> {
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
                   child: Text(
-                    widget.recipe.title,
+                    widget.ingredient.title,
                     style: theme.textTheme.titleLarge,
                   ),
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(Icons.people_alt_rounded),
-                    const SizedBox(width: 5),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: Text(widget.recipe.standardServing.toString()),
-                    ),
-                  ],
-                )
+                // const SizedBox(height: 10),
               ],
             ),
             IconButton(
@@ -99,8 +92,8 @@ class _RecipeItemState extends State<RecipeItem> {
       switch (menuItem) {
         case 1:
           await Navigator.of(context).pushNamed(
-            RecipeDetailPage.route,
-            arguments: RecipeDetailPageArgs(recipe: widget.recipe),
+            IngredientDetailPage.route,
+            arguments: IngredientDetailPageArgs(ingredient: widget.ingredient),
           );
           setState(() {});
           break;
@@ -108,11 +101,11 @@ class _RecipeItemState extends State<RecipeItem> {
           final result = await showDialog(
             context: context,
             builder: (context) => ConfirmDeleteDialog(
-              targetTitle: 'the recipe "${widget.recipe.title}"',
+              targetTitle: 'the Ingredient "${widget.ingredient.title}"',
             ),
           );
           if (result == true) {
-            await RecipeListManager.instance.deleteItem(widget.recipe);
+            await IngredientListManager.instance.deleteItem(widget.ingredient);
           }
           setState(() {});
           break;

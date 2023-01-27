@@ -40,7 +40,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
       floatingActionButton: floatingActionButton(),
       appBar: AppBar(
         leading: BackButton(
-          color: theme.textTheme.bodyText1!.color,
+          color: theme.textTheme.bodyMedium!.color,
         ),
         backgroundColor: theme.canvasColor,
         elevation: 0,

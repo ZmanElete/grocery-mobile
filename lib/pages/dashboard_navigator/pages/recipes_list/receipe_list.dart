@@ -4,6 +4,7 @@ import 'package:grocery_genie/models/recipe.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/widgets/recipe_item.dart';
 import 'package:grocery_genie/services/api/recipe_api_service.dart';
+import 'package:grocery_genie/widget/model_list_view.dart';
 
 class RecipeListPage extends StatefulWidget {
   static const String route = 'recipe-list';
@@ -16,40 +17,20 @@ class RecipeListPage extends StatefulWidget {
 class RecipeListPageState extends State<RecipeListPage> {
   @override
   void initState() {
-    RecipeManager.instance.getRecipes();
+    RecipeListManager.instance.getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<List<Recipe>?>(
-      valueListenable: RecipeManager.instance.recipes,
-      builder: (context, recipes, _) {
-        if (recipes == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (recipes.isEmpty) {
-          return const Center(
-            child: Text('No Recipes'),
-          );
-        }
-        return Scaffold(
-          floatingActionButton: floatingActionButton(),
-          body: ListView.separated(
-            itemCount: recipes.length,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            separatorBuilder: (context, index) => const Divider(),
-            itemBuilder: (context, index) {
-              return RecipeItem(recipe: recipes[index]);
-            },
-          ),
-        );
-      },
+    return ModelListView<Recipe, RecipeListManager>(
+      listManager: RecipeListManager.instance,
+      floatingActionButton: floatingActionButton(context),
+      itemBuilder: (context, recipe) => RecipeItem(recipe: recipe)
     );
   }
 
-  Widget floatingActionButton() {
+  Widget floatingActionButton(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -57,7 +38,7 @@ class RecipeListPageState extends State<RecipeListPage> {
           heroTag: 'add-fab',
           onPressed: () async {
             final Recipe recipe = await RecipeApiService.instance.create(Recipe.empty());
-            RecipeManager.instance.getRecipes();
+            RecipeListManager.instance.getList();
             if (mounted) {
               await Navigator.of(context).pushNamed(
                 RecipeDetailPage.route,

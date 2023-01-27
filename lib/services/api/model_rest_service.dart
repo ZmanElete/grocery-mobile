@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-
-import '../../models/api_model.dart';
-import 'rest_methods.dart';
-import 'rest_service.dart';
+import 'package:grocery_genie/models/api_model.dart';
+import 'package:grocery_genie/services/api/rest_methods.dart';
+import 'package:grocery_genie/services/api/rest_service.dart';
 
 abstract class GenericRestService<T extends ApiModel> extends RestService {
   final String resource;
@@ -29,7 +27,6 @@ abstract class ModelRestService<T extends ApiModel> extends GenericRestService<T
   /// [resource] The name of the resource, used in URLS (ex `users`)
   /// [modelInstance] An instance of T, needed to create new instances with clone
   ModelRestService(
-    BuildContext context,
     String resource,{
     List<RestMethods> authenticatedActions = RestMethods.values,
   }) : super(

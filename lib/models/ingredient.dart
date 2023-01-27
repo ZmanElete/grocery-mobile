@@ -5,7 +5,7 @@ import 'package:grocery_genie/models/tag.dart';
 class Ingredient extends ApiModel {
   int? id;
   String title;
-  int purchasingQuantity;
+  double purchasingQuantity;
   Measurement purchasingMeasurement;
   List<Tag> tags;
 
@@ -21,7 +21,7 @@ class Ingredient extends ApiModel {
       : id = map['id'],
         title = map['title'],
         purchasingQuantity = map['purchasing_quantity'],
-        purchasingMeasurement = map['purchasing_measurement'],
+        purchasingMeasurement = Measurement.fromMap(map['purchasing_measurement']),
         // ignore: unnecessary_lambdas
         tags = List<Tag>.from(map['tags']?.map((m) => Tag.fromMap(m)).toList() ?? []);
 
