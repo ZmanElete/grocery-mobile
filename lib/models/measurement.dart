@@ -1,3 +1,4 @@
+import 'package:grocery_genie/managers/measurement_manager.dart';
 import 'package:grocery_genie/models/api_model.dart';
 
 class Measurement extends ApiModel {
@@ -23,6 +24,25 @@ class Measurement extends ApiModel {
         conversion = map['conversion'],
         convertible = map['convertible'],
         isFraction = map['is_fraction'];
+
+  /// If its a Measurement objects, returns the Measurement.clone()
+  /// If its a map, runs it through the fromMap constructor
+  /// If its a number looks it up the MeasurementsManager
+  /// Else throws and error
+  factory Measurement.fromDynamic(info) {
+    if (info is Measurement) {
+      return info;
+    } else if (info is Map<String, dynamic>) {
+      return Measurement.fromMap(info);
+    } else if (info is int) {
+      if (!MeasurementListManager.instance.initialized) {
+        throw Exception('Measurement Manager is not intialized.');
+      }
+      return MeasurementListManager.instance.list.value!.firstWhere((element) => element.id == info);
+    }
+    throw Exception(
+        "Type ${info.runtimeType} is not of type [Map<String, dynamic>], [Measurement] or [int] (as an id).");
+  }
 
   @override
   Measurement clone() {

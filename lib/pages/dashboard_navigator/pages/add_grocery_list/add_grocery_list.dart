@@ -47,7 +47,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
         centerTitle: true,
         title: Text(
           "Create a List",
-          style: theme.textTheme.subtitle1,
+          style: theme.textTheme.titleMedium,
         ),
       ),
       body: Form(

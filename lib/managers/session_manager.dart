@@ -41,7 +41,7 @@ class SessionManager {
   }
 
   Future<void> _onSuccessfulLogin() async {
-    MeasurementManager.instance.init();
+    MeasurementListManager.instance.init();
     final user = await UserApiService.instance.current();
     _userStreamController.add(user);
   }

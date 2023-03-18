@@ -28,7 +28,7 @@ class Item extends ApiModel implements Comparable {
   Item.fromMap(Map<String, dynamic> map)
       : id = map["id"]!,
         title = map["title"]!,
-        measurement = Measurement.fromMap(map["measurement"]),
+        measurement = Measurement.fromDynamic(map["measurement"]),
         quantity = map["quantity"]!,
         checked = map["checked"],
         // ignore: unnecessary_lambdas

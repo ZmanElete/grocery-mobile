@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/models/measurement.dart';
@@ -64,16 +62,20 @@ class _IngredientDetailPageState extends State<IngredientDetailPage> {
     );
   }
 
-  Future<void> persistRecipe() async {
+  Future<void> persistIngredient() async {
     try {
       ingredient ??= Ingredient.fromMap(creatingMap);
       if (ingredient != null) {
-        await IngredientApiService.instance.update(ingredient!);
+        if (ingredient!.id == null) {
+          ingredient = await IngredientApiService.instance.create(ingredient!);
+        } else {
+          await IngredientApiService.instance.update(ingredient!);
+        }
       }
     } catch (e, stack) {
       logger
-        ..info(e)
-        ..info(stack);
+        ..severe(e)
+        ..severe(stack);
     }
   }
 
@@ -144,7 +146,7 @@ class _IngredientDetailPageState extends State<IngredientDetailPage> {
               } else {
                 creatingMap['title'] = text;
               }
-              persistRecipe();
+              persistIngredient();
             },
           ),
           const SizedBox(height: 5),
@@ -163,7 +165,7 @@ class _IngredientDetailPageState extends State<IngredientDetailPage> {
               } else {
                 creatingMap['purchasing_quantity'] = number;
               }
-              persistRecipe();
+              persistIngredient();
             },
           ),
           const SizedBox(height: 5),
@@ -176,12 +178,12 @@ class _IngredientDetailPageState extends State<IngredientDetailPage> {
               } else {
                 creatingMap['purchasing_measurement'] = measurement;
               }
-              persistRecipe();
+              persistIngredient();
             },
           ),
           const SizedBox(height: 12),
           TagsField(
-            onChange: persistRecipe,
+            onChange: persistIngredient,
             tags: ingredient?.tags ?? creatingMap['tags'],
           ),
         ],

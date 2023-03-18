@@ -2,7 +2,7 @@ import 'package:grocery_genie/managers/list_manager.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/services/api/list_api_service.dart';
 
-class GroceryListManager extends ListManager<ItemList, ItemListApiService> {
+class GroceryListManager extends ListManager<ItemList, ItemListApiService> with DeleteListManagerMixin {
   static GroceryListManager instance = GroceryListManager();
 
   @override

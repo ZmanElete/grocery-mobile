@@ -54,7 +54,7 @@ class _MeasurementPickerState extends State<MeasurementPicker> {
         setState(() {});
       },
       items: [
-        for (var m in MeasurementManager.instance.measurements)
+        for (var m in MeasurementListManager.instance.list.value!)
           DropdownMenuItem(
             value: m,
             child: Text(m.title),

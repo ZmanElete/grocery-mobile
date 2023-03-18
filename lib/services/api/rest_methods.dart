@@ -136,7 +136,7 @@ mixin GetModelMixin<T extends ApiModel> on GenericRestService<T> {
 mixin ListModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// GET /resource/
   /// If successful [response.data] is List<T>
-  Future<List<T>> list({Map<String, dynamic>? queryParameters}) async {
+  Future<List<T>> list([Map<String, dynamic>? queryParameters]) async {
     final dio = ServiceLocator.dio;
     try {
       final options = this.options(RestMethods.list);

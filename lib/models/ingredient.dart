@@ -2,10 +2,11 @@ import 'package:grocery_genie/models/api_model.dart';
 import 'package:grocery_genie/models/measurement.dart';
 import 'package:grocery_genie/models/tag.dart';
 
+
 class Ingredient extends ApiModel {
   int? id;
   String title;
-  double purchasingQuantity;
+  double? purchasingQuantity;
   Measurement purchasingMeasurement;
   List<Tag> tags;
 
@@ -21,9 +22,9 @@ class Ingredient extends ApiModel {
       : id = map['id'],
         title = map['title'],
         purchasingQuantity = map['purchasing_quantity'],
-        purchasingMeasurement = Measurement.fromMap(map['purchasing_measurement']),
+        purchasingMeasurement = Measurement.fromDynamic(map['purchasing_measurement']),
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from(map['tags']?.map((m) => Tag.fromMap(m)).toList() ?? []);
+        tags = List<Tag>.from(map['tags']?.map((m) => Tag.fromDynamic(m)).toList() ?? []);
 
   @override
   Ingredient clone() {
@@ -53,8 +54,8 @@ class Ingredient extends ApiModel {
       'id': id,
       'title': title,
       'purchasing_quantity': purchasingQuantity,
-      'purchasing_measurement': purchasingMeasurement,
-      'tags': tags.map((t) => t.toMap()),
+      'purchasing_measurement': purchasingMeasurement.id,
+      'tags': tags.map((t) => t.toMap()).toList(),
     };
   }
 }
