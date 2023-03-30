@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/widget/measurement_picker.dart';
 
-import '/models/item.dart';
-import '/models/measurement.dart';
+import 'package:grocery_genie/models/item.dart';
+import 'package:grocery_genie/models/measurement.dart';
 
 class EditItemDialog extends StatefulWidget {
   final Item? item;

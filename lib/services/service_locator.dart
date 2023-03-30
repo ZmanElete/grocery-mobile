@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/config.dart';
+import 'package:grocery_genie/models/config.dart';
 
 abstract class ServiceLocator {
   static SharedPreferences get prefs => _prefs!;

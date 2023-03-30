@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/pages/splash_page.dart';
 
-import '/pages/dashboard_navigator/routes.dart';
-import 'landing.dart';
-import 'login.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
+import 'package:grocery_genie/pages/landing.dart';
+import 'package:grocery_genie/pages/login.dart';
 
 Route<dynamic> onGenerateBaseRoutes(RouteSettings settings) {
   // Map<String, dynamic> args = routeSettings.arguments;

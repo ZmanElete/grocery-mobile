@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:grocery_genie/services/api/auth_api_service.dart';
 import 'package:grocery_genie/services/service_locator.dart';
 
-import 'http_exceptions.dart';
+import 'package:grocery_genie/services/api/http_exceptions.dart';
 
 enum RestMethods {
   get,
@@ -28,7 +28,7 @@ abstract class RestService {
     return options;
   }
 
-  void checkError(dynamic response) {
+  void checkError(response) {
     if (response is Response) {
       if (response.isRedirect ?? false || (response.statusCode! >= 300 && response.statusCode! < 400)) {
         throw RedirectionException(response, message: response.statusMessage ?? 'redirect');

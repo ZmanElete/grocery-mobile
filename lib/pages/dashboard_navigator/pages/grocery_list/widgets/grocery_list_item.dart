@@ -82,9 +82,9 @@ class GroceryListItemState extends State<GroceryListItem> {
 
   /// Callback when mouse clicked on `Listener` wrapped widget.
   Future<void> _showMenu(BuildContext context) async {
-    final RenderBox thisObjectBox = context.findRenderObject() as RenderBox;
+    final RenderBox thisObjectBox = context.findRenderObject()! as RenderBox;
     // Check if right mouse button clicked
-    final overlayBox = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final overlayBox = Overlay.of(context).context.findRenderObject()! as RenderBox;
     final overlayLocalPosition = overlayBox.globalToLocal(
       thisObjectBox.localToGlobal(
         Offset(thisObjectBox.constraints.maxWidth, 0),

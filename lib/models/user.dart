@@ -1,6 +1,6 @@
 import 'package:grocery_genie/models/api_model.dart';
 
-import 'household.dart';
+import 'package:grocery_genie/models/household.dart';
 
 class User extends ApiModel {
   int? id;

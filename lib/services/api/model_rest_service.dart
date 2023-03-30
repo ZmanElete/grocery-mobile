@@ -25,7 +25,6 @@ abstract class ModelRestService<T extends ApiModel> extends GenericRestService<T
         GetModelMixin,
         ListModelMixin {
   /// [resource] The name of the resource, used in URLS (ex `users`)
-  /// [modelInstance] An instance of T, needed to create new instances with clone
   ModelRestService(
     String resource,{
     List<RestMethods> authenticatedActions = RestMethods.values,

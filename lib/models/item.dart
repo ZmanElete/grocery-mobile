@@ -32,7 +32,7 @@ class Item extends ApiModel implements Comparable {
         quantity = map["quantity"]!,
         checked = map["checked"],
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from(map['tags']?.map((m) => Tag.fromMap(m)).toList() ?? []),
+        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromMap(m)).toList() ?? []),
         ingredient = map['ingredient'] != null ? Ingredient.fromMap(map['ingredient']) : null,
         sequence = map['sequence'];
 
@@ -86,7 +86,7 @@ class Item extends ApiModel implements Comparable {
     quantity = map["quantity"]!;
     checked = map["checked"];
     sequence = map["sequence"];
-    tags = map['tags']?.map(Tag.fromMap).toList() ?? [];
+    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromMap).toList() ?? [];
     ingredient = map['ingredient'] != null ? Ingredient.fromMap(map['ingredient']) : null;
   }
 
@@ -97,6 +97,9 @@ class Item extends ApiModel implements Comparable {
 
   @override
   int compareTo(other) {
-    return sequence.compareTo(other.sequence);
+    if (other is Item) {
+      return sequence.compareTo(other.sequence);
+    }
+    throw Exception("Can't compare item to type ${other.runtimeType}");
   }
 }

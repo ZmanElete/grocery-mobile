@@ -1,7 +1,7 @@
 import 'package:grocery_genie/models/api_model.dart';
 import 'package:grocery_genie/models/item_list.dart';
 
-import 'recipe.dart';
+import 'package:grocery_genie/models/recipe.dart';
 
 class ListSection extends ApiModel {
   int? id;

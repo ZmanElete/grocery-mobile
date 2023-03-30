@@ -1,7 +1,7 @@
 import 'package:grocery_genie/services/api/rest_methods.dart';
 
-import '../../models/measurement.dart';
-import 'model_rest_service.dart';
+import 'package:grocery_genie/models/measurement.dart';
+import 'package:grocery_genie/services/api/model_rest_service.dart';
 
 class MeasurementApiService extends GenericRestService<Measurement> with ListModelMixin {
   static MeasurementApiService get instance => _instance != null ? _instance! : MeasurementApiService();

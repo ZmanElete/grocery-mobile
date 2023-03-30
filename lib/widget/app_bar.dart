@@ -5,6 +5,8 @@ import 'package:grocery_genie/services/api/auth_api_service.dart';
 class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const GroceryAppBar({Key? key}) : super(key: key);
 
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -23,7 +25,4 @@ class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  final Size preferredSize = const Size.fromHeight(kToolbarHeight);
 }

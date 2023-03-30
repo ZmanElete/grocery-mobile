@@ -48,7 +48,7 @@ class AuthApiService {
       data: login,
     );
     HttpHelpers.checkError(response);
-    final data = response.data;
+    final Map<String, dynamic> data = response.data;
     prefs
       ..setString(ACCESS_TOKEN_KEY, data['access']!)
       ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
@@ -94,7 +94,7 @@ class AuthApiService {
         },
       );
       HttpHelpers.checkError(response);
-      final data = response.data;
+      final Map<String, dynamic> data = response.data;
       prefs
         ..setString(ACCESS_TOKEN_KEY, data['access']!)
         ..setString(REFRESH_TOKEN_KEY, data['refresh']!);

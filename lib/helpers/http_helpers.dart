@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'package:dio/dio.dart';
 
 class HttpHelpers {
@@ -23,55 +25,31 @@ class HttpHelpers {
 }
 
 abstract class HttpErrorBase implements Exception {
-  abstract final int code;
-  abstract final Response response;
-  const HttpErrorBase();
+  final int code;
+  final Response response;
+  const HttpErrorBase(this.code, this.response);
 }
 
-class HttpNotAuthorized implements HttpErrorBase {
-  @override
-  final int code = 401;
-  @override
-  final Response response;
-  const HttpNotAuthorized(this.response);
+class HttpNotAuthorized extends HttpErrorBase {
+  const HttpNotAuthorized(Response response): super(401, response);
 }
 
-class HttpNotFound implements HttpErrorBase {
-  @override
-  final int code = 404;
-  @override
-  final Response response;
-  const HttpNotFound(this.response) : super();
+class HttpNotFound extends HttpErrorBase {
+  const HttpNotFound(Response response): super(404, response);
 }
 
-class HttpTimeout implements HttpErrorBase {
-  @override
-  final int code = 408;
-  @override
-  final Response response;
-  const HttpTimeout(this.response) : super();
+class HttpTimeout extends HttpErrorBase {
+  const HttpTimeout(Response response) : super(408, response);
 }
 
-class HttpServerError implements HttpErrorBase {
-  @override
-  final int code = 500;
-  @override
-  final Response response;
-  const HttpServerError(this.response) : super();
+class HttpServerError extends HttpErrorBase {
+  const HttpServerError(Response response): super(500, response);
 }
 
-class HttpBadRequest implements HttpErrorBase {
-  @override
-  final int code = 400;
-  @override
-  final Response response;
-  const HttpBadRequest(this.response) : super();
+class HttpBadRequest extends HttpErrorBase {
+  const HttpBadRequest(Response response): super(400, response);
 }
 
-class HttpUnknownError implements HttpErrorBase {
-  @override
-  final int code = -1;
-  @override
-  final Response response;
-  const HttpUnknownError(this.response) : super();
+class HttpUnknownError extends HttpErrorBase {
+  const HttpUnknownError(Response response): super(1, response);
 }

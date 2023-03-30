@@ -4,8 +4,8 @@ import 'package:grocery_genie/models/user.dart';
 import 'package:grocery_genie/services/api/model_rest_service.dart';
 import 'package:grocery_genie/services/api/rest_service.dart';
 
-import '../service_locator.dart';
-import 'auth_api_service.dart';
+import 'package:grocery_genie/services/service_locator.dart';
+import 'package:grocery_genie/services/api/auth_api_service.dart';
 
 class UserApiService extends GenericRestService<User> {
   static UserApiService get instance =>

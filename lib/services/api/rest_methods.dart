@@ -1,15 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:grocery_genie/services/service_locator.dart';
 
-import '../../models/api_model.dart';
-import 'model_rest_service.dart';
-import 'rest_service.dart';
+import 'package:grocery_genie/models/api_model.dart';
+import 'package:grocery_genie/services/api/model_rest_service.dart';
+import 'package:grocery_genie/services/api/rest_service.dart';
 
 /// POST /resource/
-// If successful [response.data] is T
 mixin CreateModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// POST /resource/
-  /// If successful [response.data] is T
   Future<T> create(T model) async {
     final dio = ServiceLocator.dio;
     try {
@@ -27,10 +25,8 @@ mixin CreateModelMixin<T extends ApiModel> on GenericRestService<T> {
 }
 
 /// PUT /resource/
-/// If successful [response.data] is T
 mixin UpdateModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// PUT /resource/
-  /// If successful [response.data] is T
   Future<T> update(T model) async {
     final dio = ServiceLocator.dio;
     try {
@@ -48,10 +44,8 @@ mixin UpdateModelMixin<T extends ApiModel> on GenericRestService<T> {
 }
 
 /// PATCH /resource/
-/// If successful [response.data] is T
 mixin PartialUpdateListModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// PATCH /resource/
-  /// If successful [response.data] is T
   Future<T> partialUpdateList(List<Map<String, dynamic>> records) async {
     final dio = ServiceLocator.dio;
     try {
@@ -69,10 +63,8 @@ mixin PartialUpdateListModelMixin<T extends ApiModel> on GenericRestService<T> {
 }
 
 /// PATCH /resource/
-/// If successful [response.data] is T
 mixin PatchModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// PATCH /resource/
-  /// If successful [response.data] is T
   Future<T> patch(T m, FormData fields, {bool loadOnResponse = true}) async {
     final dio = ServiceLocator.dio;
     try {
@@ -110,11 +102,9 @@ mixin DeleteModelMixin<T extends ApiModel> on GenericRestService<T> {
 }
 
 /// GET /resource/:id
-/// If successful [response.data] is T
 mixin GetModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// GET /resource/:id
-  /// If successful [response.data] is T
-  Future<T> get(dynamic id, {Map<String, dynamic>? params}) async {
+  Future<T> get(id, {Map<String, dynamic>? params}) async {
     final dio = ServiceLocator.dio;
     try {
       final Response response = await dio.get(
@@ -132,10 +122,8 @@ mixin GetModelMixin<T extends ApiModel> on GenericRestService<T> {
 }
 
 /// GET /resource/
-/// If successful [response.data] is List<T>
 mixin ListModelMixin<T extends ApiModel> on GenericRestService<T> {
   /// GET /resource/
-  /// If successful [response.data] is List<T>
   Future<List<T>> list([Map<String, dynamic>? queryParameters]) async {
     final dio = ServiceLocator.dio;
     try {
@@ -146,11 +134,13 @@ mixin ListModelMixin<T extends ApiModel> on GenericRestService<T> {
         queryParameters: queryParameters,
       );
 
-      if (response.data is Map) {
+      final data = response.data;
+
+      if (data is Map<String, dynamic>) {
         // We lose pagination data, but we don't really need it with page pagination
         // (other than we don't know if there is a next page):P
         // Just doing this to get things to work. We can rework later if we need.
-        response.data = response.data['results'];
+        response.data = data['results'];
       }
 
       return [for (var n in response.data) modelFromMap(n)];

@@ -16,7 +16,7 @@ class AppHttpException implements Exception {
 
 class RedirectionException extends AppHttpException {
   RedirectionException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,
@@ -26,7 +26,7 @@ class RedirectionException extends AppHttpException {
 
 class BadRequestException extends AppHttpException {
   BadRequestException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,
@@ -36,7 +36,7 @@ class BadRequestException extends AppHttpException {
 
 class UnauthorizedException extends AppHttpException {
   UnauthorizedException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,
@@ -46,7 +46,7 @@ class UnauthorizedException extends AppHttpException {
 
 class ForbiddenException extends AppHttpException {
   ForbiddenException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,
@@ -56,7 +56,7 @@ class ForbiddenException extends AppHttpException {
 
 class NotFoundException extends AppHttpException {
   NotFoundException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,
@@ -66,7 +66,7 @@ class NotFoundException extends AppHttpException {
 
 class MethodNotAllowedException extends AppHttpException {
   MethodNotAllowedException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,
@@ -76,7 +76,7 @@ class MethodNotAllowedException extends AppHttpException {
 
 class InternalServerErrorException extends AppHttpException {
   InternalServerErrorException(
-    dynamic response, {
+    response, {
     String message = '',
   }) : super(
           response,

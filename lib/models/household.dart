@@ -10,7 +10,7 @@ class Household extends ApiModel {
   Household.fromMap(Map<String, dynamic> map)
       : id = map['id']!,
         title = map['title']!,
-        users = map['user_set']?.map(User.fromMap).toList() ?? [];
+        users = (map['user_set'] as List<Map<String, dynamic>>?)?.map(User.fromMap).toList() ?? [];
 
   @override
   String? get pk => id;
@@ -37,6 +37,6 @@ class Household extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map['id']!;
     title = map['title']!;
-    users = map['user_set']?.map(User.fromMap).toList() ?? [];
+    users = (map['user_set'] as List<Map<String, dynamic>>?)?.map(User.fromMap).toList() ?? [];
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/models/api_model.dart';
 import 'package:grocery_genie/services/api/model_rest_service.dart';
 
-import '../services/api/rest_methods.dart';
+import 'package:grocery_genie/services/api/rest_methods.dart';
 
 abstract class BaseListManager<T extends ApiModel, U extends GenericRestService<T>> {
   U get apiService;

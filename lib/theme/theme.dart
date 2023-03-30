@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: avoid_classes_with_only_static_members
 class AppTheme {
   static ThemeData get theme {
     ThemeData theme = ThemeData(
@@ -30,7 +31,7 @@ class AppTheme {
 
 ///Pulled from https://blog.usejournal.com/creating-a-custom-color-swatch-in-flutter-554bcdcb27f3
 MaterialColor createMaterialColor(Color color) {
-  final List strengths = <double>[.05];
+  final strengths = <double>[.05];
   final swatch = <int, Color>{};
   final int r = color.red, g = color.green, b = color.blue;
 
