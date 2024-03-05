@@ -2,9 +2,26 @@ import 'package:flutter/material.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppTheme {
-  static ThemeData get theme {
+  static ThemeData getTheme(Brightness brightness) {
     ThemeData theme = ThemeData(
-      primarySwatch: createMaterialColor(const Color.fromARGB(255, 12, 76, 14)),
+      colorScheme: ColorScheme(
+        brightness: brightness,
+        primary: const Color.fromARGB(255, 12, 76, 14),
+        onPrimary: Colors.white,
+        secondary: const Color.fromARGB(255, 255, 77, 4),
+        onSecondary: Colors.black,
+        tertiary: const Color.fromARGB(255, 86, 43, 0),
+        onTertiary: Colors.white,
+        error: Colors.red.shade600,
+        onError: Colors.white,
+        background: const Color.fromARGB(255, 235, 250, 239),
+        onBackground: const Color.fromARGB(255, 5, 30, 6),
+
+        // WIP
+        surface: const Color.fromARGB(255, 100, 100, 100),
+        onSurface: Colors.white,
+      ),
+      // primarySwatch: createMaterialColor(const Color.fromARGB(255, 12, 76, 14)),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 55),
@@ -20,10 +37,7 @@ class AppTheme {
       ),
     );
     theme = theme.copyWith(
-      iconTheme: IconThemeData(
-        color: theme.primaryColor,
-        size: 24
-      ),
+      iconTheme: IconThemeData(color: theme.primaryColor, size: 24),
     );
     return theme;
   }
