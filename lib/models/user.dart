@@ -1,4 +1,4 @@
-import 'package:grocery_genie/models/api_model.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
 
 import 'package:grocery_genie/models/household.dart';
 
@@ -8,10 +8,10 @@ class User extends ApiModel {
   Household household;
 
   User({this.id, required this.email, required this.household});
-  User.fromMap(Map<String, dynamic> map)
+  User.fromJson(Map<String, dynamic> map)
       : id = map['id'],
         email = map['email']!,
-        household = Household.fromMap(map['household']);
+        household = Household.fromJson(map['household']);
 
   @override
   User clone() {
@@ -26,11 +26,11 @@ class User extends ApiModel {
   int? get pk => id;
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'email': email,
-      'household': household.toMap(),
+      'household': household.toJson(),
     };
   }
 
@@ -38,6 +38,6 @@ class User extends ApiModel {
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     email = map['email']!;
-    household = Household.fromMap(map['household']);
+    household = Household.fromJson(map['household']);
   }
 }

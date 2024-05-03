@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/managers/list_manager.dart';
-import 'package:grocery_genie/models/api_model.dart';
-import 'package:grocery_genie/services/api/model_rest_service.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
+import 'package:guru_flutter_rest/django/model_rest_service.dart';
 
 class ModelListView<T extends ApiModel, U extends ListManager<T, ModelRestService<T>>>
     extends StatefulWidget {

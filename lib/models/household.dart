@@ -1,5 +1,5 @@
-import 'package:grocery_genie/models/api_model.dart';
 import 'package:grocery_genie/models/user.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
 
 class Household extends ApiModel {
   String? id;
@@ -7,36 +7,28 @@ class Household extends ApiModel {
   List<User> users;
 
   Household({this.id, required this.title, this.users = const []});
-  Household.fromMap(Map<String, dynamic> map)
+  Household.fromJson(Map<String, dynamic> map)
       : id = map['id']!,
         title = map['title']!,
-        users = (map['user_set'] as List<Map<String, dynamic>>?)?.map(User.fromMap).toList() ?? [];
+        users = (map['user_set'] as List<Map<String, dynamic>>?)?.map(User.fromJson).toList() ?? [];
 
   @override
   String? get pk => id;
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       "id": id,
       "title": title,
-      "user_set": users.map((user) => user.toMap()),
+      "user_set": users.map((user) => user.toJson()),
     };
   }
 
-  @override
   Household clone() {
     return Household(
       id: id,
       title: title,
       users: users.map((user) => user.clone()).toList(),
     );
-  }
-
-  @override
-  void loadMap(Map<String, dynamic> map) {
-    id = map['id']!;
-    title = map['title']!;
-    users = (map['user_set'] as List<Map<String, dynamic>>?)?.map(User.fromMap).toList() ?? [];
   }
 }

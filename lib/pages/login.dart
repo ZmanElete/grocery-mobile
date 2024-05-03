@@ -3,7 +3,8 @@ import 'package:grocery_genie/helpers/http_helpers.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/models/config.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
-import 'package:grocery_genie/services/api/auth_api_service.dart';
+import 'package:grocery_genie/services/auth_api_service.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class LoginPage extends StatefulWidget {
   static const route = 'login_page';
@@ -17,7 +18,7 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   Config config = Config.instance;
-  AuthApiService auth = AuthApiService.instance;
+  AuthApiService auth = Repository.instance.read(AuthApiService.key);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 

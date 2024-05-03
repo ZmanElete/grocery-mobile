@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/models/measurement.dart';
 import 'package:grocery_genie/models/tag.dart';
-import 'package:grocery_genie/services/api/ingredient_api_service.dart';
+import 'package:grocery_genie/services/ingredient_api_service.dart';
 import 'package:grocery_genie/widget/editable_text_field.dart';
 import 'package:grocery_genie/widget/editable_text_form.dart';
 import 'package:grocery_genie/widget/exploading_fab.dart';
 import 'package:grocery_genie/widget/measurement_picker.dart';
 import 'package:grocery_genie/widget/tags_field.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 import 'package:logging/logging.dart';
 
 final logger = Logger('IngredientDetailPage');
@@ -64,12 +65,12 @@ class _IngredientDetailPageState extends State<IngredientDetailPage> {
 
   Future<void> persistIngredient() async {
     try {
-      ingredient ??= Ingredient.fromMap(creatingMap);
+      ingredient ??= Ingredient.fromJson(creatingMap);
       if (ingredient != null) {
         if (ingredient!.id == null) {
-          ingredient = await IngredientApiService.instance.create(ingredient!);
+          ingredient = await Repository.instance.read(IngredientApiService.key).create(ingredient!);
         } else {
-          await IngredientApiService.instance.update(ingredient!);
+          await Repository.instance.read(IngredientApiService.key).update(ingredient!);
         }
       }
     } catch (e, stack) {

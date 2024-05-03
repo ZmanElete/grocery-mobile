@@ -1,6 +1,7 @@
-import 'package:grocery_genie/models/api_model.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
 import 'package:grocery_genie/models/item.dart';
 import 'package:grocery_genie/models/tag.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
 
 class ItemList extends ApiModel {
   int? id;
@@ -27,18 +28,18 @@ class ItemList extends ApiModel {
         tags: [],
       );
 
-  ItemList.fromMap(Map<String, dynamic> map)
+  ItemList.fromJson(Map<String, dynamic> map)
       : id = map['id'],
         title = map['title']!,
         household = map['household'],
         active = map['active']!,
         // ignore: unnecessary_lambdas
-        items = List<Item>.from((map['item_set'] as List<Map<String, dynamic>>?)?.map((m) => Item.fromMap(m)).toList() ?? []),
+        items = List<Item>.from((map['item_set'] as List<Map<String, dynamic>>?)?.map((m) => Item.fromJson(m)).toList() ?? []),
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromMap(m)).toList() ?? []);
+        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
 
-  static ItemList createFromMap(Map<String, dynamic> map) {
-    return ItemList.fromMap(map);
+  static ItemList createfromJson(Map<String, dynamic> map) {
+    return ItemList.fromJson(map);
   }
 
   @override
@@ -57,14 +58,14 @@ class ItemList extends ApiModel {
   int? get pk => id;
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'title': title,
       'household': household,
       'active': active,
-      'item_set': items.map((item) => item.toMap()).toList(),
-      'tags': tags.map((tag) => tag.toMap()).toList(),
+      'item_set': items.map((item) => item.toJson()).toList(),
+      'tags': tags.map((tag) => tag.toJson()).toList(),
     };
   }
 
@@ -74,7 +75,7 @@ class ItemList extends ApiModel {
     title = map['title']!;
     household = map['household']!;
     active = map['active']!;
-    items = (map['item_set'] as List<Map<String, dynamic>>?)?.map(Item.fromMap).toList() ?? [];
-    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromMap).toList() ?? [];
+    items = (map['item_set'] as List<Map<String, dynamic>>?)?.map(Item.fromJson).toList() ?? [];
+    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromJson).toList() ?? [];
   }
 }

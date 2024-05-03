@@ -12,7 +12,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Constants.appName,
-      theme: AppTheme.theme,
+      theme: AppTheme.getTheme(Brightness.light),
+      darkTheme: AppTheme.getTheme(Brightness.dark),
       initialRoute: SplashPage.route,
       onGenerateRoute: onGenerateBaseRoutes,
     );

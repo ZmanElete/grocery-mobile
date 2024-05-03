@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/models/item.dart';
 import 'package:grocery_genie/models/recipe.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
-import 'package:grocery_genie/services/api/recipe_api_service.dart';
+import 'package:grocery_genie/services/recipe_api_service.dart';
 import 'package:grocery_genie/widget/editable_text_field.dart';
 import 'package:grocery_genie/widget/editable_text_form.dart';
 import 'package:grocery_genie/widget/exploading_fab.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class RecipeDetailPageArgs {
   final Recipe recipe;
@@ -50,7 +51,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   }
 
   Future<void> persistRecipe() async {
-    await RecipeApiService.instance.update(recipe);
+    await Repository.instance.read(RecipeApiService.key).update(recipe);
   }
 
   Widget floatingActionButton() {

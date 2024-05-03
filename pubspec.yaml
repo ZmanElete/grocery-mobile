@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
-  sdk: ">=2.18.6 <3.0.0"
+  sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
   flutter:
@@ -26,12 +26,23 @@ dependencies:
   shared_preferences:
   path_provider:
   cupertino_icons:
-  dio: ^4.0.6
-  page_transition: ^2.0.9
-  logging: ^1.1.1
+  dio: 
+  page_transition: 
+  logging: 
+
+  guru_provider:
+    git:
+      url: git@git.gurutechnologies.net:zachw1/guru_provider.git
+
+  # Guru managed package for communication with django servers. (and the basic shape of rest endpoints)
+  guru_flutter_rest:
+    # https://git.gurutechnologies.net/guru-flutter/guru_flutter_rest.git
+    git:
+      url: git@git.gurutechnologies.net:guru-flutter/guru_flutter_rest.git
+    
 
 dev_dependencies:
-  flutter_lints: ^2.0.1
+  flutter_lints: 
   flutter_launcher_icons:
   flutter_test:
     sdk: flutter

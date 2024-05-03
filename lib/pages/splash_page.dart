@@ -5,9 +5,10 @@ import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
 import 'package:grocery_genie/pages/landing.dart';
-import 'package:grocery_genie/services/api/auth_api_service.dart';
-import 'package:grocery_genie/services/service_locator.dart';
+import 'package:grocery_genie/services/auth_api_service.dart';
+import 'package:grocery_genie/services/prefs.dart';
 import 'package:grocery_genie/widget/logo.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SplashPage extends StatelessWidget {
@@ -21,7 +22,7 @@ class SplashPage extends StatelessWidget {
     // And whether we have recorded that the setup process has been completed.
     Widget initialPage = const LandingPage();
 
-    final prefs = ServiceLocator.prefs;
+    final prefs = await Repository.instance.read(prefsKey);
     final token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
     if (token != null) {
       final loggedIn = await SessionManager.instance.autoLogin();

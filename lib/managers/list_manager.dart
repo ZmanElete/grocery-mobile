@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_genie/models/api_model.dart';
-import 'package:grocery_genie/services/api/model_rest_service.dart';
-
-import 'package:grocery_genie/services/api/rest_methods.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
+import 'package:guru_flutter_rest/django/model_rest_service.dart';
+import 'package:guru_flutter_rest/django/rest_methods.dart';
 
 abstract class BaseListManager<T extends ApiModel, U extends GenericRestService<T>> {
   U get apiService;
@@ -27,7 +26,7 @@ mixin ListMixin<T extends ApiModel, U extends ListModelMixin<T>> on BaseListMana
         'search': search,
       };
     }
-    list.value = await apiService.list(queryParams);
+    list.value = await apiService.list(queryParameters: queryParams);
     if (T is Comparable) {
       list.value!.sort();
     }

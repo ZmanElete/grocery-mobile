@@ -1,4 +1,4 @@
-import 'package:grocery_genie/models/api_model.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/models/tag.dart';
 
@@ -30,15 +30,15 @@ class Recipe extends ApiModel {
         tags: [],
       );
 
-  Recipe.fromMap(Map<String, dynamic> map)
+  Recipe.fromJson(Map<String, dynamic> map)
       : id = map['id'],
         title = map['title'],
         household = map['household'],
         instructions = map['instructions'],
         standardServing = map['standard_serving'],
-        list = ItemList.fromMap(map['list']),
+        list = ItemList.fromJson(map['list']),
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromMap(m)).toList() ?? []);
+        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
 
   @override
   ApiModel clone() {
@@ -57,15 +57,15 @@ class Recipe extends ApiModel {
   int? get pk => id;
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'title': title,
       'household': household,
       'instructions': instructions,
       'standard_serving': standardServing,
-      'list': list.toMap(),
-      'tags': tags.map((tag) => tag.toMap()).toList(),
+      'list': list.toJson(),
+      'tags': tags.map((tag) => tag.toJson()).toList(),
     };
   }
 
@@ -76,7 +76,7 @@ class Recipe extends ApiModel {
     household = map['household']!;
     instructions = map['instructions']!;
     standardServing = map['standard_serving']!;
-    list = ItemList.fromMap(map['list']);
-    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromMap).toList() ?? [];
+    list = ItemList.fromJson(map['list']);
+    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromJson).toList() ?? [];
   }
 }

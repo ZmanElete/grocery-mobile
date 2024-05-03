@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/consts.dart';
-import 'package:grocery_genie/services/api/auth_api_service.dart';
+import 'package:grocery_genie/services/auth_api_service.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const GroceryAppBar({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class GroceryAppBar extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              AuthApiService.instance.logout(context);
+              Repository.instance.read(AuthApiService.key).logout(context);
             },
           )
         ],

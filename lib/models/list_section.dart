@@ -1,4 +1,4 @@
-import 'package:grocery_genie/models/api_model.dart';
+import 'package:guru_flutter_rest/django/api_model.dart';
 import 'package:grocery_genie/models/item_list.dart';
 
 import 'package:grocery_genie/models/recipe.dart';
@@ -17,12 +17,12 @@ class ListSection extends ApiModel {
     required this.sortOrder,
     required this.list,
   });
-  ListSection.fromMap(Map<String, dynamic> map)
+  ListSection.fromJson(Map<String, dynamic> map)
       : id = map['id'],
-        recipe = Recipe.fromMap(map['recipe']),
+        recipe = Recipe.fromJson(map['recipe']),
         title = map['title'],
         sortOrder = map['sortOrder'],
-        list = ItemList.fromMap(map['list']);
+        list = ItemList.fromJson(map['list']);
 
   @override
   ApiModel clone() {
@@ -39,22 +39,22 @@ class ListSection extends ApiModel {
   int? get pk => id;
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'recipe': recipe.toMap(),
+      'recipe': recipe.toJson(),
       'title': title,
       'sort_order': sortOrder,
-      'list': list.toMap(),
+      'list': list.toJson(),
     };
   }
 
   @override
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
-    recipe = Recipe.fromMap(map['recipe']!);
+    recipe = Recipe.fromJson(map['recipe']!);
     title = map['title']!;
     sortOrder = map['sortOrder']!;
-    list = ItemList.fromMap(map['list']!);
+    list = ItemList.fromJson(map['list']!);
   }
 }

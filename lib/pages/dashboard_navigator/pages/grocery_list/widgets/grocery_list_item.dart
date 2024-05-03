@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/managers/grocery_list_manager.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
-import 'package:grocery_genie/services/api/item_api_service.dart';
+import 'package:grocery_genie/services/item_api_service.dart';
 import 'package:grocery_genie/widget/confirm_delete_dialog.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class GroceryListItem extends StatefulWidget {
   final ItemList list;
@@ -63,7 +64,7 @@ class GroceryListItemState extends State<GroceryListItem> {
                             final fields = FormData.fromMap({"checked": !item.checked});
                             item.checked = !item.checked;
                             setState(() {});
-                            ItemApiService.instance.patch(item, fields);
+                            Repository.instance.read(ItemApiService.key).patch(item, data: fields);
                           },
                         ),
                         Expanded(

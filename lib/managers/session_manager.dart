@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:grocery_genie/managers/measurement_manager.dart';
 import 'package:grocery_genie/models/user.dart';
-import 'package:grocery_genie/services/api/auth_api_service.dart';
-import 'package:grocery_genie/services/api/user_api_service.dart';
+import 'package:grocery_genie/services/auth_api_service.dart';
+import 'package:grocery_genie/services/user_api_service.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class SessionManager {
   static SessionManager instance = SessionManager();
@@ -12,7 +13,7 @@ class SessionManager {
     _userStreamController.stream.listen((event) => user = event);
   }
 
-  final authApiService = AuthApiService.instance;
+  final authApiService = Repository.instance.read(AuthApiService.key);
   User? user;
   final StreamController<User> _userStreamController = StreamController.broadcast();
   Stream<User?> get userStream => _userStream();
@@ -42,7 +43,7 @@ class SessionManager {
 
   Future<void> _onSuccessfulLogin() async {
     MeasurementListManager.instance.init();
-    final user = await UserApiService.instance.current();
+    final user = await Repository.instance.read(UserApiService.key).current();
     _userStreamController.add(user);
   }
 

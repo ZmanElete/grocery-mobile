@@ -3,8 +3,9 @@ import 'package:grocery_genie/managers/recipe_manager.dart';
 import 'package:grocery_genie/models/recipe.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/widgets/recipe_item.dart';
-import 'package:grocery_genie/services/api/recipe_api_service.dart';
+import 'package:grocery_genie/services/recipe_api_service.dart';
 import 'package:grocery_genie/widget/model_list_view.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class RecipeListPage extends StatefulWidget {
   static const String route = 'recipe-list';
@@ -37,7 +38,7 @@ class RecipeListPageState extends State<RecipeListPage> {
         FloatingActionButton(
           heroTag: 'add-fab',
           onPressed: () async {
-            final Recipe recipe = await RecipeApiService.instance.create(Recipe.empty());
+            final Recipe recipe = await Repository.instance.read(RecipeApiService.key).create(Recipe.empty());
             RecipeListManager.instance.getList();
             if (mounted) {
               await Navigator.of(context).pushNamed(

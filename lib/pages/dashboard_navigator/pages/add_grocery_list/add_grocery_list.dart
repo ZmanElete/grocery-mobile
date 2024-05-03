@@ -4,8 +4,9 @@ import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/models/item.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
-import 'package:grocery_genie/services/api/item_api_service.dart';
-import 'package:grocery_genie/services/api/list_api_service.dart';
+import 'package:grocery_genie/services/item_api_service.dart';
+import 'package:grocery_genie/services/list_api_service.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class AddGroceryListPageArguments {
   final ItemList? itemList;
@@ -87,7 +88,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
                                 item.checked = !item.checked;
                                 setState(() {});
                                 if (item.id != null) {
-                                  ItemApiService.instance.patch(item, fields);
+                                  Repository.instance.read(ItemApiService.key).patch(item, data: fields);
                                 }
                               },
                             );
@@ -165,7 +166,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
         ..title = _titleController.text
         ..active = true
         ..items = items;
-        list = await ItemListApiService.instance.update(list);
+        list = await Repository.instance.read(ItemListApiService.key).update(list);
       } else {
         list = ItemList(
           household: SessionManager.instance.user!.household.id!,
@@ -173,7 +174,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
           active: true,
           items: items,
         );
-        list = await ItemListApiService.instance.create(list);
+        list = await Repository.instance.read(ItemListApiService.key).create(list);
       }
       if (mounted) Navigator.pop(context, list);
     }

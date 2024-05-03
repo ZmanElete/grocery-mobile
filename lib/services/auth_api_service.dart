@@ -8,19 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/helpers/http_helpers.dart';
 import 'package:grocery_genie/models/config.dart';
 import 'package:grocery_genie/pages/landing.dart';
-import 'package:grocery_genie/services/service_locator.dart';
+import 'package:grocery_genie/services/mixins/grocery_api_mixin.dart';
+import 'package:grocery_genie/services/prefs.dart';
+import 'package:guru_flutter_rest/django/rest_service.dart';
+import 'package:guru_provider/guru_provider/keys/state_key.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthApiService {
-  static AuthApiService get instance => _instance != null ? _instance! : AuthApiService();
-  static AuthApiService? _instance;
+class AuthApiService extends RestService with GroceryApiMixin {
+  static StateKey<AuthApiService> key = StateKey(() => AuthApiService());
 
   static const ACCESS_TOKEN_KEY = 'auth_token';
   static const REFRESH_TOKEN_KEY = 'refresh_token';
-
-  AuthApiService() {
-    _instance = this;
-  }
 
   // final String userUrl = "/auth/users/";
   final String loginUrl = "/login/";
@@ -28,28 +27,18 @@ class AuthApiService {
   final String refreshUrl = "/login/refresh/";
 
   final Config config = Config.instance;
-  final SharedPreferences prefs = ServiceLocator.prefs;
-
-  // Future<Response> createUser({String username, String email, String password}) async {
-  //   try {
-  //     var resp = await dio.post(userUrl, data: {"username": username, "email": email, "password": password});
-  //     var data = Map<String, dynamic>.from(resp.data);
-  //     return await login(username: data['username'], password: password);
-  //   } on DioError catch (e) {
-  //     return e.response;
-  //   }
-  // }
+  final Future<SharedPreferences> prefs = Repository.instance.read(prefsKey);
 
   /// Returns whether it was a successful login or not
   Future<void> login({required String email, required String password}) async {
     final login = {"email": email, "password": password};
-    final response = await ServiceLocator.dio.post(
+    final response = await dio.post(
       loginUrl,
       data: login,
     );
     HttpHelpers.checkError(response);
     final Map<String, dynamic> data = response.data;
-    prefs
+    await prefs
       ..setString(ACCESS_TOKEN_KEY, data['access']!)
       ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
   }
@@ -57,9 +46,9 @@ class AuthApiService {
   /// Returns whether the access token is valid or not
   Future<bool> verifyAccessToken() async {
     try {
-      final String? token = prefs.getString(ACCESS_TOKEN_KEY);
+      final String? token = (await prefs).getString(ACCESS_TOKEN_KEY);
       if (token != null) {
-        final Response response = await ServiceLocator.dio.post(
+        final Response response = await dio.post(
           verifyUrl,
           data: {
             'token': token,
@@ -77,7 +66,7 @@ class AuthApiService {
   /// Returns whether the token was successfully refreshed or not
   Future<bool> refreshAccessToken() async {
     try {
-      final String? token = prefs.getString(ACCESS_TOKEN_KEY);
+      final String? token = (await prefs).getString(ACCESS_TOKEN_KEY);
       if (token == null) {
         throw HttpNotAuthorized(
           Response(
@@ -87,7 +76,7 @@ class AuthApiService {
           ),
         );
       }
-      final Response response = await ServiceLocator.dio.post(
+      final Response response = await dio.post(
         refreshUrl,
         data: {
           'refresh': token,
@@ -95,7 +84,7 @@ class AuthApiService {
       );
       HttpHelpers.checkError(response);
       final Map<String, dynamic> data = response.data;
-      prefs
+      await prefs
         ..setString(ACCESS_TOKEN_KEY, data['access']!)
         ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
       return true;
@@ -106,7 +95,7 @@ class AuthApiService {
   }
 
   Future<void> logout(context) async {
-    prefs
+    await prefs
       ..remove(ACCESS_TOKEN_KEY)
       ..remove(REFRESH_TOKEN_KEY);
     Navigator.pushNamedAndRemoveUntil(
