@@ -31,16 +31,21 @@ class AuthApiService extends RestService with GroceryApiMixin {
 
   /// Returns whether it was a successful login or not
   Future<void> login({required String email, required String password}) async {
-    final login = {"email": email, "password": password};
-    final response = await dio.post(
-      loginUrl,
-      data: login,
-    );
-    HttpHelpers.checkError(response);
-    final Map<String, dynamic> data = response.data;
-    await prefs
-      ..setString(ACCESS_TOKEN_KEY, data['access']!)
-      ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
+    try {
+      final login = {"email": email, "password": password};
+      final response = await dio.post(
+        loginUrl,
+        data: login,
+      );
+
+      final Map<String, dynamic> data = response.data;
+      await prefs
+        ..setString(ACCESS_TOKEN_KEY, data['access']!)
+        ..setString(REFRESH_TOKEN_KEY, data['refresh']!);
+    } on DioException catch (e) {
+      checkError(e.response);
+      rethrow;
+    }
   }
 
   /// Returns whether the access token is valid or not

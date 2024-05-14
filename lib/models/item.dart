@@ -47,7 +47,6 @@ class Item extends ApiModel implements Comparable {
     return items..sort();
   }
 
-  @override
   Item clone() {
     return Item(
       id: id,
@@ -78,7 +77,6 @@ class Item extends ApiModel implements Comparable {
     };
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map["id"];
     title = map["title"]!;

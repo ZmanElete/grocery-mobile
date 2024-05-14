@@ -12,12 +12,14 @@ import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/recei
 class DashboardRouteDescriptors {
   final String routeName;
   final String label;
-  final Widget icon;
+  final Widget selectedIcon;
+  final Widget defaultIcon;
 
   const DashboardRouteDescriptors({
     required this.routeName,
     required this.label,
-    required this.icon,
+    required this.selectedIcon,
+    required this.defaultIcon,
   });
 }
 

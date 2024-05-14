@@ -13,7 +13,6 @@ class User extends ApiModel {
         email = map['email']!,
         household = Household.fromJson(map['household']);
 
-  @override
   User clone() {
     return User(
       id: id,
@@ -34,7 +33,6 @@ class User extends ApiModel {
     };
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     email = map['email']!;

@@ -44,7 +44,6 @@ class Measurement extends ApiModel {
         "Type ${info.runtimeType} is not of type [Map<String, dynamic>], [Measurement] or [int] (as an id).");
   }
 
-  @override
   Measurement clone() {
     return Measurement(
       id: id,
@@ -71,7 +70,6 @@ class Measurement extends ApiModel {
     };
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map["id"];
     title = map['title']!;

@@ -21,15 +21,20 @@ class UserApiService extends GenericRestService<User> with GroceryApiMixin {
         '/$resource/current/',
         options: await options(RestMethods.get),
       );
-      HttpHelpers.checkError(response);
+
       final map = response.data;
       return modelFromMap(map);
-    } on HttpNotAuthorized {
-      if (allowRefresh) {
-        await Repository.instance.read(AuthApiService.key).refreshAccessToken();
-        return current(allowRefresh: false);
-      } else {
+    } on DioException catch (e) {
+      try {
+        checkError(e.response);
         rethrow;
+      } on HttpNotAuthorized {
+        if (allowRefresh) {
+          await Repository.instance.read(AuthApiService.key).refreshAccessToken();
+          return current(allowRefresh: false);
+        } else {
+          rethrow;
+        }
       }
     }
   }

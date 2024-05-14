@@ -7,21 +7,26 @@ import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/recei
 import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
 import 'package:grocery_genie/widget/app_bar.dart';
 
+final bottomNavKey = GlobalKey();
+
 const List<DashboardRouteDescriptors> dashboardBottomNavDescriptors = [
   DashboardRouteDescriptors(
     routeName: GroceryListPage.route,
     label: 'Grocery Lists',
-    icon: Icon(Icons.shopping_cart),
+    selectedIcon: Icon(Icons.shopping_cart),
+    defaultIcon: Icon(Icons.shopping_cart_outlined),
   ),
   DashboardRouteDescriptors(
     routeName: RecipeListPage.route,
     label: 'Recipes',
-    icon: Icon(Icons.book),
+    selectedIcon: Icon(Icons.book),
+    defaultIcon: Icon(Icons.book_outlined),
   ),
   DashboardRouteDescriptors(
     routeName: IngredientListPage.route,
     label: 'Ingredients',
-    icon: Icon(Icons.egg),
+    selectedIcon: Icon(Icons.egg),
+    defaultIcon: Icon(Icons.egg_outlined),
     // icon: Icon(Icons.cookie),
     // icon: Icon(Icons.egg_alt),
     // icon: Icon(Icons.nutrition),
@@ -48,7 +53,8 @@ class DashboardScaffold extends StatefulWidget {
   DashboardScaffoldState createState() => DashboardScaffoldState();
 
   static DashboardScaffoldState of(BuildContext context) {
-    final DashboardScaffoldState? result = context.findAncestorStateOfType<DashboardScaffoldState>();
+    final DashboardScaffoldState? result =
+        context.findAncestorStateOfType<DashboardScaffoldState>();
     if (result != null) {
       return result;
     }
@@ -76,6 +82,7 @@ class DashboardScaffoldState extends State<DashboardScaffold> {
     return Hero(
       tag: 'dashboard-scaffold-bottom-nav',
       child: BottomNavigationBar(
+        key: bottomNavKey,
         // With more than 4 items in the bottom nav flutter swaps the default
         // type from "fixed" to "shifting" automatically.
         // This causes the background color to no longer work.
@@ -87,13 +94,15 @@ class DashboardScaffoldState extends State<DashboardScaffold> {
         items: [
           for (final route in dashboardBottomNavDescriptors)
             BottomNavigationBarItem(
-              icon: route.icon,
+              icon: route.routeName == widget.activeRoute ? route.selectedIcon : route.defaultIcon,
               label: route.label,
             ),
         ],
         onTap: (int index) {
           final route = dashboardBottomNavDescriptors[index];
-          Navigator.of(context).pushReplacementNamed(route.routeName);
+          if (route.routeName != widget.activeRoute) {
+            Navigator.of(context).pushReplacementNamed(route.routeName);
+          }
         },
       ),
     );

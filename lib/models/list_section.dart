@@ -24,7 +24,6 @@ class ListSection extends ApiModel {
         sortOrder = map['sortOrder'],
         list = ItemList.fromJson(map['list']);
 
-  @override
   ApiModel clone() {
     return ListSection(
       id: id,
@@ -49,7 +48,6 @@ class ListSection extends ApiModel {
     };
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     recipe = Recipe.fromJson(map['recipe']!);

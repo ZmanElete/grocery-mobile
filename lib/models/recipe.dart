@@ -40,7 +40,6 @@ class Recipe extends ApiModel {
         // ignore: unnecessary_lambdas
         tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
 
-  @override
   ApiModel clone() {
     return Recipe(
       id: id,
@@ -69,7 +68,6 @@ class Recipe extends ApiModel {
     };
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     title = map['title']!;

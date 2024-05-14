@@ -25,7 +25,6 @@ class Tag extends ApiModel implements Comparable {
     throw Exception("Type ${info.runtimeType} is not of type [Map<String, dynamic>] or [Tag]");
   }
 
-  @override
   Tag clone() {
     return Tag(
       id: id,
@@ -34,7 +33,6 @@ class Tag extends ApiModel implements Comparable {
     );
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     title = map['title'];

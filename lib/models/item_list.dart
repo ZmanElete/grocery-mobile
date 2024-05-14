@@ -1,7 +1,6 @@
 import 'package:guru_flutter_rest/django/api_model.dart';
 import 'package:grocery_genie/models/item.dart';
 import 'package:grocery_genie/models/tag.dart';
-import 'package:guru_flutter_rest/django/api_model.dart';
 
 class ItemList extends ApiModel {
   int? id;
@@ -42,7 +41,6 @@ class ItemList extends ApiModel {
     return ItemList.fromJson(map);
   }
 
-  @override
   ItemList clone() {
     return ItemList(
       id: id,
@@ -69,7 +67,6 @@ class ItemList extends ApiModel {
     };
   }
 
-  @override
   void loadMap(Map<String, dynamic> map) {
     id = map['id'];
     title = map['title']!;

@@ -4,6 +4,7 @@ import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/models/config.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
 import 'package:grocery_genie/services/auth_api_service.dart';
+import 'package:grocery_genie/widget/logo.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,6 +32,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(),
       body: Builder(
@@ -38,54 +40,74 @@ class LoginPageState extends State<LoginPage> {
           key: formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(fontSize: 30),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: Container(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Column(
+                      children: [
+                        const Hero(
+                          tag: 'logo',
+                          child: Logo(),
+                        ),
+
+                        const SizedBox(height: 70),
+                        // Container(
+                        //   margin: const EdgeInsets.only(bottom: 10),
+                        //   child: Text(
+                        //     "Login",
+                        //     style: theme.textTheme.labelLarge?.copyWith(
+                        //           color: theme.colorScheme.primary,
+                        //         ),
+                        //   ),
+                        // ),
+                        TextFormField(
+                          controller: emailController,
+                          autofocus: false,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: "Email",
+                            prefixIcon: Icon(Icons.mail),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Must Enter Email';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 25),
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: true,
+                          textInputAction: TextInputAction.done,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.primary,
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: "Password",
+                            prefixIcon: Icon(Icons.key),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Must Enter Username';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 50),
+                        FilledButton(
+                          child: const Text("Submit"),
+                          onPressed: () => login(context),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 40),
-                TextFormField(
-                  controller: emailController,
-                  autofocus: true,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    hintText: "Email",
-                    prefixIcon: Icon(Icons.mail),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Must Enter Email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 25),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: Icon(Icons.key),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Must Enter Username';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  child: const Text("Submit"),
-                  onPressed: () => login(context),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),
