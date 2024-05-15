@@ -1,5 +1,6 @@
 import 'package:grocery_genie/managers/measurement_manager.dart';
 import 'package:guru_flutter_rest/django/api_model.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class Measurement extends ApiModel {
   int id;
@@ -35,10 +36,10 @@ class Measurement extends ApiModel {
     } else if (info is Map<String, dynamic>) {
       return Measurement.fromJson(info);
     } else if (info is int) {
-      if (!MeasurementListManager.instance.initialized) {
+      if (!Repository.instance.read(MeasurementListManager.key).initialized) {
         throw Exception('Measurement Manager is not intialized.');
       }
-      return MeasurementListManager.instance.list.value!.firstWhere((element) => element.id == info);
+      return Repository.instance.read(MeasurementListManager.key).list.value!.firstWhere((element) => element.id == info);
     }
     throw Exception(
         "Type ${info.runtimeType} is not of type [Map<String, dynamic>], [Measurement] or [int] (as an id).");

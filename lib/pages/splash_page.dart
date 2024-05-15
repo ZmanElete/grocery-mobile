@@ -25,7 +25,7 @@ class SplashPage extends StatelessWidget {
     final prefs = await Repository.instance.read(prefsKey);
     final token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
     if (token != null) {
-      final loggedIn = await SessionManager.instance.autoLogin();
+      final loggedIn = await Repository.instance.read(SessionManager.key).autoLogin();
       if (loggedIn) {
         initialPage = DashboardRoute(
           routeName: GroceryListPage.route,

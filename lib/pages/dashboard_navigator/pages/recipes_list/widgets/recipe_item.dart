@@ -4,6 +4,7 @@ import 'package:grocery_genie/managers/recipe_manager.dart';
 import 'package:grocery_genie/models/recipe.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
 import 'package:grocery_genie/widget/confirm_delete_dialog.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class RecipeItem extends StatefulWidget {
   final Recipe recipe;
@@ -112,7 +113,7 @@ class _RecipeItemState extends State<RecipeItem> {
             ),
           );
           if (result == true) {
-            await RecipeListManager.instance.deleteItem(widget.recipe);
+            await Repository.instance.read(RecipeListManager.key).deleteItem(widget.recipe);
           }
           setState(() {});
           break;

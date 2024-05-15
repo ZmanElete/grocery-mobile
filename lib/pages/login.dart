@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  Config config = Config.instance;
+  Config config = Repository.instance.read(Config.key);
   AuthApiService auth = Repository.instance.read(AuthApiService.key);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -120,7 +120,7 @@ class LoginPageState extends State<LoginPage> {
       final email = emailController.text;
       final password = passwordController.text;
       try {
-        await SessionManager.instance.login(email: email, password: password);
+        await Repository.instance.read(SessionManager.key).login(email: email, password: password);
         Navigator.pushNamedAndRemoveUntil(
           context,
           DashboardScaffold.route,

@@ -18,14 +18,14 @@ class RecipeListPage extends StatefulWidget {
 class RecipeListPageState extends State<RecipeListPage> {
   @override
   void initState() {
-    RecipeListManager.instance.getList();
+    Repository.instance.read(RecipeListManager.key).getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ModelListView<Recipe, RecipeListManager>(
-      listManager: RecipeListManager.instance,
+      listManager: Repository.instance.read(RecipeListManager.key),
       floatingActionButton: floatingActionButton(context),
       itemBuilder: (context, recipe) => RecipeItem(recipe: recipe)
     );
@@ -39,7 +39,7 @@ class RecipeListPageState extends State<RecipeListPage> {
           heroTag: 'add-fab',
           onPressed: () async {
             final Recipe recipe = await Repository.instance.read(RecipeApiService.key).create(Recipe.empty());
-            RecipeListManager.instance.getList();
+            Repository.instance.read(RecipeListManager.key).getList();
             if (mounted) {
               await Navigator.of(context).pushNamed(
                 RecipeDetailPage.route,

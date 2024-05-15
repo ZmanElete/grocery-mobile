@@ -1,6 +1,7 @@
+import 'package:guru_provider/guru_provider/keys/state_key.dart';
+
 class Config {
-  //So that it is never null
-  static Config instance = Config(apiUrl: '');
+  static StateKey<Config> key = StateKey(() => Config(apiUrl: ''));
 
   final String apiUrl;
   final bool debug;

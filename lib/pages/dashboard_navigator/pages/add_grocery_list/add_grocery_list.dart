@@ -169,7 +169,7 @@ class AddGroceryListPageState extends State<AddGroceryListPage> {
         list = await Repository.instance.read(ItemListApiService.key).update(list);
       } else {
         list = ItemList(
-          household: SessionManager.instance.user!.household.id!,
+          household: Repository.instance.read(SessionManager.key).user!.household.id!,
           title: _titleController.text,
           active: true,
           items: items,

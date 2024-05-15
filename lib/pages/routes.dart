@@ -5,6 +5,7 @@ import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
 import 'package:grocery_genie/pages/landing.dart';
 import 'package:grocery_genie/pages/login.dart';
 
+
 Route<dynamic> onGenerateBaseRoutes(RouteSettings settings) {
   // Map<String, dynamic> args = routeSettings.arguments;
   WidgetBuilder builder;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/managers/measurement_manager.dart';
 import 'package:grocery_genie/models/measurement.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class MeasurementPicker extends StatefulWidget {
   final String title;
@@ -54,7 +55,7 @@ class _MeasurementPickerState extends State<MeasurementPicker> {
         setState(() {});
       },
       items: [
-        for (var m in MeasurementListManager.instance.list.value!)
+        for (var m in Repository.instance.read(MeasurementListManager.key).list.value!)
           DropdownMenuItem(
             value: m,
             child: Text(m.title),

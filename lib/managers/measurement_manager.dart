@@ -1,10 +1,12 @@
 import 'package:grocery_genie/managers/list_manager.dart';
 import 'package:grocery_genie/models/measurement.dart';
 import 'package:grocery_genie/services/measurement_api_service.dart';
+import 'package:guru_provider/guru_provider/keys/state_key.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
 
 class MeasurementListManager extends ListManager<Measurement, MeasurementApiService> {
-  static MeasurementListManager instance = MeasurementListManager();
+  static StateKey<MeasurementListManager> key = StateKey(() => MeasurementListManager());
+
   bool initialized = false;
 
   @override

@@ -152,12 +152,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: "7685acd06244ba4be60f455c5cafe5790c63dc91fc03f7385b1e922a6b85b17c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "14.1.1"
   guru_flutter_rest:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "53192cb675d6b6a609f8ecef76b7aad73d948c25"
+      resolved-ref: "98db17df3ea408a753c8da0edf0745539af81a7d"
       url: "git@git.gurutechnologies.net:guru-flutter/guru_flutter_rest.git"
     source: git
     version: "0.0.5"
@@ -166,7 +174,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e88ee2693198990de68af38bab85be04fa874cd3
+      resolved-ref: f4bcd91382acea5a1f33cad91d62b8fafaaf85fd
       url: "git@git.gurutechnologies.net:zachw1/guru_provider.git"
     source: git
     version: "1.0.0+1"

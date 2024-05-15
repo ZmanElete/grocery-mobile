@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/managers/tags_manager.dart';
 import 'package:grocery_genie/models/tag.dart';
 import 'package:grocery_genie/widget/editable_text_form.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class TagsField extends StatefulWidget {
   final List<Tag> tags;
@@ -21,7 +22,7 @@ class TagsField extends StatefulWidget {
 class _TagsFieldState extends State<TagsField> {
   @override
   void initState() {
-    TagsManager.instance.getList();
+    Repository.instance.read(TagsManager.key).getList();
     super.initState();
   }
 
@@ -158,7 +159,7 @@ class TagSearchDelegate extends SearchDelegate<Tag> {
   void getOrCreateTag(BuildContext context) {
     Tag? tag;
     if (query.trim() != '') {
-      tag = TagsManager.instance.list.value!.cast<Tag?>().firstWhere(
+      tag = Repository.instance.read(TagsManager.key).list.value!.cast<Tag?>().firstWhere(
             (tag) => tag?.title.trim() == query.trim(),
             orElse: () => null,
           );
@@ -190,7 +191,7 @@ class TagSearchDelegate extends SearchDelegate<Tag> {
       padding: const EdgeInsets.all(12.0),
       width: double.infinity,
       child: ValueListenableBuilder<List<Tag>?>(
-        valueListenable: TagsManager.instance.list,
+        valueListenable: Repository.instance.read(TagsManager.key).list,
         builder: (context, allTags, _) {
           final tags = allTags!.where(
             (tag) => tag.title.contains(query) && !filterTags.contains(tag),

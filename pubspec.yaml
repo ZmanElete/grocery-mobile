@@ -39,6 +39,7 @@ dependencies:
     # https://git.gurutechnologies.net/guru-flutter/guru_flutter_rest.git
     git:
       url: git@git.gurutechnologies.net:guru-flutter/guru_flutter_rest.git
+  go_router: ^14.1.1
     
 
 dev_dependencies:

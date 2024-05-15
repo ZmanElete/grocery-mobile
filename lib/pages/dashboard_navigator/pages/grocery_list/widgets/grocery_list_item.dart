@@ -128,7 +128,7 @@ class GroceryListItemState extends State<GroceryListItem> {
             ),
           );
           if (result == true) {
-            await GroceryListManager.instance.deleteItem(widget.list);
+            await Repository.instance.read(GroceryListManager.key).deleteItem(widget.list);
           }
           setState(() {});
           break;

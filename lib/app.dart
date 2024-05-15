@@ -10,10 +10,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: Constants.appName,
       theme: AppTheme.getTheme(Brightness.light),
       darkTheme: AppTheme.getTheme(Brightness.dark),
+      
       initialRoute: SplashPage.route,
       onGenerateRoute: onGenerateBaseRoutes,
     );

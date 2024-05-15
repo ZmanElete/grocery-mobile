@@ -4,6 +4,7 @@ import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/widgets/grocery_list_item.dart';
 import 'package:grocery_genie/widget/model_list_view.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class GroceryListPage extends StatefulWidget {
   static const String route = 'grocery-list';
@@ -16,14 +17,14 @@ class GroceryListPage extends StatefulWidget {
 class GroceryListPageState extends State<GroceryListPage> {
   @override
   void initState() {
-    GroceryListManager.instance.getList();
+    Repository.instance.read(GroceryListManager.key).getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ModelListView<ItemList, GroceryListManager>(
-      listManager: GroceryListManager.instance,
+      listManager: Repository.instance.read(GroceryListManager.key),
       floatingActionButton: floatingActionButton(context),
       itemBuilder: (context, list) => GroceryListItem(list: list)
     );
@@ -34,7 +35,7 @@ class GroceryListPageState extends State<GroceryListPage> {
       heroTag: 'add-fab',
       onPressed: () async {
         await Navigator.of(context).pushNamed(AddGroceryListPage.route);
-        await GroceryListManager.instance.getList();
+        await Repository.instance.read(GroceryListManager.key).getList();
       },
       child: const Icon(
         Icons.add,

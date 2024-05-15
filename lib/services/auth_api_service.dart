@@ -26,7 +26,7 @@ class AuthApiService extends RestService with GroceryApiMixin {
   final String verifyUrl = "/login/verify/";
   final String refreshUrl = "/login/refresh/";
 
-  final Config config = Config.instance;
+  final Config config = Repository.instance.read(Config.key);
   final Future<SharedPreferences> prefs = Repository.instance.read(prefsKey);
 
   /// Returns whether it was a successful login or not

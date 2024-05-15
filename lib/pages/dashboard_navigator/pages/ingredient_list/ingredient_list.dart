@@ -4,6 +4,7 @@ import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_detail/ingredient_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_list/widgets/ingredient_item.dart';
 import 'package:grocery_genie/widget/model_list_view.dart';
+import 'package:guru_provider/guru_provider/repository.dart';
 
 class IngredientListPage extends StatefulWidget {
   static const String route = 'ingredient-list';
@@ -16,14 +17,14 @@ class IngredientListPage extends StatefulWidget {
 class IngredientListPageState extends State<IngredientListPage> {
   @override
   void initState() {
-    IngredientListManager.instance.getList();
+    Repository.instance.read(IngredientListManager.key).getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ModelListView<Ingredient, IngredientListManager>(
-      listManager: IngredientListManager.instance,
+      listManager: Repository.instance.read(IngredientListManager.key),
       floatingActionButton: floatingActionButton(context),
       itemBuilder: (context, ingredient) => IngredientItem(ingredient: ingredient),
     );
@@ -43,7 +44,7 @@ class IngredientListPageState extends State<IngredientListPage> {
               ),
             );
             if (mounted) {
-              await IngredientListManager.instance.getList();
+              await Repository.instance.read(IngredientListManager.key).getList();
               if (mounted) setState(() {});
             }
           },

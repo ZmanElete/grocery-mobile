@@ -36,7 +36,7 @@ mixin ListMixin<T extends ApiModel, U extends ListModelMixin<T>> on BaseListMana
 mixin DeleteListManagerMixin<T extends ApiModel, U extends DeleteModelMixin<T>>
     on BaseListManager<T, U> {
   Future<void> deleteItem(T item) async {
-    await apiService.delete(item);
+    await apiService.delete(item.pk);
     await refresh();
   }
 }
