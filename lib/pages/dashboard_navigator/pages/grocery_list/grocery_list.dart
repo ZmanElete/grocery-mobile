@@ -39,7 +39,6 @@ class GroceryListPageState extends State<GroceryListPage> {
       child: const Icon(
         Icons.add,
         size: 35,
-        color: Colors.white,
       ),
     );
   }

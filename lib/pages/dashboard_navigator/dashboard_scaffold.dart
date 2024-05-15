@@ -14,19 +14,19 @@ const List<DashboardRouteDescriptors> dashboardBottomNavDescriptors = [
     routeName: GroceryListPage.route,
     label: 'Grocery Lists',
     selectedIcon: Icon(Icons.shopping_cart),
-    defaultIcon: Icon(Icons.shopping_cart_outlined),
+    icon: Icon(Icons.shopping_cart_outlined),
   ),
   DashboardRouteDescriptors(
     routeName: RecipeListPage.route,
     label: 'Recipes',
     selectedIcon: Icon(Icons.book),
-    defaultIcon: Icon(Icons.book_outlined),
+    icon: Icon(Icons.book_outlined),
   ),
   DashboardRouteDescriptors(
     routeName: IngredientListPage.route,
     label: 'Ingredients',
     selectedIcon: Icon(Icons.egg),
-    defaultIcon: Icon(Icons.egg_outlined),
+    icon: Icon(Icons.egg_outlined),
     // icon: Icon(Icons.cookie),
     // icon: Icon(Icons.egg_alt),
     // icon: Icon(Icons.nutrition),
@@ -81,24 +81,20 @@ class DashboardScaffoldState extends State<DashboardScaffold> {
   Widget bottomNav() {
     return Hero(
       tag: 'dashboard-scaffold-bottom-nav',
-      child: BottomNavigationBar(
+      child: NavigationBar(
         key: bottomNavKey,
-        // With more than 4 items in the bottom nav flutter swaps the default
-        // type from "fixed" to "shifting" automatically.
-        // This causes the background color to no longer work.
-        // Explicitly setting to "fixed" to avoid this issue.
-        type: BottomNavigationBarType.fixed,
-        currentIndex: dashboardBottomNavDescriptors.indexWhere(
-          (element) => element.routeName == widget.activeRoute,
-        ),
-        items: [
+        destinations: [
           for (final route in dashboardBottomNavDescriptors)
-            BottomNavigationBarItem(
-              icon: route.routeName == widget.activeRoute ? route.selectedIcon : route.defaultIcon,
+            NavigationDestination(
               label: route.label,
+              selectedIcon: route.selectedIcon,
+              icon: route.icon,
             ),
         ],
-        onTap: (int index) {
+        selectedIndex: dashboardBottomNavDescriptors.indexWhere(
+          (element) => element.routeName == widget.activeRoute,
+        ),
+        onDestinationSelected: (int index) {
           final route = dashboardBottomNavDescriptors[index];
           if (route.routeName != widget.activeRoute) {
             Navigator.of(context).pushReplacementNamed(route.routeName);

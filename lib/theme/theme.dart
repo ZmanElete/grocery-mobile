@@ -7,7 +7,7 @@ class AppTheme {
     const lightenedPrimary = Color.fromARGB(255, 21, 138, 25);
 
     const background =  Color.fromARGB(255, 235, 250, 239);
-    const darkBackground = Color.fromARGB(255, 55, 59, 55);
+    const darkBackground = Color.fromARGB(255, 49, 53, 49);
 
     const primaryContainer = const Color(0xFFEAF4F0);
     const onPrimaryContainer = primary;
@@ -21,8 +21,9 @@ class AppTheme {
     const secondary = Color.fromARGB(255, 86, 43, 0);
     const darkSecondary = Color.fromARGB(255, 133, 67, 0);
 
-    const surface = Color.fromARGB(255, 190, 225, 200);
-    const darkSurface = Color.fromARGB(255, 46, 49, 46);
+    // const surface = Color.fromARGB(255, 190, 225, 200);
+    const surface = background;
+    const darkSurface = darkBackground;
 
     final scheme = ColorScheme(
       brightness: brightness,
@@ -32,7 +33,7 @@ class AppTheme {
         Brightness.dark => lightenedPrimary,
       },
       onPrimary: switch(brightness) {
-        Brightness.light => Colors.white,
+        Brightness.light => onLight,
         Brightness.dark => onDark,
       },
 
@@ -53,8 +54,8 @@ class AppTheme {
         Brightness.dark => darkInverseSurface,
       },
       onInverseSurface: switch (brightness) {
-        Brightness.light => Colors.white,
-        Brightness.dark => Colors.black,
+        Brightness.light => onDark,
+        Brightness.dark => onLight,
       },
 
       /// Found only in snackbar on the action TextColor
@@ -76,7 +77,7 @@ class AppTheme {
       // Used in:
       // Bottom Nav
       // Chips on selected
-      secondaryContainer: primary.withOpacity(.2),
+      secondaryContainer: primary.withOpacity(.6),
       onSecondaryContainer: switch (brightness) {
         Brightness.light => onLight,
         Brightness.dark => onDark,
@@ -198,10 +199,6 @@ class AppTheme {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           // textStyle: const TextStyle(fontSize: 20),
         ),
-      ),
-      appBarTheme: AppBarTheme(
-        // backgroundColor: scheme.background,
-        // surfaceTintColor: scheme.primary.withOpacity(1),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),

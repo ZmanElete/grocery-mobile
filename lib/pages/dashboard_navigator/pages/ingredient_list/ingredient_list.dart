@@ -50,7 +50,6 @@ class IngredientListPageState extends State<IngredientListPage> {
           child: const Icon(
             Icons.add,
             size: 35,
-            color: Colors.white,
           ),
         ),
         // const SizedBox(

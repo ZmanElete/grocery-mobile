@@ -13,13 +13,13 @@ class DashboardRouteDescriptors {
   final String routeName;
   final String label;
   final Widget selectedIcon;
-  final Widget defaultIcon;
+  final Widget icon;
 
   const DashboardRouteDescriptors({
     required this.routeName,
     required this.label,
     required this.selectedIcon,
-    required this.defaultIcon,
+    required this.icon,
   });
 }
 
@@ -32,6 +32,8 @@ const List<String> bottomNavRoutes = [
   IngredientListPage.route,
   IngredientDetailPage.route,
 ];
+
+final scaffoldKey = GlobalKey<DashboardScaffoldState>();
 
 class DashboardRoute extends MaterialPageRoute {
   final String routeName;
@@ -47,6 +49,7 @@ class DashboardRoute extends MaterialPageRoute {
   @override
   Widget buildContent(BuildContext context) {
     return DashboardScaffold(
+      key: scaffoldKey,
       activeRoute: routeName,
       child: super.buildContent(context),
     );
