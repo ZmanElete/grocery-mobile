@@ -34,7 +34,7 @@ class GroceryListPageState extends State<GroceryListPage> {
     return FloatingActionButton(
       heroTag: 'add-fab',
       onPressed: () async {
-        await Navigator.of(context).pushNamed(AddGroceryListPage.route);
+        await Navigator.of(context).pushNamed(GroceryDetailListPage.route);
         await Repository.instance.read(GroceryListManager.key).getList();
       },
       child: const Icon(

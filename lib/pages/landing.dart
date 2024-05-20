@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:grocery_genie/consts.dart';
 import 'package:grocery_genie/pages/login.dart';

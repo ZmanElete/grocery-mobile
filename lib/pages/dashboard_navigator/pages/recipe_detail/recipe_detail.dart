@@ -19,7 +19,7 @@ class RecipeDetailPageArgs {
 class RecipeDetailPage extends StatefulWidget {
   static const route = 'recipe-detail';
 
-  final Recipe recipe;
+  final int recipe;
   final bool editing;
   const RecipeDetailPage({required this.recipe, this.editing = false, super.key});
 
@@ -35,7 +35,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   void initState() {
     bool editing;
     editing = widget.editing;
-    recipe = widget.recipe;
+    // recipe = widget.recipe;
     controller = EditableController(
       editable: editing,
     );
@@ -122,7 +122,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
           ),
           EditableTextField(
             hint: 'Serving Size',
-            initialText: widget.recipe.standardServing.toString(),
+            initialText: recipe.standardServing.toString(),
             keyboardType: TextInputType.number,
             style: theme.textTheme.bodyLarge,
             prefixIcon: const Icon(

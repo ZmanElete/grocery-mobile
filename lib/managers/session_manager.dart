@@ -18,6 +18,7 @@ class SessionManager {
   User? user;
   final StreamController<User> _userStreamController = StreamController.broadcast();
   Stream<User?> get userStream => _userStream();
+  bool get loggedIn => user != null;
 
   Future<void> login({required String email, required String password}) async {
     try {

@@ -13,16 +13,16 @@ class AddGroceryListPageArguments {
   const AddGroceryListPageArguments(this.itemList);
 }
 
-class AddGroceryListPage extends StatefulWidget {
+class GroceryDetailListPage extends StatefulWidget {
   static const String route = 'add-grocery-list-page';
   final ItemList? itemList;
-  const AddGroceryListPage({this.itemList, Key? key}) : super(key: key);
+  const GroceryDetailListPage({this.itemList, Key? key}) : super(key: key);
 
   @override
-  AddGroceryListPageState createState() => AddGroceryListPageState();
+  GroceryDetailListPageState createState() => GroceryDetailListPageState();
 }
 
-class AddGroceryListPageState extends State<AddGroceryListPage> {
+class GroceryDetailListPageState extends State<GroceryDetailListPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
   List<Item> items = [];

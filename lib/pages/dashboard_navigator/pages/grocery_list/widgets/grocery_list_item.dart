@@ -115,7 +115,7 @@ class GroceryListItemState extends State<GroceryListItem> {
       switch (menuItem) {
         case 1:
           await Navigator.of(context).pushNamed(
-            AddGroceryListPage.route,
+            GroceryDetailListPage.route,
             arguments: AddGroceryListPageArguments(widget.list),
           );
           setState(() {});

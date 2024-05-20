@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
 import 'package:grocery_genie/pages/landing.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/auth_api_service.dart';
 import 'package:grocery_genie/services/prefs.dart';
 import 'package:grocery_genie/widget/logo.dart';
@@ -27,11 +28,10 @@ class SplashPage extends StatelessWidget {
     if (token != null) {
       final loggedIn = await Repository.instance.read(SessionManager.key).autoLogin();
       if (loggedIn) {
-        initialPage = DashboardRoute(
-          routeName: GroceryListPage.route,
-          builder: (context) => const GroceryListPage(),
-          settings: null,
-        ).buildContent(context);
+        initialPage = DashboardScaffold(
+          activeRoute: AppRoute.groceryListPage.name,
+          child: GroceryListPage(),
+        );
       }
     }
 

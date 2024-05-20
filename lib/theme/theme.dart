@@ -6,8 +6,8 @@ class AppTheme {
     const primary = const Color.fromARGB(255, 14, 95, 17);
     const lightenedPrimary = Color.fromARGB(255, 21, 138, 25);
 
-    const background =  Color.fromARGB(255, 235, 250, 239);
-    const darkBackground = Color.fromARGB(255, 49, 53, 49);
+    const surface =  Color.fromARGB(255, 235, 250, 239);
+    const darkSurface = Color.fromARGB(255, 49, 53, 49);
 
     const primaryContainer = const Color(0xFFEAF4F0);
     const onPrimaryContainer = primary;
@@ -22,8 +22,6 @@ class AppTheme {
     const darkSecondary = Color.fromARGB(255, 133, 67, 0);
 
     // const surface = Color.fromARGB(255, 190, 225, 200);
-    const surface = background;
-    const darkSurface = darkBackground;
 
     final scheme = ColorScheme(
       brightness: brightness,
@@ -81,21 +79,6 @@ class AppTheme {
       onSecondaryContainer: switch (brightness) {
         Brightness.light => onLight,
         Brightness.dark => onDark,
-      },
-
-      background: switch (brightness) {
-        Brightness.light => background,
-        Brightness.dark => darkBackground,
-      },
-
-      // Used In:
-      // Anything that has an outline/border IE: Chips, Text Box, OutlinedButton
-      // Dividers, drop down selection
-      // Used in the Switch as the disabled color
-      // There is a single line in the date picker that uses this over outline
-      onBackground: switch (brightness) {
-        Brightness.light => onLight,
-        Brightness.dark => onDark.withOpacity(.6),
       },
 
       surface: switch (brightness) {
