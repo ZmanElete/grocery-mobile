@@ -17,36 +17,39 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 0.0.1+1
 
+
 environment:
   sdk: ">=3.3.4 <4.0.0"
+
 
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences:
-  path_provider:
-  cupertino_icons:
-  dio: 
-  page_transition: 
-  logging: 
-
   guru_provider:
     git:
       url: git@git.gurutechnologies.net:zachw1/guru_provider.git
-
   # Guru managed package for communication with django servers. (and the basic shape of rest endpoints)
   guru_flutter_rest:
     # https://git.gurutechnologies.net/guru-flutter/guru_flutter_rest.git
     git:
       url: git@git.gurutechnologies.net:guru-flutter/guru_flutter_rest.git
-  go_router: ^14.1.1
-    
+
+  shared_preferences:
+  path_provider:
+  cupertino_icons:
+  dio:
+  page_transition:
+  logging:
+  go_router:
+  storybook_flutter: ^0.14.1
+
 
 dev_dependencies:
-  flutter_lints: 
+  flutter_lints:
   flutter_launcher_icons:
   flutter_test:
     sdk: flutter
+
 
 flutter_icons:
   image_path: "assets/grocery-genie-logo.png"
@@ -59,6 +62,7 @@ flutter_icons:
     image_path: "assets/grocery-genie-logo.png"
     background_color: "#fff"
     theme_color: "#fff"
+
 
 flutter:
   uses-material-design: true #material Icons

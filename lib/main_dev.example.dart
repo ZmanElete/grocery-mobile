@@ -5,6 +5,7 @@ void main() async {
   initAndRun(
     Config(
       apiUrl: 'http://192.168.0.111:8000',
+      enableStorybook: true,
       // apiUrl: 'http://guru-zachw:8000',
       debug: true,
       debugLoginEmail: 'test@test.com',
