@@ -38,7 +38,7 @@ class Recipe extends ApiModel {
         standardServing = map['standard_serving'],
         list = ItemList.fromJson(map['list']),
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
+        tags = List<Tag>.from((map['tags'] as List?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
 
   ApiModel clone() {
     return Recipe(
@@ -75,6 +75,6 @@ class Recipe extends ApiModel {
     instructions = map['instructions']!;
     standardServing = map['standard_serving']!;
     list = ItemList.fromJson(map['list']);
-    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromJson).toList() ?? [];
+    tags = (map['tags'] as List?)?.map((map) => Tag.fromJson(map)).toList() ?? [];
   }
 }

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/recipe_manager.dart';
 import 'package:grocery_genie/models/recipe.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipe_detail/recipe_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/widgets/recipe_item.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/recipe_api_service.dart';
 import 'package:grocery_genie/widget/model_list_view.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
 
 class RecipeListPage extends StatefulWidget {
-  static const String route = 'recipe-list';
+  static const AppRoute route = AppRoute.recipeListPage;
   const RecipeListPage({Key? key}) : super(key: key);
 
   @override
@@ -25,10 +27,9 @@ class RecipeListPageState extends State<RecipeListPage> {
   @override
   Widget build(BuildContext context) {
     return ModelListView<Recipe, RecipeListManager>(
-      listManager: Repository.instance.read(RecipeListManager.key),
-      floatingActionButton: floatingActionButton(context),
-      itemBuilder: (context, recipe) => RecipeItem(recipe: recipe)
-    );
+        listManager: Repository.instance.read(RecipeListManager.key),
+        floatingActionButton: floatingActionButton(context),
+        itemBuilder: (context, recipe) => RecipeItem(recipe: recipe));
   }
 
   Widget floatingActionButton(BuildContext context) {
@@ -38,15 +39,12 @@ class RecipeListPageState extends State<RecipeListPage> {
         FloatingActionButton(
           heroTag: 'add-fab',
           onPressed: () async {
-            final Recipe recipe = await Repository.instance.read(RecipeApiService.key).create(Recipe.empty());
+            final Recipe recipe =
+                await Repository.instance.read(RecipeApiService.key).create(Recipe.empty());
             Repository.instance.read(RecipeListManager.key).getList();
             if (mounted) {
-              await Navigator.of(context).pushNamed(
-                RecipeDetailPage.route,
-                arguments: RecipeDetailPageArgs(
-                  recipe: recipe,
-                  editing: true,
-                ),
+              await GoRouter.of(context).pushNamed(
+                RecipeDetailPage.route.name,
               );
               if (mounted) setState(() {});
             }

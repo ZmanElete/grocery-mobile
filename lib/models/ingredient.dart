@@ -24,7 +24,7 @@ class Ingredient extends ApiModel {
         purchasingQuantity = map['purchasing_quantity'],
         purchasingMeasurement = Measurement.fromDynamic(map['purchasing_measurement']),
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromDynamic(m)).toList() ?? []);
+        tags = List<Tag>.from((map['tags'] as List?)?.map((m) => Tag.fromDynamic(m)).toList() ?? []);
 
   Ingredient clone() {
     return Ingredient(

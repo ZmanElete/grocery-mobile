@@ -32,7 +32,7 @@ class Item extends ApiModel implements Comparable {
         quantity = map["quantity"]!,
         checked = map["checked"],
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromJson(m)).toList() ?? []),
+        tags = List<Tag>.from((map['tags'] as List?)?.map((m) => Tag.fromJson(m)).toList() ?? []),
         ingredient = map['ingredient'] != null ? Ingredient.fromJson(map['ingredient']) : null,
         sequence = map['sequence'];
 
@@ -84,7 +84,7 @@ class Item extends ApiModel implements Comparable {
     quantity = map["quantity"]!;
     checked = map["checked"];
     sequence = map["sequence"];
-    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromJson).toList() ?? [];
+    tags = List<Tag>.from((map['tags'] as List?)?.map((map) => Tag.fromJson(map)).toList() ?? []);
     ingredient = map['ingredient'] != null ? Ingredient.fromJson(map['ingredient']) : null;
   }
 

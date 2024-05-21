@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/recipe_manager.dart';
 
 import 'package:grocery_genie/models/recipe.dart';
@@ -20,9 +21,8 @@ class _RecipeItemState extends State<RecipeItem> {
     final theme = Theme.of(context);
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          RecipeDetailPage.route,
-          arguments: RecipeDetailPageArgs(recipe: widget.recipe),
+        GoRouter.of(context).pushNamed(
+          RecipeDetailPage.route.name,
         );
       },
       child: Padding(
@@ -99,9 +99,8 @@ class _RecipeItemState extends State<RecipeItem> {
     if (mounted) {
       switch (menuItem) {
         case 1:
-          await Navigator.of(context).pushNamed(
-            RecipeDetailPage.route,
-            arguments: RecipeDetailPageArgs(recipe: widget.recipe),
+          await GoRouter.of(context).pushNamed(
+            RecipeDetailPage.route.name,
           );
           setState(() {});
           break;

@@ -1,29 +1,40 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_list/ingredient_list.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/recipes_list/receipe_list.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/routes.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/widget/app_bar.dart';
 
 final bottomNavKey = GlobalKey();
 
 const List<DashboardRouteDescriptors> dashboardBottomNavDescriptors = [
   DashboardRouteDescriptors(
-    routeName: GroceryListPage.route,
+    routes: [
+      AppRoute.groceryListPage,
+      AppRoute.groceryListDetail,
+    ],
+    destinationRoute: AppRoute.groceryListPage,
     label: 'Grocery Lists',
     selectedIcon: Icon(Icons.shopping_cart),
     icon: Icon(Icons.shopping_cart_outlined),
   ),
   DashboardRouteDescriptors(
-    routeName: RecipeListPage.route,
+    routes: [
+      AppRoute.recipeListPage,
+      AppRoute.recipeDetailPage,
+    ],
+    destinationRoute: AppRoute.recipeListPage,
     label: 'Recipes',
     selectedIcon: Icon(Icons.book),
     icon: Icon(Icons.book_outlined),
   ),
   DashboardRouteDescriptors(
-    routeName: IngredientListPage.route,
+    routes: [
+      AppRoute.ingredientListPage,
+      AppRoute.ingredientDetailPage,
+    ],
+    destinationRoute: AppRoute.ingredientListPage,
     label: 'Ingredients',
     selectedIcon: Icon(Icons.egg),
     icon: Icon(Icons.egg_outlined),
@@ -92,12 +103,12 @@ class DashboardScaffoldState extends State<DashboardScaffold> {
             ),
         ],
         selectedIndex: dashboardBottomNavDescriptors.indexWhere(
-          (element) => element.routeName == widget.activeRoute,
+          (element) => element.routes.any((e) => e.name == widget.activeRoute),
         ),
         onDestinationSelected: (int index) {
           final route = dashboardBottomNavDescriptors[index];
-          if (route.routeName != widget.activeRoute) {
-            Navigator.of(context).pushReplacementNamed(route.routeName);
+          if (route.destinationRoute.name != widget.activeRoute) {
+            GoRouter.of(context).goNamed(route.destinationRoute.name);
           }
         },
       ),

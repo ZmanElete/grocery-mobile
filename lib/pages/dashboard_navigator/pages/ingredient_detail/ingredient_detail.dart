@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/models/measurement.dart';
 import 'package:grocery_genie/models/tag.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/ingredient_api_service.dart';
 import 'package:grocery_genie/widget/editable_text_field.dart';
 import 'package:grocery_genie/widget/editable_text_form.dart';
@@ -24,7 +25,7 @@ class IngredientDetailPageArgs {
 }
 
 class IngredientDetailPage extends StatefulWidget {
-  static const String route = 'ingredient-detail';
+  static const AppRoute route = AppRoute.ingredientDetailPage;
 
   final Ingredient? ingredient;
   final bool editing;

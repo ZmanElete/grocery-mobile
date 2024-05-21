@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ConfirmDeleteDialog extends StatelessWidget {
   final String targetTitle;
@@ -12,14 +13,14 @@ class ConfirmDeleteDialog extends StatelessWidget {
       actionsOverflowButtonSpacing: 20,
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => GoRouter.of(context).pop(),
           child: const Text('Cancel'),
         ),
         TextButton(
           style: TextButton.styleFrom(
             foregroundColor: Colors.red
           ),
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => GoRouter.of(context).pop(true),
           child: const Text('Delete'),
         ),
       ],

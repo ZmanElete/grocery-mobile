@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/ingredient_manager.dart';
 import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_detail/ingredient_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_list/widgets/ingredient_item.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/widget/model_list_view.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
 
 class IngredientListPage extends StatefulWidget {
-  static const String route = 'ingredient-list';
+  static const AppRoute route = AppRoute.ingredientListPage;
   const IngredientListPage({Key? key}) : super(key: key);
 
   @override
@@ -37,11 +39,8 @@ class IngredientListPageState extends State<IngredientListPage> {
         FloatingActionButton(
           heroTag: 'add-fab',
           onPressed: () async {
-            await Navigator.of(context).pushNamed(
-              IngredientDetailPage.route,
-              arguments: IngredientDetailPageArgs(
-                editing: true,
-              ),
+            await GoRouter.of(context).pushNamed(
+              IngredientDetailPage.route.name,
             );
             if (mounted) {
               await Repository.instance.read(IngredientListManager.key).getList();

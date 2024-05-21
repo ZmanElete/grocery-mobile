@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/ingredient_manager.dart';
 import 'package:grocery_genie/models/ingredient.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_detail/ingredient_detail.dart';
@@ -21,12 +22,8 @@ class _IngredientItemState extends State<IngredientItem> {
     final theme = Theme.of(context);
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          IngredientDetailPage.route,
-          arguments: IngredientDetailPageArgs(
-            ingredient: widget.ingredient,
-            editing: null,
-          ),
+        GoRouter.of(context).pushNamed(
+          IngredientDetailPage.route.name,
         );
       },
       child: Padding(
@@ -92,9 +89,8 @@ class _IngredientItemState extends State<IngredientItem> {
     if (mounted) {
       switch (menuItem) {
         case 1:
-          await Navigator.of(context).pushNamed(
-            IngredientDetailPage.route,
-            arguments: IngredientDetailPageArgs(ingredient: widget.ingredient),
+          await GoRouter.of(context).pushNamed(
+            IngredientDetailPage.route.name,
           );
           setState(() {});
           break;

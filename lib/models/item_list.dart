@@ -33,11 +33,11 @@ class ItemList extends ApiModel {
         household = map['household'],
         active = map['active']!,
         // ignore: unnecessary_lambdas
-        items = List<Item>.from((map['item_set'] as List<Map<String, dynamic>>?)?.map((m) => Item.fromJson(m)).toList() ?? []),
+        items = List<Item>.from((map['item_set'] as List?)?.map((m) => Item.fromJson(m)).toList() ?? []),
         // ignore: unnecessary_lambdas
-        tags = List<Tag>.from((map['tags'] as List<Map<String, dynamic>>?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
+        tags = List<Tag>.from((map['tags'] as List?)?.map((m) => Tag.fromJson(m)).toList() ?? []);
 
-  static ItemList createfromJson(Map<String, dynamic> map) {
+  static ItemList createFromJson(Map<String, dynamic> map) {
     return ItemList.fromJson(map);
   }
 
@@ -72,7 +72,7 @@ class ItemList extends ApiModel {
     title = map['title']!;
     household = map['household']!;
     active = map['active']!;
-    items = (map['item_set'] as List<Map<String, dynamic>>?)?.map(Item.fromJson).toList() ?? [];
-    tags = (map['tags'] as List<Map<String, dynamic>>?)?.map(Tag.fromJson).toList() ?? [];
+    items = List<Item>.from((map['item_set'] as List?)?.map((map) => Item.fromJson(map)).toList() ?? []);
+    tags = List<Tag>.from((map['tags'] as List?)?.map((map) => Tag.fromJson(map)).toList() ?? []);
   }
 }

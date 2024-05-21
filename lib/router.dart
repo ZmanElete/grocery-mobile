@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/grocery_list_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_detail/ingredient_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/ingredient_list/ingredient_list.dart';
@@ -18,7 +19,7 @@ enum AppRoute {
   landingPage(path: '/landing', name: 'Landing'),
   loginPage(path: '/login', name: 'Login'),
 
-  dashboard(path: '/#', name: 'Dashboard'),
+  dashboard(path: '/app', name: 'Dashboard'),
 
   // Within Dashboard
   groceryListPage(path: '/groceries', name: 'Grocery List'),
@@ -44,12 +45,29 @@ enum AppRoute {
   }
 }
 
+CustomTransitionPage buildPageWithDefaultTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        FadeTransition(opacity: animation, child: child),
+  );
+}
+
 const Logger logger = Logger('router');
 final GoRouter router = GoRouter(
   initialLocation: AppRoute.splashPage.path,
   redirect: (context, state) {
     final session = Repository.instance.read(SessionManager.key);
-    if (!session.loggedIn) {
+    if (!session.loggedIn &&
+        ![
+          AppRoute.splashPage.path,
+          AppRoute.landingPage.path,
+        ].contains(state.fullPath)) {
       return AppRoute.landingPage.path;
     }
     return null;
@@ -58,12 +76,20 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: AppRoute.splashPage.path,
       name: AppRoute.splashPage.name,
-      builder: (context, state) => SplashPage(),
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: SplashPage(),
+      ),
     ),
     GoRoute(
       path: AppRoute.landingPage.path,
       name: AppRoute.landingPage.name,
-      builder: (context, state) => LandingPage(),
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: LandingPage(),
+      ),
     ),
     GoRoute(
       path: AppRoute.loginPage.path,
@@ -79,20 +105,34 @@ final GoRouter router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: AppRoute.dashboard.path + AppRoute.groceryListPage.path,
-          name: AppRoute.groceryListPage.name,
-          builder: (context, state) => GroceryListPage(),
+          path: AppRoute.dashboard.path,
+          name: AppRoute.dashboard.name,
+          redirect: (context, state) => AppRoute.dashboard.path + AppRoute.groceryListPage.path,
         ),
+        //
+        GoRoute(
+            path: AppRoute.dashboard.path + AppRoute.groceryListPage.path,
+            name: AppRoute.groceryListPage.name,
+            pageBuilder: (context, state) {
+              final page = GroceryListPage();
+              final extra = state.extra;
+              if (extra is Map && extra['fade'] == true) {
+                return buildPageWithDefaultTransition(
+                  context: context,
+                  state: state,
+                  child: page,
+                );
+              }
+              return NoTransitionPage(
+                child: page,
+              );
+            }),
         GoRoute(
           path: AppRoute.dashboard.path + AppRoute.groceryListDetail.path,
           name: AppRoute.groceryListDetail.name,
           builder: (context, state) => GroceryDetailListPage(),
         ),
-        GoRoute(
-          path: AppRoute.dashboard.path + AppRoute.recipeListPage.path,
-          name: AppRoute.recipeListPage.name,
-          builder: (context, state) => RecipeListPage(),
-        ),
+        //
         GoRoute(
             path: AppRoute.dashboard.path + AppRoute.recipeDetailPage.path,
             name: AppRoute.recipeDetailPage.name,
@@ -103,9 +143,19 @@ final GoRouter router = GoRouter(
               );
             }),
         GoRoute(
+          path: AppRoute.dashboard.path + AppRoute.recipeListPage.path,
+          name: AppRoute.recipeListPage.name,
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: RecipeListPage(),
+          ),
+        ),
+        //
+        GoRoute(
           path: AppRoute.dashboard.path + AppRoute.ingredientListPage.path,
           name: AppRoute.ingredientListPage.name,
-          builder: (context, state) => IngredientListPage(),
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: IngredientListPage(),
+          ),
         ),
         GoRoute(
           path: AppRoute.dashboard.path + AppRoute.ingredientDetailPage.path,

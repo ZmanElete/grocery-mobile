@@ -9,16 +9,12 @@ import 'package:guru_provider/guru_provider/repository.dart';
 
 class SessionManager {
   static StateKey<SessionManager> key = StateKey(() => SessionManager());
+  static StateKey<User?> userKey = StateKey(() => null);
 
-  SessionManager() {
-    _userStreamController.stream.listen((event) => user = event);
-  }
+  SessionManager();
 
   final authApiService = Repository.instance.read(AuthApiService.key);
-  User? user;
-  final StreamController<User> _userStreamController = StreamController.broadcast();
-  Stream<User?> get userStream => _userStream();
-  bool get loggedIn => user != null;
+  bool get loggedIn => Repository.instance.read(userKey) != null;
 
   Future<void> login({required String email, required String password}) async {
     try {
@@ -46,17 +42,6 @@ class SessionManager {
   Future<void> _onSuccessfulLogin() async {
     final user = await Repository.instance.read(UserApiService.key).current();
     Repository.instance.read(MeasurementListManager.key).init();
-    _userStreamController.add(user);
-  }
-
-  Stream<User> _userStream() async* {
-    if (user != null) yield user!;
-    await for (final user in _userStreamController.stream) {
-      yield user;
-    }
-  }
-
-  void dispose() {
-    _userStreamController.close();
+    Repository.instance.set(userKey, user);
   }
 }

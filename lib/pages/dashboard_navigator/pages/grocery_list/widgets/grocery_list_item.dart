@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:grocery_genie/managers/grocery_list_manager.dart';
 import 'package:grocery_genie/models/item_list.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/add_grocery_list.dart';
+import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/grocery_list_detail.dart';
 import 'package:grocery_genie/services/item_api_service.dart';
 import 'package:grocery_genie/widget/confirm_delete_dialog.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
@@ -114,9 +115,8 @@ class GroceryListItemState extends State<GroceryListItem> {
     if (mounted) {
       switch (menuItem) {
         case 1:
-          await Navigator.of(context).pushNamed(
-            GroceryDetailListPage.route,
-            arguments: AddGroceryListPageArguments(widget.list),
+          await GoRouter.of(context).pushNamed(
+            GroceryDetailListPage.route.name,
           );
           setState(() {});
           break;

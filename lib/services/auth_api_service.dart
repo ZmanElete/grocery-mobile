@@ -3,11 +3,11 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:grocery_genie/helpers/http_helpers.dart';
 import 'package:grocery_genie/models/config.dart';
-import 'package:grocery_genie/pages/landing.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/mixins/grocery_api_mixin.dart';
 import 'package:grocery_genie/services/prefs.dart';
 import 'package:guru_flutter_rest/django/rest_service.dart';
@@ -103,10 +103,6 @@ class AuthApiService extends RestService with GroceryApiMixin {
     await prefs
       ..remove(ACCESS_TOKEN_KEY)
       ..remove(REFRESH_TOKEN_KEY);
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      LandingPage.route,
-      (_) => false,
-    );
+    GoRouter.of(context).goNamed(AppRoute.landingPage.name);
   }
 }

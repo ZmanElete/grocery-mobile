@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/helpers/http_helpers.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/models/config.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/auth_api_service.dart';
 import 'package:grocery_genie/widget/logo.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
@@ -121,11 +122,7 @@ class LoginPageState extends State<LoginPage> {
       final password = passwordController.text;
       try {
         await Repository.instance.read(SessionManager.key).login(email: email, password: password);
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          DashboardScaffold.route,
-          (_) => false,
-        );
+        GoRouter.of(context).goNamed(AppRoute.dashboard.name);
       } on HttpNotAuthorized {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

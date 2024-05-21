@@ -4,17 +4,13 @@ import 'package:grocery_genie/managers/session_manager.dart';
 import 'package:grocery_genie/models/item.dart';
 import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/item_api_service.dart';
 import 'package:grocery_genie/services/list_api_service.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
 
-class AddGroceryListPageArguments {
-  final ItemList? itemList;
-  const AddGroceryListPageArguments(this.itemList);
-}
-
 class GroceryDetailListPage extends StatefulWidget {
-  static const String route = 'add-grocery-list-page';
+  static const AppRoute route = AppRoute.groceryListDetail;
   final ItemList? itemList;
   const GroceryDetailListPage({this.itemList, Key? key}) : super(key: key);
 
@@ -169,7 +165,7 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
         list = await Repository.instance.read(ItemListApiService.key).update(list);
       } else {
         list = ItemList(
-          household: Repository.instance.read(SessionManager.key).user!.household.id!,
+          household: Repository.instance.read(SessionManager.userKey)!.household.id!,
           title: _titleController.text,
           active: true,
           items: items,

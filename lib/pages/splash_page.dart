@@ -1,16 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
-import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
-import 'package:grocery_genie/pages/landing.dart';
 import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/auth_api_service.dart';
 import 'package:grocery_genie/services/prefs.dart';
 import 'package:grocery_genie/widget/logo.dart';
 import 'package:guru_provider/guru_provider/repository.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SplashPage extends StatelessWidget {
   static const String route = 'splash';
@@ -21,28 +18,18 @@ class SplashPage extends StatelessWidget {
 
     // The page we go to after the splash page is determined by whether we are authenticated
     // And whether we have recorded that the setup process has been completed.
-    Widget initialPage = const LandingPage();
+    AppRoute initialPage = AppRoute.landingPage;
 
     final prefs = await Repository.instance.read(prefsKey);
     final token = prefs.getString(AuthApiService.ACCESS_TOKEN_KEY);
     if (token != null) {
       final loggedIn = await Repository.instance.read(SessionManager.key).autoLogin();
       if (loggedIn) {
-        initialPage = DashboardScaffold(
-          activeRoute: AppRoute.groceryListPage.name,
-          child: GroceryListPage(),
-        );
+        initialPage = AppRoute.groceryListPage;
       }
     }
 
-    Navigator.of(context).pushReplacement(
-      PageTransition(
-        duration: const Duration(milliseconds: 800),
-        reverseDuration: const Duration(milliseconds: 800),
-        type: PageTransitionType.fade,
-        child: initialPage,
-      ),
-    );
+    GoRouter.of(context).goNamed(initialPage.name, extra: {'fade': true});
   }
 
   @override

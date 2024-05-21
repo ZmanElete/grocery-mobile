@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/widget/measurement_picker.dart';
 
 import 'package:grocery_genie/models/item.dart';
@@ -40,7 +41,7 @@ class EditItemDialogState extends State<EditItemDialog> {
         children: [
           const Expanded(child: Text('Add Item')),
           IconButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => GoRouter.of(context).pop(),
             icon: const Icon(Icons.close),
           ),
         ],

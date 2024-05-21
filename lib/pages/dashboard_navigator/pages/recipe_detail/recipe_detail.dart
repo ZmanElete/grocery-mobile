@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_genie/models/item.dart';
 import 'package:grocery_genie/models/recipe.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/widgets/add_item_dialog.dart';
+import 'package:grocery_genie/router.dart';
 import 'package:grocery_genie/services/recipe_api_service.dart';
 import 'package:grocery_genie/widget/editable_text_field.dart';
 import 'package:grocery_genie/widget/editable_text_form.dart';
@@ -17,7 +18,7 @@ class RecipeDetailPageArgs {
 }
 
 class RecipeDetailPage extends StatefulWidget {
-  static const route = 'recipe-detail';
+  static const AppRoute route = AppRoute.recipeDetailPage;
 
   final int recipe;
   final bool editing;

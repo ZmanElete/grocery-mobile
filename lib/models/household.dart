@@ -10,7 +10,7 @@ class Household extends ApiModel {
   Household.fromJson(Map<String, dynamic> map)
       : id = map['id']!,
         title = map['title']!,
-        users = (map['user_set'] as List<Map<String, dynamic>>?)?.map(User.fromJson).toList() ?? [];
+        users = List<User>.from((map['user_set'] as List?)?.map((map) => User.fromJson(map)).toList() ?? []);
 
   @override
   String? get pk => id;
