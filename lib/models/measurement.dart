@@ -36,10 +36,11 @@ class Measurement extends ApiModel {
     } else if (info is Map<String, dynamic>) {
       return Measurement.fromJson(info);
     } else if (info is int) {
-      if (!Repository.instance.read(MeasurementListManager.key).initialized) {
-        throw Exception('Measurement Manager is not intialized.');
+      final snapshot = Repository.instance.read(MeasurementListManager.measurementsKey());
+      if (snapshot.data?.isEmpty ?? true) {
+        throw Exception('Measurement Manager does not have data');
       }
-      return Repository.instance.read(MeasurementListManager.key).list.value!.firstWhere((element) => element.id == info);
+      return snapshot.data!.firstWhere((element) => element.id == info);
     }
     throw Exception(
         "Type ${info.runtimeType} is not of type [Map<String, dynamic>], [Measurement] or [int] (as an id).");

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -77,14 +79,7 @@ class DashboardScaffoldState extends State<DashboardScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GroceryAppBar(),
-      body: WillPopScope(
-        onWillPop: () async {
-          log("onWillPop", name: 'Dashboard Scaffold');
-          return true;
-        },
-        child: widget.child,
-      ),
+      body: widget.child,
       bottomNavigationBar: bottomNav(),
     );
   }

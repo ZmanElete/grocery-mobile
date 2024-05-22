@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:grocery_genie/managers/measurement_manager.dart';
@@ -41,7 +43,6 @@ class SessionManager {
 
   Future<void> _onSuccessfulLogin() async {
     final user = await Repository.instance.read(UserApiService.key).current();
-    Repository.instance.read(MeasurementListManager.key).init();
     Repository.instance.set(userKey, user);
   }
 }

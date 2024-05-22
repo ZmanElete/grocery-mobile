@@ -51,7 +51,7 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: Column(
+          child: ListView(
             children: [
               TextFormField(
                 controller: _titleController,
@@ -64,45 +64,39 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
                 },
                 decoration: const InputDecoration(
                   labelText: "Title",
-                  prefixIcon: Icon(Icons.title),
+                  // prefixIcon: Icon(Icons.title),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
-                child: ListView(
+              for (Item item in items) ...[
+                Row(
                   children: [
-                    for (Item item in items) ...[
-                      Row(
-                        children: [
-                          StatefulBuilder(builder: (context, setState) {
-                            return Checkbox(
-                              value: item.checked,
-                              onChanged: (value) async {
-                                final fields = FormData.fromMap({"checked": !item.checked});
-                                item.checked = !item.checked;
-                                setState(() {});
-                                if (item.id != null) {
-                                  Repository.instance.read(ItemApiService.key).patch(item, data: fields);
-                                }
-                              },
-                            );
-                          }),
-                          Expanded(
-                            child: Text(item.toString()),
-                          ),
-                          IconButton(
-                            onPressed: () => showEditItemDialog(item),
-                            icon: const Icon(Icons.edit),
-                          )
-                        ],
-                      ),
-                      // const Divider(),
-                    ]
+                    StatefulBuilder(builder: (context, setState) {
+                      return Checkbox(
+                        value: item.checked,
+                        onChanged: (value) async {
+                          final fields = FormData.fromMap({"checked": !item.checked});
+                          item.checked = !item.checked;
+                          setState(() {});
+                          if (item.id != null) {
+                            Repository.instance.read(ItemApiService.key).patch(item, data: fields);
+                          }
+                        },
+                      );
+                    }),
+                    Expanded(
+                      child: Text(item.toString()),
+                    ),
+                    IconButton(
+                      onPressed: () => showEditItemDialog(item),
+                      icon: const Icon(Icons.edit),
+                    )
                   ],
                 ),
-              )
+                // const Divider(),
+              ]
             ],
           ),
         ),
@@ -159,9 +153,9 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
       ItemList list;
       if (widget.itemList != null) {
         list = widget.itemList!
-        ..title = _titleController.text
-        ..active = true
-        ..items = items;
+          ..title = _titleController.text
+          ..active = true
+          ..items = items;
         list = await Repository.instance.read(ItemListApiService.key).update(list);
       } else {
         list = ItemList(
