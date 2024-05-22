@@ -38,14 +38,12 @@ class _MeasurementPickerState extends State<MeasurementPicker> {
   @override
   Widget build(BuildContext context) {
     return KeyWatcher(
-      stateKey: MeasurementListManager.measurementsKey(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Text('Error loading measurements');
-        } else if (!snapshot.hasData) {
+      stateKey: MeasurementListManager.measurementsKey,
+      builder: (context, notifier) {
+        if (notifier.value == null) {
           return const CircularProgressIndicator();
         }
-        final items = snapshot.data!;
+        final items = notifier.value!;
         return DropdownButtonFormField(
           hint: Text(widget.title),
           value: measurement,

@@ -7,7 +7,7 @@ import 'package:guru_provider/guru_provider/repository.dart';
 
 class MeasurementListManager extends ListManager<Measurement, MeasurementApiService> {
   static StateKey<MeasurementListManager> key = StateKey(() => MeasurementListManager()..init());
-  static StateKey<AsyncSnapshot<List<Measurement>>> measurementsKey() => Repository.instance.read(key).listKey(null);
+  static StateKey<ValueNotifier<List<Measurement>?>> measurementsKey = StateKey(() => Repository.instance.read(key).list);
 
   bool initialized = false;
 
