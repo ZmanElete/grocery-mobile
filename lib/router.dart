@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
+import 'package:grocery_genie/models/item_list.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/dashboard_scaffold.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/add_grocery_list/grocery_list_detail.dart';
 import 'package:grocery_genie/pages/dashboard_navigator/pages/grocery_list/grocery_list.dart';
@@ -130,7 +131,27 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: AppRoute.dashboard.path + AppRoute.groceryListDetail.path,
           name: AppRoute.groceryListDetail.name,
-          builder: (context, state) => GroceryDetailListPage(),
+          builder: (context, state) {
+            final idString = state.pathParameters['id'];
+            final id = idString == 'new' ? null : int.parse(idString!);
+            final ItemList? extra = state.extra as ItemList?;
+            return GroceryDetailListPage(id: id, itemList: extra,);
+          },
+          redirect: (context, state) {
+            final groceryListPath = AppRoute.dashboard.path + AppRoute.groceryListPage.path;
+
+            final idString = state.pathParameters['id'];
+            if (idString == 'new') {
+              return null;
+            }
+
+            final id = int.tryParse(idString.toString());
+            if (id == null) {
+              return groceryListPath;
+            }
+
+            return null;
+          },
         ),
         //
         GoRoute(

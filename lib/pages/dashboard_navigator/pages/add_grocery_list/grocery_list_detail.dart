@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_genie/managers/session_manager.dart';
@@ -11,8 +13,13 @@ import 'package:guru_provider/guru_provider/repository.dart';
 
 class GroceryDetailListPage extends StatefulWidget {
   static const AppRoute route = AppRoute.groceryListDetail;
+  final int? id;
   final ItemList? itemList;
-  const GroceryDetailListPage({this.itemList, Key? key}) : super(key: key);
+  const GroceryDetailListPage({
+    this.id,
+    this.itemList,
+    Key? key,
+  }) : super(key: key);
 
   @override
   GroceryDetailListPageState createState() => GroceryDetailListPageState();
@@ -21,12 +28,27 @@ class GroceryDetailListPage extends StatefulWidget {
 class GroceryDetailListPageState extends State<GroceryDetailListPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
-  List<Item> items = [];
+  ItemList? _itemList;
 
   @override
   void initState() {
     super.initState();
-    items.addAll(widget.itemList?.items ?? []);
+    asyncInit();
+  }
+
+  Future<void> asyncInit() async {
+    if (widget.itemList != null) {
+      _itemList = widget.itemList;
+    } else if (widget.id != null) {
+      _itemList = await Repository.instance.read(ItemListApiService.key).get(widget.id!);
+      setState(() {});
+    } else {
+      _itemList = ItemList(
+        household: Repository.instance.read(SessionManager.userKey)!.household.id!,
+        items: [],
+        title: '',
+      );
+    }
     _titleController = TextEditingController(text: widget.itemList?.title ?? '');
   }
 
@@ -47,60 +69,66 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
           style: theme.textTheme.titleMedium,
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _titleController,
-                onChanged: (value) => value.isNotEmpty ? _formKey.currentState?.validate() : null,
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Title is required';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: "Title",
-                  // prefixIcon: Icon(Icons.title),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              for (Item item in items) ...[
-                Row(
-                  children: [
-                    StatefulBuilder(builder: (context, setState) {
-                      return Checkbox(
-                        value: item.checked,
-                        onChanged: (value) async {
-                          final fields = FormData.fromMap({"checked": !item.checked});
-                          item.checked = !item.checked;
-                          setState(() {});
-                          if (item.id != null) {
-                            Repository.instance.read(ItemApiService.key).patch(item, data: fields);
-                          }
-                        },
-                      );
-                    }),
-                    Expanded(
-                      child: Text(item.toString()),
+      body: switch (_itemList) {
+        null => Center(child: CircularProgressIndicator()),
+        _ => Form(
+            key: _formKey,
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: ListView(
+                children: [
+                  TextFormField(
+                    controller: _titleController,
+                    onChanged: (value) =>
+                        value.isNotEmpty ? _formKey.currentState?.validate() : null,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Title is required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: "Title",
+                      // prefixIcon: Icon(Icons.title),
                     ),
-                    IconButton(
-                      onPressed: () => showEditItemDialog(item),
-                      icon: const Icon(Icons.edit),
-                    )
-                  ],
-                ),
-                // const Divider(),
-              ]
-            ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  for (Item item in _itemList!.items) ...[
+                    Row(
+                      children: [
+                        StatefulBuilder(builder: (context, setState) {
+                          return Checkbox(
+                            value: item.checked,
+                            onChanged: (value) async {
+                              final fields = FormData.fromMap({"checked": !item.checked});
+                              item.checked = !item.checked;
+                              setState(() {});
+                              if (item.id != null) {
+                                Repository.instance
+                                    .read(ItemApiService.key)
+                                    .patch(item, data: fields);
+                              }
+                            },
+                          );
+                        }),
+                        Expanded(
+                          child: Text(item.toString()),
+                        ),
+                        IconButton(
+                          onPressed: () => showEditItemDialog(item),
+                          icon: const Icon(Icons.edit),
+                        )
+                      ],
+                    ),
+                    // const Divider(),
+                  ]
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+      },
     );
   }
 
@@ -142,7 +170,7 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
     );
     if (response is Item) {
       if (item == null) {
-        items.add(response);
+        _itemList!.items.add(response);
       }
       setState(() {});
     }
@@ -151,19 +179,15 @@ class GroceryDetailListPageState extends State<GroceryDetailListPage> {
   Future<void> _submit() async {
     if (_formKey.currentState?.validate() ?? false) {
       ItemList list;
-      if (widget.itemList != null) {
+      if (widget.id != null) {
         list = widget.itemList!
           ..title = _titleController.text
-          ..active = true
-          ..items = items;
+          ..active = true;
         list = await Repository.instance.read(ItemListApiService.key).update(list);
       } else {
-        list = ItemList(
-          household: Repository.instance.read(SessionManager.userKey)!.household.id!,
-          title: _titleController.text,
-          active: true,
-          items: items,
-        );
+        list = widget.itemList!
+          ..title = _titleController.text
+          ..active = true;
         list = await Repository.instance.read(ItemListApiService.key).create(list);
       }
       if (mounted) Navigator.pop(context, list);

@@ -34,7 +34,7 @@ class GroceryListItemState extends State<GroceryListItem> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         child: AnimatedSize(
-          duration: const Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 50 * widget.list.items.length + 1),
           alignment: Alignment.topCenter,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -117,6 +117,8 @@ class GroceryListItemState extends State<GroceryListItem> {
         case 1:
           await GoRouter.of(context).pushNamed(
             GroceryDetailListPage.route.name,
+            pathParameters: {"id": widget.list.id!.toString()},
+            extra: widget.list,
           );
           setState(() {});
           break;

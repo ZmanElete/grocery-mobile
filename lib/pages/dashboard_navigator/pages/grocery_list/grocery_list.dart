@@ -25,9 +25,10 @@ class GroceryListPageState extends State<GroceryListPage> {
   @override
   Widget build(BuildContext context) {
     return ModelListView<ItemList, GroceryListManager>(
-        listManager: Repository.instance.read(GroceryListManager.key),
-        floatingActionButton: floatingActionButton(context),
-        itemBuilder: (context, list) => GroceryListItem(list: list));
+      listManager: Repository.instance.read(GroceryListManager.key),
+      floatingActionButton: floatingActionButton(context),
+      itemBuilder: (context, list) => GroceryListItem(list: list),
+    );
   }
 
   Widget floatingActionButton(BuildContext context) {
